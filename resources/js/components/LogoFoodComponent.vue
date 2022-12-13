@@ -1,7 +1,7 @@
 <template>
   <div>
     <img :src="getImageUrl(image)" alt="logo_food">
-    <div>
+    <div class="contentText">
       <p class="title">{{ title }}</p>
       <p class="text">Prix à l'unité : {{ prix }}</p>
     </div>
@@ -30,25 +30,27 @@ div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 100px;
 }
 
 img {
-  height: 50px;
+  height: 40px;
 }
 
 p {
   margin: 0;
 }
+.contentText{
+  margin-top: 10px;
+}
 .title{
   font-family: Rufina, sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
 }
 .text{
   font-family: Lato, sans-serif;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 10px;
+  margin-top:5px;
 }
 </style>

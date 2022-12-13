@@ -100,7 +100,7 @@ nav .menu-hamburger {
 nav .menu-hamburger i {
   color: white;
   font-size: 25px;
-  margin-right:0 ;
+  margin-right: 0;
 }
 
 ul {
@@ -135,7 +135,8 @@ a {
   .open {
     position: fixed;
     right: 0;
-    height: 100vh;
+    top: 0;
+    bottom: 0;
     display: flex;
     align-items: flex-start;
     background-color: white;
@@ -174,11 +175,11 @@ a {
     color: white;
     cursor: pointer;
   }
-.imageLogo{
-  align-self: flex-end;
-  margin-top: -40px;
-  height: 300px;
-}
+  .imageLogo {
+    align-self: flex-end;
+    margin-top: -40px;
+    height: 300px;
+  }
   ul div {
     display: flex;
     justify-content: space-between;

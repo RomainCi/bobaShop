@@ -97,8 +97,8 @@ img {
 .containerLogo {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 10px;
   margin: 20px 30px;
 }
 </style>
