@@ -47,10 +47,12 @@ export default {
     openMenu() {
       this.navLinks = "open";
       this.toggle = true;
+      return this.$emit('test','test');
     },
     closeMenu() {
       this.navLinks = "close";
       this.toggle = false;
+      return this.$emit('test',"notFixed");
     },
   }
 }
