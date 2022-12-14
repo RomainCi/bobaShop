@@ -12,7 +12,7 @@
             Accueil
           </li>
           <li @click="closeMenu">
-            Contact
+            <router-link to="/contact">Contact</router-link>
           </li>
           <li @click="closeMenu">
             Qui sommes-nous
@@ -47,12 +47,12 @@ export default {
     openMenu() {
       this.navLinks = "open";
       this.toggle = true;
-      return this.$emit('test','test');
+      return this.$emit('position', 'fixed');
     },
     closeMenu() {
       this.navLinks = "close";
       this.toggle = false;
-      return this.$emit('test',"notFixed");
+      return this.$emit('position', "notFixed");
     },
   }
 }
@@ -115,7 +115,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: #3CB9B1;
+  color: white;
 }
 
 @media screen and (max-width: 900px) {
@@ -179,8 +179,8 @@ a {
   }
   .imageLogo {
     align-self: flex-end;
-    margin-top: -40px;
-    height: 300px;
+    margin-top: -83px;
+    height: 260px;
   }
   ul div {
     display: flex;

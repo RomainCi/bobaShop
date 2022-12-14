@@ -1,6 +1,6 @@
 <template>
   <header>
-    <navbar-component v-on:test="fixed = $event"></navbar-component>
+    <navbar-component v-on:position="fixed = $event"></navbar-component>
   </header>
   <main :class="fixed">
     <magasin-component></magasin-component>
@@ -41,7 +41,7 @@ export default {
 main{
   background-color: white;
 }
-.test{
+.fixed{
   position: fixed;
 }
 </style>
