@@ -9,7 +9,7 @@
         <ul>
           <li class="x" @click="closeMenu"><i class="fa-solid fa-xmark"></i></li>
           <li @click="closeMenu">
-            Accueil
+            <router-link to="/">Accueil</router-link>
           </li>
           <li @click="closeMenu">
             <router-link to="/contact">Contact</router-link>
