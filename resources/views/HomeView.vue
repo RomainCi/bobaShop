@@ -4,10 +4,10 @@
   </header>
   <main :class="fixed">
     <magasin-component></magasin-component>
+    <bubble-tea-component></bubble-tea-component>
     <menu-component></menu-component>
     <creation-bubble-tea-component></creation-bubble-tea-component>
     <sides-component></sides-component>
-    <sauce-component></sauce-component>
   </main>
 </template>
 
@@ -18,6 +18,8 @@ import CreationBubbleTeaComponent from "../js/components/accueil/CreationBubbleT
 import SidesComponent from "../js/components/accueil/SidesComponent.vue";
 import SauceComponent from "../js/components/accueil/SauceComponent.vue";
 import NavbarComponent from "../js/components/NavbarComponent.vue";
+import BubbleTeaComponent from "../js/components/accueil/BubbleTeaComponent.vue";
+
 export default {
   name: "HomeView",
   components: {
@@ -27,10 +29,11 @@ export default {
     CreationBubbleTeaComponent,
     SidesComponent,
     SauceComponent,
+    BubbleTeaComponent
   },
-  data(){
-    return{
-      fixed:"notFixed"
+  data() {
+    return {
+      fixed: "notFixed"
     }
   }
 }
@@ -38,10 +41,13 @@ export default {
 
 <style lang="scss" scoped>
 
-main{
+main {
   background-color: white;
 }
-.fixed{
+
+.fixed {
   position: fixed;
+  right: 0;
+  left: 0;
 }
 </style>

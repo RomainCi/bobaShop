@@ -5,9 +5,9 @@
       <p class="emporter">uniquement à emporter</p>
     </div>
     <div class="container">
-      <menu-prix-component prix="0€" menu="Petit Menu"></menu-prix-component>
-      <menu-prix-component prix="0€" menu="Menu Medium"></menu-prix-component>
-      <menu-prix-component prix="0€" menu="Grand Menu"></menu-prix-component>
+      <menu-prix-component class="border" side="+ 1 Side" prix="6,60€" menu="Formule Petite"></menu-prix-component>
+      <menu-prix-component class="border" side="+ 2 Sides" prix="8.80€" menu="Formule Moyenne"></menu-prix-component>
+      <menu-prix-component side="+ 3 Sides" prix="11€" menu="Formule Grande"></menu-prix-component>
     </div>
   </section>
 </template>
@@ -15,9 +15,10 @@
 <script>
 import imageBubbleTea from "../../../assets/image/imageBubbleTea.png"
 import MenuPrixComponent from "../../components/MenuPrixComponent.vue";
+
 export default {
   name: "MenuComponent",
-  components:{
+  components: {
     MenuPrixComponent
   },
   data() {
@@ -48,7 +49,7 @@ section {
 
 h2 {
   text-align: center;
-  font-size: 35px;
+  font-size: 25px;
   font-family: Rufina, sans-serif;
   font-weight: 700;
   margin-bottom: 5px;
@@ -61,6 +62,7 @@ h2 {
   text-align: center;
   margin: 0;
 }
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -69,4 +71,43 @@ h2 {
 }
 
 
+
+@media screen and (min-width: 600px) {
+  .container{
+    width: 540px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  h2{
+    font-size: 30px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    flex-wrap: nowrap;
+    width: 800px;
+  }
+  .border {
+    border-right: 2px dashed black;
+  }
+  h2 {
+    font-size: 30px;
+  }
+  .emporter {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .container{
+    width: 1000px;
+  }
+  h2 {
+    font-size: 40px;
+  }
+  .emporter {
+    font-size: 15px;
+  }
+}
 </style>

@@ -4,26 +4,37 @@
       <h1>Contactez-nous</h1>
       <p>Venir, réserver</p>
     </div>
-    <div class="container">
-      <h2>Contact</h2>
-      <p>email : contact@boba-shop.fr</p>
-      <p>telephone : +33 7 53 69 72 81</p>
-      <img :src="bubbleTea" alt="bubble_tea">
-    </div>
-    <div class="container container1">
-      <l-map style="height: 300px; width: 100%;" :min-zoom="minZoom" :max-zoom="maxZoom" :zoom="zoom"
-             :center="center">
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <l-marker :lat-lng="markerLatLng">
-          <l-popup>Boba-shop</l-popup>
-        </l-marker>
-        <div v-if="myPosition !=null">
-          <l-marker :lat-lng="myPosition">
-            <l-popup>vous êtes ici</l-popup>
-          </l-marker>
+    <div class="containerMain">
+      <div class="container">
+        <div class="contentText">
+          <h2>Contact</h2>
+          <p>email : contact@boba-shop.fr</p>
+          <p>telephone : +33 7 53 69 72 81</p>
         </div>
-      </l-map>
-      <p>26 rue de la mésange, 67000 Strasbourg</p>
+        <img :src="bubbleTea" alt="bubble_tea">
+      </div>
+      <div class="container container1">
+        <div class="contentText">
+          <h2>Adresse</h2>
+          <p>26 rue de la mésange, 67000 Strasbourg</p>
+        </div>
+        <div class="contentMap">
+          <l-map style="height: 100%; width: 100%;" :min-zoom="minZoom" :max-zoom="maxZoom"
+                 :zoom="zoom"
+                 :center="center">
+            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+            <l-marker :lat-lng="markerLatLng">
+              <l-popup>Boba-shop</l-popup>
+            </l-marker>
+
+            <div v-if="myPosition !=null">
+              <l-marker :lat-lng="myPosition">
+                <l-popup>vous êtes ici</l-popup>
+              </l-marker>
+            </div>
+          </l-map>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -76,10 +87,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.test {
-  color: red;
-  filter: hue-rotate(120deg)
-}
 
 .containerBack {
   height: 60vh;
@@ -94,7 +101,7 @@ export default {
 .containerBack h1 {
   margin: 0;
   font-family: Rufina, sans-serif;
-  font-size: 7vw;
+  font-size: 30px;
   color: white;
   font-weight: 700;
 }
@@ -107,11 +114,16 @@ export default {
 
 img {
   width: 100%;
+  max-width: 400px;
+}
+
+.containerMain {
+  margin-right: 30px;
+  margin-left: 30px;
+  margin-bottom: 30px;
 }
 
 .container {
-  margin-right: 30px;
-  margin-left: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,6 +134,7 @@ img {
 .container p {
   font-family: Lato, sans-serif;
   margin: 0;
+  font-size: 13px;
 }
 
 .container h2 {
@@ -130,7 +143,71 @@ img {
   font-weight: 700;
   font-size: 25px;
 }
-.container1{
-  padding-bottom: 30px;
+
+.contentText h2 {
+  margin-bottom: 20px;
+}
+
+.contentMap {
+  width: 100%;
+  height: 300px;
+  max-width: 400px;
+}
+
+@media screen and (min-width: 600px) {
+  .containerMain {
+    width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .containerBack h1 {
+    font-size: 40px;
+  }
+  .container p {
+    font-size: 15px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .containerMain {
+    width: 800px;
+    margin-top: 50px;
+  }
+  .containerBack {
+    height: 91.5vh;
+  }
+  .container {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .container1 {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .containerMain {
+    width: 1000px;
+    margin-top: 50px;
+  }
+  .container h2 {
+    font-size: 30px;
+  }
+  .containerBack h1 {
+    font-size: 50px;
+  }
+  .containerBack p {
+    font-size: 18px;
+  }
+  img {
+    max-width: 500px;
+  }
+  .contentMap {
+    max-width: 500px;
+    height: 400px;
+  }
 }
 </style>

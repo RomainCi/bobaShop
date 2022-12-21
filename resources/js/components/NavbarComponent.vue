@@ -15,10 +15,10 @@
             <router-link to="/contact">Contact</router-link>
           </li>
           <li @click="closeMenu">
-            Qui sommes-nous
+            <router-link to="/qui-sommes-nous">Qui sommes nous</router-link>
           </li>
           <li @click="closeMenu">
-            Faq
+            <router-link to="/FAQ">F.A.Q</router-link>
           </li>
           <img class="imageLogo" :src="imageLogo" alt="imageLogo">
         </ul>
@@ -121,7 +121,7 @@ a {
 @media screen and (max-width: 900px) {
   .close {
     position: fixed;
-    right: -700px;
+    right: -1000px;
     height: 100vh;
     width: 0;
     display: flex;
@@ -218,6 +218,9 @@ a {
 
   a:hover::after {
     transform: scaleX(1);
+  }
+  li{
+    font-size: 18px;
   }
 }
 

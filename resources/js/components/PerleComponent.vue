@@ -10,25 +10,59 @@ export default {
   name: "PerleComponent",
   props: {
     text: String,
-    color:String,
+    color: String,
   }
 }
 </script>
 
 <style lang="scss" scoped>
-div{
+div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  width: 70px;
+  height: 110px;
 }
+
 .circle {
   height: 50px;
   width: 50px;
   border-radius: 100%;
 }
-p{
+
+p {
   font-size: 13px;
   font-family: Lato, sans-serif;
+  text-align: center;
 }
+
+
+@media screen and (min-width: 900px) {
+  .circle {
+    height: 40px;
+    width: 40px;
+  }
+  div {
+    width: 60px;
+    height: 100px;
+  }
+  p {
+    font-size: 11px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .circle {
+    height: 50px;
+    width: 50px;
+  }
+  div {
+    width: 70px;
+    height: 110px;
+  }
+  p {
+    font-size: 13px;
+  }
+}
+
 </style>

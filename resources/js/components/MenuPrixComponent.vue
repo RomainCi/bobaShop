@@ -6,7 +6,7 @@
     </div>
     <div class="contentImage">
       <img :src="image" alt="bubbleTea">
-      <p>+ 1 Side</p>
+      <p>{{ side }}</p>
     </div>
   </div>
 </template>
@@ -18,7 +18,8 @@ export default {
   name: "MenuPrixComponent",
   props: {
     menu: String,
-    prix: String
+    prix: String,
+    side: String
   },
   data() {
     return {
@@ -71,5 +72,46 @@ span {
   margin-right: 5px;
   font-family: Lato, sans-serif;
   font-weight: 400;
+}
+
+//@media screen and (min-width: 650px) {
+//  span {
+//    font-size: 15px;
+//  }
+//  img {
+//    height: 120px;
+//    width: 86px;
+//  }
+//  p {
+//    font-size: 25px;
+//  }
+//}
+
+@media screen and (min-width: 900px) {
+  .content {
+    border-bottom: none;
+  }
+  span {
+    font-size: 10px;
+  }
+  img {
+    width: 66px;
+    height: 100px;
+  }
+  p {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 1300px){
+  span {
+    font-size: 15px;
+  }
+  img {
+    height: 120px;
+    width: 86px;
+  }
+  p {
+    font-size: 25px;
+  }
 }
 </style>
