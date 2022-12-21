@@ -9,6 +9,9 @@
     <creation-bubble-tea-component></creation-bubble-tea-component>
     <sides-component></sides-component>
   </main>
+  <footer>
+    <footer-component></footer-component>
+  </footer>
 </template>
 
 <script>
@@ -19,6 +22,7 @@ import SidesComponent from "../js/components/accueil/SidesComponent.vue";
 import SauceComponent from "../js/components/accueil/SauceComponent.vue";
 import NavbarComponent from "../js/components/NavbarComponent.vue";
 import BubbleTeaComponent from "../js/components/accueil/BubbleTeaComponent.vue";
+import FooterComponent from "../js/components/FooterComponent.vue";
 
 export default {
   name: "HomeView",
@@ -29,7 +33,8 @@ export default {
     CreationBubbleTeaComponent,
     SidesComponent,
     SauceComponent,
-    BubbleTeaComponent
+    BubbleTeaComponent,
+    FooterComponent,
   },
   data() {
     return {

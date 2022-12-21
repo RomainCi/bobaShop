@@ -1,8 +1,5 @@
 <template>
   <router-view></router-view>
-  <footer>
-    <footer-component></footer-component>
-  </footer>
 </template>
 
 <script>

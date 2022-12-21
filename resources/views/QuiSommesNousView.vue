@@ -5,9 +5,9 @@
   <main :class="fixed">
     <qui-sommes-nous-component></qui-sommes-nous-component>
   </main>
-<!--  <footer class="fixed">-->
-<!--    <footer-component></footer-component>-->
-<!--  </footer>-->
+  <footer>
+    <footer-component></footer-component>
+  </footer>
 </template>
 
 <script>

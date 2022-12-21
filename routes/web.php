@@ -17,7 +17,15 @@ use Illuminate\Support\Facades\URL;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('{any}', function () {
+Route::get('/contact', function () {
+    return view('welcome');
+})->where('any', '.*');
+
+Route::get('/qui-sommes-nous', function () {
+    return view('welcome');
+})->where('any', '.*');
+
+Route::get('/FAQ', function () {
     return view('welcome');
 })->where('any', '.*');
 URL::forceScheme('https');

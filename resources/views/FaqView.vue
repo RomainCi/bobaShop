@@ -5,17 +5,22 @@
   <main :class="fixed">
     <faq-component></faq-component>
   </main>
+  <footer>
+    <footer-component></footer-component>
+  </footer>
 </template>
 
 <script>
 import NavbarComponent from "../js/components/NavbarComponent.vue";
 import FaqComponent from "../js/components/faq/FaqComponent.vue";
+import FooterComponent from "../js/components/FooterComponent.vue";
 
 export default {
   name: "FaqView",
   components: {
     NavbarComponent,
-    FaqComponent
+    FaqComponent,
+    FooterComponent,
   },
   data() {
     return {
