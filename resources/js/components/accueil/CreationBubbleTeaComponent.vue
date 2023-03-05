@@ -14,32 +14,32 @@
       <div class="test">
         <p class="title">Les thé</p>
         <div class="containerTea">
-          <content-tea-component text="Thé vert avec jasmin" image="spices1.png"></content-tea-component>
-          <content-tea-component text="Thé vert" image="spices1.png"></content-tea-component>
-          <content-tea-component text="Thé noir" image="spices1.png"></content-tea-component>
+          <content-tea-component text="Thé vert avec jasmin" image="thé-jasmin.png"></content-tea-component>
+          <content-tea-component text="Thé vert" image="the-vert.png"></content-tea-component>
+          <content-tea-component text="Thé noir" image="the-noir.png"></content-tea-component>
         </div>
       </div>
       <div>
         <p class="title">Les sirops</p>
         <div class="containerPerle borderRight">
-          <perle-component text="framboise" color="#bb0b0b"></perle-component>
-          <perle-component text="pêche" color="#bb0b0b"></perle-component>
-          <perle-component text="brown sugar" color="#bb0b0b"></perle-component>
-          <perle-component text="kiwi" color="#bb0b0b"></perle-component>
-          <perle-component text="passion" color="#bb0b0b"></perle-component>
-          <perle-component text="mangue" color="#bb0b0b"></perle-component>
-          <perle-component text="citron" color="#bb0b0b"></perle-component>
+          <perle-component text="framboise" color="#D85A5D"></perle-component>
+          <perle-component text="pêche" color="#EF9300"></perle-component>
+          <perle-component text="brown sugar" color="#8B5900"></perle-component>
+          <perle-component text="kiwi" color="#A9F18E"></perle-component>
+          <perle-component text="passion" color="#FFA800"></perle-component>
+          <perle-component text="mangue" color="#FBB201"></perle-component>
+          <perle-component text="citron" color="#F0DE00"></perle-component>
         </div>
       </div>
       <div>
         <p class="title">Les perles</p>
         <div class="containerPerle borderLeft">
-          <perle-component text="cerise" color="#bb0b0b"></perle-component>
-          <perle-component text="passion" color="#a73b3c "></perle-component>
-          <perle-component text="pomme verte" color="#34c924"></perle-component>
-          <perle-component text="tapioca" color="#f4e9c1"></perle-component>
-          <perle-component text="litchi" color="#f3e9eb "></perle-component>
-          <perle-component text="gelée multi fruit" color="#EBFF00"></perle-component>
+          <perle-component text="cerise" color="#BB2A39"></perle-component>
+          <perle-component text="passion" color="#FFA800"></perle-component>
+          <perle-component text="pomme verte" color="#00F301"></perle-component>
+          <perle-component text="tapioca" color="#453600"></perle-component>
+          <perle-component text="litchi" color="#F5E9E9"></perle-component>
+          <perle-component text="gelée multi fruit" color="#FEC900"></perle-component>
           <div class="fakePerle"></div>
         </div>
       </div>

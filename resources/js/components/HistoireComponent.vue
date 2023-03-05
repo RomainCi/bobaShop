@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="containerReverse">
+  <div class="container" :class="containerReversed">
     <div class="contentText">
       <div class="contentLogo" :class="displayContent">
         <img class="logo" :src="getImageUrl(logo)" alt="logo_nourriture">
@@ -8,7 +8,7 @@
       </div>
       <p>{{ text }}</p>
     </div>
-    <div class="contentImage" :class="contentImageStart">
+    <div class="contentImage" :class="contentImageStarted">
       <img class="image" :src="getImageUrl(image)" alt="photo_nourriture">
     </div>
   </div>
@@ -29,14 +29,14 @@ export default {
     image: String,
     logo: String,
     logoRight: String,
-    containerReverse:String,
-    contentImageStart:String,
+    containerReverse: String,
+    contentImageStart: String,
   },
   data() {
     return {
       displayContent: this.logoRight,
-      containerReverse:this.containerReverse,
-      contentImageStart:this.contentImageStart,
+      containerReversed: this.containerReverse,
+      contentImageStarted: this.contentImageStart,
     }
   }
 }
@@ -58,7 +58,8 @@ export default {
 .contentText p {
   font-family: Lato, sans-serif;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 15px;
+  letter-spacing:1px;
 }
 
 .contentImage {
@@ -117,10 +118,12 @@ export default {
     display: flex;
     justify-content: end;
   }
-  .contentImageStart{
+
+  .contentImageStart {
     justify-content: start;
   }
-  .containerReverse{
+
+  .containerReverse {
     flex-direction: row-reverse;
   }
 
@@ -128,14 +131,18 @@ export default {
 
 @media screen and (min-width: 1300px) {
   .contentText p {
-    font-size: 15px;
+    font-size: 17px;
+    letter-spacing: 1px;
   }
-  .contentText .contentLogo h2{
+
+  .contentText .contentLogo h2 {
     font-size: 30px;
   }
+
   .contentLogo img {
     width: 90px;
   }
+
   .box {
     width: 90px;
     height: 20px;

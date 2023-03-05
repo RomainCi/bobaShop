@@ -17,6 +17,7 @@
         <div class="contentText">
           <h2>Adresse</h2>
           <p>26 rue de la mésange, 67000 Strasbourg</p>
+          <button class="button" @click="openMap">Voir sur map</button>
         </div>
         <div class="contentMap">
           <l-map style="height: 100%; width: 100%;" :min-zoom="minZoom" :max-zoom="maxZoom"
@@ -43,8 +44,8 @@
 import backContact from "../../../assets/image/backContact.png"
 import {LCircle, LIcon, LMap, LMarker, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css"
-import bubbleTea from "../../../assets/image/bubbleTea.png"
-
+import bubbleTea from "../../../assets/image/bobashopresize-adresse.jpg"
+import { Icon } from 'leaflet';
 export default {
   name: "ContactComponent",
   components: {
@@ -71,17 +72,28 @@ export default {
     }
   },
   mounted() {
-    this.geolocation()
+    // create an icon
+    const icon = new Icon({
+      iconUrl: 'path/to/icon.png',
+      iconSize: [32, 32],
+    });
   },
   methods: {
     async geolocation() {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        console.log(latitude, longitude)
-        this.myPosition = [latitude, longitude];
-      });
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(latitude, longitude)
+            this.myPosition = [latitude, longitude];
+            window.open(`https://www.google.com/maps/dir/${this.myPosition[0]},${this.myPosition[1]}/26+Rue+de+la+M%C3%A9sange,+67000+Strasbourg,+France/@28.9140328,-76.7547121,3z/data=!3m1!4b1!4m10!4m9!1m1!4e1!1m5!1m1!1s0x4796c851f795309b:0x87de8232c91dd0ae!2m2!1d7.7484238!2d48.5843079!3e0`);
+          },
+          function (positionError) {
+            window.open('https://www.google.com/maps/place/26+Rue+de+la+M%C3%A9sange,+67000+Strasbourg,+France/@48.5843114,7.7462351,17z/data=!3m1!4b1!4m6!3m5!1s0x4796c851f795309b:0x87de8232c91dd0ae!8m2!3d48.5843079!4d7.7484238!16s%2Fg%2F11bw3gfvdr');
+          });
     },
+    openMap() {
+      this.geolocation()
+    }
   }
 }
 </script>
@@ -134,7 +146,7 @@ img {
 .container p {
   font-family: Lato, sans-serif;
   margin: 0;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .container h2 {
@@ -152,6 +164,22 @@ img {
   width: 100%;
   height: 300px;
   max-width: 400px;
+}
+.button{
+  display: inline-block;
+  background-color: #EAB99F;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+.button:hover {
+  background-color: #233000;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 600px) {
@@ -208,6 +236,11 @@ img {
   .contentMap {
     max-width: 500px;
     height: 400px;
+  }
+  .container p {
+    font-family: Lato, sans-serif;
+    margin: 0;
+    font-size: 17px;
   }
 }
 </style>

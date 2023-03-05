@@ -20,6 +20,14 @@
           <li @click="closeMenu">
             <router-link to="/FAQ">F.A.Q</router-link>
           </li>
+<!--          <li @click="closeMenu" v-if="$store.state.nbrBasket !== -1">-->
+<!--            <router-link to="/panier">Panier-->
+<!--              <span>{{ $store.state.nbrBasket === 0 ? commandWait.length : $store.state.nbrBasket }}</span>-->
+<!--            </router-link>-->
+<!--          </li>-->
+<!--          <li @click="closeMenu" v-else>-->
+<!--            <router-link to="/panier">Panier <span>{{ 0 }}</span></router-link>-->
+<!--          </li>-->
           <img class="imageLogo" :src="imageLogo" alt="imageLogo">
         </ul>
       </div>
@@ -40,7 +48,8 @@ export default {
       navLinks: "close",
       logo: logo,
       backgroundImage: backgroundImage,
-      imageLogo: imageLogo
+      imageLogo: imageLogo,
+      commandWait: [],
     }
   },
   methods: {
@@ -54,6 +63,10 @@ export default {
       this.toggle = false;
       return this.$emit('position', "notFixed");
     },
+  },
+  mounted() {
+    this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
+    console.log(this.commandWait.length)
   }
 }
 </script>
@@ -219,7 +232,7 @@ a {
   a:hover::after {
     transform: scaleX(1);
   }
-  li{
+  li {
     font-size: 18px;
   }
 }

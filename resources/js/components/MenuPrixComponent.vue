@@ -1,13 +1,14 @@
 <template>
   <div class="content">
     <div class="containerText">
-      <p>{{ menu }}</p>
+      <p>{{ menu }} {{size}} <span class="size">ml</span></p>
       <p class="prix"><span>Prix</span> {{ prix }}</p>
     </div>
     <div class="contentImage">
       <img :src="image" alt="bubbleTea">
       <p>{{ side }}</p>
     </div>
+<!--    <button @click="eventModal(id)">test</button>-->
   </div>
 </template>
 
@@ -19,22 +20,44 @@ export default {
   props: {
     menu: String,
     prix: String,
-    side: String
+    side: String,
+    size: Number,
+    id:Number,
   },
   data() {
     return {
       image: imageBubbleTea
+    }
+  },
+  methods: {
+    eventModal() {
+      const choice = {
+        "id" : this.id,
+        "name" : this.menu,
+        "size" : this.size,
+        "price" : this.prix
+      };
+      this.$emit("eventChild", choice);
+      this.$emit("eventChildModal",true);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.size {
+  font-family: Rufina, sans-serif;
+  font-weight: 700;
+  margin: 0;
+  font-size: 18px;
+  text-transform: lowercase;
+}
 p {
   font-family: Rufina, sans-serif;
   font-weight: 700;
   margin: 0;
   font-size: 18px;
+  text-transform: capitalize;
 }
 
 img {
@@ -102,7 +125,8 @@ span {
     font-size: 18px;
   }
 }
-@media screen and (min-width: 1300px){
+
+@media screen and (min-width: 1300px) {
   span {
     font-size: 15px;
   }

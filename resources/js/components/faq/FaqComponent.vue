@@ -5,13 +5,13 @@
     </div>
   </section>
   <section class="containerQuestion">
-    <question-component image="dimSum.png"
+    <question-component image="bobashopresize-composer.jpg"
                         logo="back-1 4.png"
                         title="Bubble Tea"
                         :tableaux="question1">
 
     </question-component>
-    <question-component image="dimSum.png"
+    <question-component image="bobashopresize-3formules.jpg"
                         logo="back-1 4.png"
                         logoRight="logoRight"
                         title="Menu"
@@ -42,16 +42,16 @@ export default {
       question1: [
         {
           element: {
-            question: "Comment je peux composer un bubble tea?",
-            answer: "Tout d'abords vous choisisez la taille (50/70 cl), le type de thé (noir/jasmin/vert), le sirop et finalement les billes."
+            question: "Comment je peux composer un bubble tea ?",
+            answer: "Tout d'abord, vous choisissez la taille (50/70 cl), le type de thé (noir/jasmin/vert), le sirop et finalement les billes."
           }
         },
       ],
       question2: [
         {
           element: {
-            question: "Quelle est la différence entre les trois formules?",
-            answer: "Dans la petite formule vous pouvez juste choisir une option de plat, dans la moyenne vous pourrez choisir deux plats et la grande trois plats."
+            question: "Quelle est la différence entre les trois formules ?",
+            answer: "Dans la petite formule, vous pouvez juste choisir une option de plat, dans la moyenne, vous pourrez choisir deux plats et la grande trois plats."
           }
         },
       ],

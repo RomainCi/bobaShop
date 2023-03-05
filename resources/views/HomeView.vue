@@ -4,8 +4,8 @@
   </header>
   <main :class="fixed">
     <magasin-component></magasin-component>
-    <bubble-tea-component></bubble-tea-component>
-    <menu-component></menu-component>
+    <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
+    <menu-component :menu="menuList"></menu-component>
     <creation-bubble-tea-component></creation-bubble-tea-component>
     <sides-component></sides-component>
   </main>
@@ -38,7 +38,20 @@ export default {
   },
   data() {
     return {
-      fixed: "notFixed"
+      fixed: "notFixed",
+      singleMenuList: [],
+      menuList: [],
+    }
+  },
+  mounted() {
+    this.getMenu()
+  },
+  methods: {
+    async getMenu() {
+      const res = await axios.get("api/products=menu");
+      const menu = res.data.menus;
+      this.singleMenuList = menu.filter(menu => menu.sides === 0);
+      this.menuList = menu.filter(menu => menu.sides !== 0);
     }
   }
 }

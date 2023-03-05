@@ -1,13 +1,24 @@
 <template>
   <section>
+    <div class="modale-overlay" v-show="modal" @click="modal = false"></div>
     <div class="contentTitle">
       <h2>Nos menus</h2>
       <p class="emporter">uniquement à emporter</p>
     </div>
     <div class="container">
-      <menu-prix-component class="border" side="+ 1 Side" prix="6,60€" menu="Formule Petite"></menu-prix-component>
-      <menu-prix-component class="border" side="+ 2 Sides" prix="8.80€" menu="Formule Moyenne"></menu-prix-component>
-      <menu-prix-component side="+ 3 Sides" prix="11€" menu="Formule Grande"></menu-prix-component>
+      <menu-prix-component v-for="(value,index) in menu" :key="index" :class="menu.length-1 === index ? '' : 'border'"
+                           :prix="`${value.price}€`" :menu="value.name"
+                           :size="value.size"
+                           @eventChildModal="modal = $event"
+                           @eventChild="event($event)"
+                           :id="value.id"
+                           :side="value.sides === 1 ? `+ ${value.sides} Side`: `+ ${value.sides} Sides`"
+      >
+
+      </menu-prix-component>
+    </div>
+    <div v-if="modal" class="modal-content">
+      <modal-bubble-component :choice="choice"></modal-bubble-component>
     </div>
   </section>
 </template>
@@ -15,16 +26,28 @@
 <script>
 import imageBubbleTea from "../../../assets/image/imageBubbleTea.png"
 import MenuPrixComponent from "../../components/MenuPrixComponent.vue";
+import ModalBubbleComponent from "../../components/modal/ModalBubbleComponent.vue";
 
 export default {
   name: "MenuComponent",
   components: {
-    MenuPrixComponent
+    MenuPrixComponent,
+    ModalBubbleComponent,
+  },
+  props: {
+    menu: Array,
   },
   data() {
     return {
-      image: imageBubbleTea
+      image: imageBubbleTea,
+      modal:false,
     }
+  },
+  methods: {
+    event(e) {
+      console.log(e, "le e");
+      this.choice = e;
+    },
   }
 }
 </script>
@@ -69,16 +92,34 @@ h2 {
   justify-content: space-between;
   width: 100%;
 }
+.modale-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  backdrop-filter: blur(15px);
+}
 
-
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
 
 @media screen and (min-width: 600px) {
-  .container{
+  .container {
     width: 540px;
     margin-right: auto;
     margin-left: auto;
   }
-  h2{
+  h2 {
     font-size: 30px;
   }
 }
@@ -100,8 +141,8 @@ h2 {
 }
 
 @media screen and (min-width: 1300px) {
-  .container{
-    width: 1000px;
+  .container {
+    width: 1200px;
   }
   h2 {
     font-size: 40px;

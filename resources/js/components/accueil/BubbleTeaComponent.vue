@@ -1,23 +1,62 @@
 <template>
   <section>
+    <div class="modale-overlay" v-show="modal" @click="modal = false"></div>
     <div class="contentTitle">
       <h2>Nos Bubble Tea à l'unité</h2>
       <p class="emporter">Uniquement à emporter</p>
     </div>
     <div class="container">
-      <bubble-tea-prix-component class="border" title="Petit Bubble Tea 500ml" prix="5,50€"></bubble-tea-prix-component>
-      <bubble-tea-prix-component title="Grand Bubble Tea 700ml" prix="6,60€"></bubble-tea-prix-component>
+      <bubble-tea-prix-component v-for="(value,index) in menu" :key="index" @eventChild="event($event)"
+                                 @eventChildModal="modal = $event"
+                                 :id="value.id"
+                                 :name="`${value.name}`"
+                                 :size="value.size"
+                                 :prix="`${value.price}€`"
+                                 :class="index === 0 ? 'border' : ''"
+
+      >
+      </bubble-tea-prix-component>
+    </div>
+    <div v-if="modal" class="modal-content">
+      <modal-bubble-component :choice="choice"></modal-bubble-component>
     </div>
   </section>
 </template>
 
 <script>
 import bubbleTeaPrixComponent from "../BubbleTeaPrixComponent.vue";
+import modalBubbleComponent from "@/components/modal/ModalBubbleComponent.vue";
 
 export default {
   name: "BubbleTeaComponent",
   components: {
     bubbleTeaPrixComponent,
+    modalBubbleComponent,
+  },
+  props: {
+    menu: Array,
+  },
+  data() {
+    return {
+      modal: false,
+      tata: null,
+      floutage: "floutage",
+      menus: this.menu,
+      choice: [],
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    event(e) {
+      console.log(e, "le e");
+      this.choice = e;
+    },
+    test() {
+      console.log("hey");
+      this.modal = true;
+    },
   }
 }
 </script>
@@ -57,13 +96,39 @@ h2 {
   width: 100%;
 }
 
+.modale-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  backdrop-filter: blur(15px);
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
+
+/*.floutage{*/
+/*  filter: blur(28px);*/
+/*}*/
+
 @media screen and (min-width: 600px) {
-  .container{
+  .container {
     width: 540px;
     margin-right: auto;
     margin-left: auto;
   }
-  h2{
+
+  h2 {
     font-size: 30px;
   }
 }
@@ -87,13 +152,16 @@ h2 {
     font-size: 10px;
   }
 }
+
 @media screen and (min-width: 1300px) {
-  .container{
-    width: 1000px;
+  .container {
+    width: 1200px;
   }
+
   h2 {
     font-size: 40px;
   }
+
   .emporter {
     font-size: 15px;
   }

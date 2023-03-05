@@ -7,11 +7,12 @@
         <p>Mention légale</p>
       </div>
       <div class="contentLogo">
-        <img class="insta" :src="logoInsta" alt="instagram">
+        <a target="_blank" href="https://www.instagram.com/boba.shop67/?hl=fr"> <img class="insta" :src="logoInsta"
+                                                                                     alt="instagram"></a>
         <img :src="logoFb" alt="facebook">
       </div>
     </div>
-    <p class="text">Intégré par RC Tech Web et designer par Hbz Communication</p>
+    <p class="text">Intégration par RC Tech Web et design par Hbz Communication</p>
   </div>
 </template>
 
@@ -78,7 +79,8 @@ export default {
   padding-bottom: 10px;
   margin: 0 30px;
 }
-p{
+
+p {
   font-family: Lato, sans-serif;
   font-size: 14px;
   color: white;

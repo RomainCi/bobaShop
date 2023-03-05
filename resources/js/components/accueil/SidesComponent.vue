@@ -10,18 +10,18 @@
         <div class="contentCardSides">
           <card-sides-component class="cardSides" title="Humitas" text="Galette de maïs, oignons et basilic enveloppés dans une feuille de bananier
 cuite à la vapeur."
-                                image="dimSum.png">
+                                image="bobashopresize-humitasMais.jpg">
 
           </card-sides-component>
           <card-sides-component class="cardSides" title="Empanadas"
                                 text="Chausson de viande hachée, oignons, oeuf, olive et raisin sec"
-                                image="dimSum.png">
+                                image="bobashopresize-empanadas.jpg">
 
           </card-sides-component>
         </div>
         <card-sides-component class="cardSides" title="Dim Sums" text="Raviole asiatique de choux chinois, oignons, carottes, shiitake et vermicelle
 de riz."
-                              image="dimSum.png">
+                              image="bobashopresize-dimSums.jpg">
 
         </card-sides-component>
       </div>
@@ -30,12 +30,12 @@ de riz."
           <h2>Les sides</h2>
         </div>
         <card-sides-component class="cardSides" title="Onigiri" text="Boule de riz farci au thon et mayonnaise maison."
-                              image="dimSum.png">
+                              image="bobashopresize-omigiri.jpg">
 
         </card-sides-component>
         <card-sides-component class="cardSides" title="Mochis" text="Dessert asiatique réalisé avec une pâte de riz gluant farci de glace ou
 confiture de lait"
-                              image="dimSum.png">
+                              image="boba-shop-mochis.jpg">
 
         </card-sides-component>
       </div>

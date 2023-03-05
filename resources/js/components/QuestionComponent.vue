@@ -103,8 +103,9 @@ export default {
 
 .answer {
   font-family: Lato, sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
+  letter-spacing:1px;
 }
 
 @media screen and (min-width: 600px) {
@@ -167,7 +168,8 @@ export default {
   }
 
   .answer {
-    font-size: 15px;
+    font-size: 17px;
+    letter-spacing:1px;
   }
   .question{
     font-size: 25px;
