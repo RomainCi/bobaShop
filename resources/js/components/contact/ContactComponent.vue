@@ -61,7 +61,7 @@ export default {
     return {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
-          '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+          '&copy; <a target="_blank" href="https://osm.org/copyright">OpenStreetMap</a> contributors',
       backContact,
       zoom: 15,
       center: [48.584342, 7.74842],

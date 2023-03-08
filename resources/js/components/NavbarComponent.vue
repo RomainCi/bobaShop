@@ -22,9 +22,9 @@
             <router-link to="/FAQ">F.A.Q</router-link>
           </li>
 
-          <li v-if="$store.state.admin" @click="closeMenu">
-            <a href="http://127.0.0.1:8000/admin/panel">test</a>
-          </li>
+          <!--          <li v-if="$store.state.admin" @click="closeMenu">-->
+          <!--            <a href="http://127.0.0.1:8000/admin/panel">test</a>-->
+          <!--          </li>-->
           <!--          <li @click="closeMenu" v-if="$store.state.nbrBasket !== -1">-->
           <!--            <router-link to="/panier">Panier-->
           <!--              <span>{{ $store.state.nbrBasket === 0 ? commandWait.length : $store.state.nbrBasket }}</span>-->
@@ -74,7 +74,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.tata, "taat");
     this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
     console.log(this.commandWait.length)
   }

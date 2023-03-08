@@ -1,33 +1,33 @@
 <template>
-<!--  <div class="modal-active">-->
-<!--    <div id="modal-container" v-if="showModal" :class="out" class="two">-->
-<!--      <div class="modal-background">-->
-<!--        <div class="modal">-->
-<!--          <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>-->
-<!--          <button @click="out = 'out'">annuler</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+  <!--  <div class="modal-active">-->
+  <!--    <div id="modal-container" v-if="showModal" :class="out" class="two">-->
+  <!--      <div class="modal-background">-->
+  <!--        <div class="modal">-->
+  <!--          <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>-->
+  <!--          <button @click="out = 'out'">annuler</button>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
 
-    <div :class="content">
-      <header>
-        <navbar-component v-on:position="fixed = $event"></navbar-component>
-      </header>
+  <div :class="content">
+    <header>
+      <navbar-component v-on:position="fixed = $event"></navbar-component>
+    </header>
 
-      <main :class="fixed">
-        <magasin-component :content="content"></magasin-component>
-        <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
-        <menu-component :menu="menuList"></menu-component>
-        <creation-bubble-tea-component></creation-bubble-tea-component>
-        <sides-component></sides-component>
-      </main>
+    <main :class="fixed">
+      <magasin-component></magasin-component>
+      <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
+      <menu-component :menu="menuList"></menu-component>
+      <creation-bubble-tea-component></creation-bubble-tea-component>
+      <sides-component></sides-component>
+    </main>
 
-      <footer>
-        <footer-component></footer-component>
-      </footer>
+    <footer>
+      <footer-component></footer-component>
+    </footer>
 
-    </div>
-<!--  </div>-->
+  </div>
+  <!--  </div>-->
 </template>
 
 <script>
