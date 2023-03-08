@@ -45,7 +45,8 @@ import backContact from "../../../assets/image/backContact.png"
 import {LCircle, LIcon, LMap, LMarker, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css"
 import bubbleTea from "../../../assets/image/bobashopresize-adresse.jpg"
-import { Icon } from 'leaflet';
+import {Icon} from 'leaflet';
+
 export default {
   name: "ContactComponent",
   components: {
@@ -156,6 +157,11 @@ img {
   font-size: 25px;
 }
 
+.contentText {
+  width: 100%;
+  max-width: 400px;
+}
+
 .contentText h2 {
   margin-bottom: 20px;
 }
@@ -165,7 +171,8 @@ img {
   height: 300px;
   max-width: 400px;
 }
-.button{
+
+.button {
   display: inline-block;
   background-color: #EAB99F;
   color: #fff;
@@ -177,6 +184,7 @@ img {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
 }
+
 .button:hover {
   background-color: #233000;
   cursor: pointer;

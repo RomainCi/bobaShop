@@ -43,7 +43,7 @@ export default {
         {
           element: {
             question: "Comment je peux composer un bubble tea ?",
-            answer: "Tout d'abord, vous choisissez la taille (50/70 cl), le type de thé (noir/jasmin/vert), le sirop et finalement les billes."
+            answer: "Tout d'abord, vous choisissez la taille (50/70 cl), le type de thé (noir/jasmin/vert), le sirop et finalement les perles."
           }
         },
       ],
@@ -51,20 +51,20 @@ export default {
         {
           element: {
             question: "Quelle est la différence entre les trois formules ?",
-            answer: "Dans la petite formule, vous pouvez juste choisir une option de plat, dans la moyenne, vous pourrez choisir deux plats et la grande trois plats."
+            answer: "Dans la petite formule, vous pouvez choisir une option de plat, dans la moyenne, vous pourrez choisir deux plats et la grande trois plats."
           }
         },
       ],
       question3: [
         {
           element: {
-            question: "Combien d’empanadas sont dans une portion?",
+            question: "Combien y a-t-il d’empanadas dans une portion ?",
             answer: "Il y a 3 petites empanadas par portion"
           }
         },
         {
           element: {
-            question: "Est ce que vous proposer des plats véganes ?",
+            question: "Est ce que vous proposez des plats véganes ?",
             answer: " Vous aurez le choix entre des dim sums ou des humitas."
           }
         },

@@ -88,8 +88,8 @@ export default {
 
       // console.log(commandWaitId, "new");
       console.log(this.price, "pri");
-      // const res = await axios.post("api/products=command", commandWaitId)
-      // console.log(res);
+      const res = await axios.post("api/products=command", commandWaitId)
+      console.log(res);
 
     }
   }

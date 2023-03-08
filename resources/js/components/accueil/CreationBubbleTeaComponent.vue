@@ -146,6 +146,11 @@ p {
   font-size: 20px;
   font-weight: 700;
 }
+@media screen and (max-width: 380px) {
+  .containerPerle {
+    gap: 10px;
+  }
+}
 
 @media screen and (min-width: 400px) {
   .containerPerle {

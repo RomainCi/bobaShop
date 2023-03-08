@@ -36,6 +36,18 @@ p {
   text-align: center;
 }
 
+@media screen and (max-width: 390px) {
+  p {
+    font-size: 12px;
+  }
+  .circle {
+    height: 45px;
+    width: 45px;
+  }
+  div{
+    width: 60px;
+  }
+}
 
 @media screen and (min-width: 900px) {
   .circle {

@@ -7,6 +7,7 @@ import OrdersView from "../../views/OrdersView.vue";
 import ConnexionView from "../../views/ConnexionView.vue";
 import RegisterView from "../../views/RegisterView.vue";
 import BasketView from "../../views/BasketView.vue";
+import AdminPanelView from "../../views/AdminPanelView.vue";
 
 const routes = [
     {
@@ -29,6 +30,12 @@ const routes = [
         name: "FAQ",
         component: FaqView
     },
+    // {
+    //     path: "/admin/panel",
+    //     name:"adminPanel",
+    //     component: AdminPanelView,
+    // },
+
     // {
     //     path: "/commandes",
     //     name: "commandes",

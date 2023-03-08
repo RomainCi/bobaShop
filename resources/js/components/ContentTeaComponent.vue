@@ -43,6 +43,7 @@ p {
 
 
 
+
 @media screen and (min-width: 900px) {
   img {
     height: 40px;
@@ -60,7 +61,7 @@ p {
 }
 
 
-@media screen and (min-width: 1300px){
+@media screen and (min-width: 1300px) {
   img {
     height: 50px;
     width: 50px;

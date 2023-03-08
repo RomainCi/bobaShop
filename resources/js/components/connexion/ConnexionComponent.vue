@@ -11,7 +11,6 @@
       </form>
       <p>Vous n'avez pas de encore de compte ?</p>
     </div>
-    <button @click="test">test</button>
   </section>
 </template>
 
@@ -31,12 +30,10 @@ export default {
       console.log(this.form);
       const csrf = await axios.get("sanctum/csrf-cookie");
       const res = await axios.post('api/login', this.form);
-      console.log(res);
+      if (res.data.message === "admin") {
+        location.reload();
+      }
     },
-    async test(){
-      const res = await axios.get('api/test');
-      console.log(res);
-    }
   }
 }
 </script>

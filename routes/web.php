@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //})->name('login');
 
-Route::get('/test', function () {
-    return response()->json(["message" => true]);
-})->middleware(['auth:sanctum']);
+Route::get('/admin/panel', function () {
+    return view('welcome');
+})->middleware(['admin']);
 
 Route::get('confirmation/email/id={id}&token={token}', [RegisterController::class, 'show']);
 

@@ -11,6 +11,7 @@
           <li @click="closeMenu">
             <router-link to="/">Accueil</router-link>
           </li>
+
           <li @click="closeMenu">
             <router-link to="/contact">Contact</router-link>
           </li>
@@ -20,14 +21,18 @@
           <li @click="closeMenu">
             <router-link to="/FAQ">F.A.Q</router-link>
           </li>
-<!--          <li @click="closeMenu" v-if="$store.state.nbrBasket !== -1">-->
-<!--            <router-link to="/panier">Panier-->
-<!--              <span>{{ $store.state.nbrBasket === 0 ? commandWait.length : $store.state.nbrBasket }}</span>-->
-<!--            </router-link>-->
-<!--          </li>-->
-<!--          <li @click="closeMenu" v-else>-->
-<!--            <router-link to="/panier">Panier <span>{{ 0 }}</span></router-link>-->
-<!--          </li>-->
+
+          <li v-if="$store.state.admin" @click="closeMenu">
+            <a href="http://127.0.0.1:8000/admin/panel">test</a>
+          </li>
+          <!--          <li @click="closeMenu" v-if="$store.state.nbrBasket !== -1">-->
+          <!--            <router-link to="/panier">Panier-->
+          <!--              <span>{{ $store.state.nbrBasket === 0 ? commandWait.length : $store.state.nbrBasket }}</span>-->
+          <!--            </router-link>-->
+          <!--          </li>-->
+          <!--          <li @click="closeMenu" v-else>-->
+          <!--            <router-link to="/panier">Panier <span>{{ 0 }}</span></router-link>-->
+          <!--          </li>-->
           <img class="imageLogo" :src="imageLogo" alt="imageLogo">
         </ul>
       </div>
@@ -42,6 +47,9 @@ import imageLogo from "../../assets/image/imageLogo.png"
 
 export default {
   name: "NavbarComponent",
+  props: {
+    tata: String
+  },
   data() {
     return {
       toggle: false,
@@ -52,6 +60,7 @@ export default {
       commandWait: [],
     }
   },
+
   methods: {
     openMenu() {
       this.navLinks = "open";
@@ -65,6 +74,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.tata, "taat");
     this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
     console.log(this.commandWait.length)
   }

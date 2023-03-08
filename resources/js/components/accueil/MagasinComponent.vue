@@ -5,6 +5,7 @@
         <h1>Votre magasin <br>de Bubble Tea <br>à Strasbourg</h1>
         <img class="food" :src="imageFood" alt="empanadas">
       </div>
+
       <div class="container">
         <div class="content">
           <img class="bubbleTea" :src="bubbleTea" alt="bubbleTea">
@@ -27,14 +28,18 @@ export default {
     return {
       imageFood: imageFood,
       bubbleTea: bubbleTea,
-      imageLogoRed: imageLogoRed
+      imageLogoRed: imageLogoRed,
     }
+  },
+  mounted() {
+    console.log(this.content);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 $backgroundColor: #EAB99F;
+
 section {
   background-color: $backgroundColor;
   padding-bottom: 30px;
@@ -45,6 +50,7 @@ section {
   margin-left: 30px;
 }
 
+
 .container1 {
   display: flex;
   flex-direction: column;
@@ -54,8 +60,6 @@ section {
   margin-left: auto;
   margin-right: auto;
   align-items: center;
-  //width: 100%;
-  //background-color: red;
   max-width: 400px;
 }
 
@@ -90,7 +94,7 @@ p {
 .container {
   display: flex;
   justify-content: space-between;
-  margin-top: 160px;
+  margin-top: 20px;
 }
 
 .content {
@@ -114,8 +118,9 @@ p {
 }
 
 .logo {
-  height: 196px;
+  height: 140px;
 }
+
 
 @media screen and (min-width: 600px) {
   .containerMain {
@@ -123,48 +128,50 @@ p {
     margin-right: auto;
     margin-left: auto;
   }
-  .container1{
+  .container1 {
     max-width: 100%;
   }
-  h1{
+  h1 {
     font-size: 40Px;
   }
 }
+
 @media screen and (min-width: 900px) {
-  .containerMain{
+  .containerMain {
     width: 800px;
   }
-  .food{
+  .food {
     width: 500px;
     height: 350px;
   }
-  .container1{
+  .container1 {
     max-width: 80%;
   }
-  .container .bubbleTea{
+  .container .bubbleTea {
     width: 300px;
   }
-  .logo{
+  .logo {
     height: 267px;
   }
 }
-@media screen and (min-width: 1300px){
-  .containerMain{
+
+@media screen and (min-width: 1300px) {
+  .containerMain {
     width: 1000px;
   }
-  h1{
+  h1 {
     font-size: 50px;
   }
-  .food{
+  .food {
     width: 600px;
     height: 400px;
   }
-  .container{
+  .container {
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
   }
-  p{
+  p {
     font-size: 25px;
   }
 }

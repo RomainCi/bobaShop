@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Commands whereTeaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Commands whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Commands whereUsersId($value)
+ * @property string $status
+ * @method static \Illuminate\Database\Eloquent\Builder|Commands whereStatus($value)
  * @mixin \Eloquent
  */
 class Commands extends Model

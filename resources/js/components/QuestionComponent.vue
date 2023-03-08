@@ -99,6 +99,9 @@ export default {
   font-size: 19px;
   font-weight: 700;
   text-align: center;
+  width: 76%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .answer {

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\ProductsMenu;
+use App\Models\Users_Admin;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(ProductsBubbleTableSeeder::class);
         $this->call(ProductsMenuSeeder::class);
+        $this->call(UsersAdminSeeder::class);
 //         \App\Models\User::factory(1)->create();
 
         // \App\Models\User::factory()->create([
