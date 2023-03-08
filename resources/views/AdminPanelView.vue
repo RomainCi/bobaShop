@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import AdminPanelComponent from "@/components/panel/AdminPanelComponent.vue";
-import NavbarComponent from "@/components/NavbarComponent.vue";
+import AdminPanelComponent from "../js/components/panel/AdminPanelComponent.vue";
+import NavbarComponent from "../js/components/NavbarComponent.vue";
 
 export default {
   name: "AdminPanelView",
