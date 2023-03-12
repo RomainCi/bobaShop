@@ -1,33 +1,33 @@
 <template>
-  <!--  <div class="modal-active">-->
-  <!--    <div id="modal-container" v-if="showModal" :class="out" class="two">-->
-  <!--      <div class="modal-background">-->
-  <!--        <div class="modal">-->
-  <!--          <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>-->
-  <!--          <button @click="out = 'out'">annuler</button>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
+<!--  <div class="modal-active">-->
+<!--    <div id="modal-container" v-if="showModal" :class="out" class="two" @click="closeModal">-->
+<!--      <div class="modal-background">-->
+<!--        <div class="modal">-->
+<!--          <span @click="out = 'out', closeModal()"><i class="fa-solid fa-x"></i></span>-->
+<!--          <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
-  <div :class="content">
-    <header>
-      <navbar-component v-on:position="fixed = $event"></navbar-component>
-    </header>
+    <div :class="content">
+      <header>
+        <navbar-component v-on:position="fixed = $event"></navbar-component>
+      </header>
 
-    <main :class="fixed">
-      <magasin-component></magasin-component>
-      <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
-      <menu-component :menu="menuList"></menu-component>
-      <creation-bubble-tea-component></creation-bubble-tea-component>
-      <sides-component></sides-component>
-    </main>
+      <main :class="fixed">
+        <magasin-component></magasin-component>
+        <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
+        <menu-component :menu="menuList"></menu-component>
+        <creation-bubble-tea-component></creation-bubble-tea-component>
+        <sides-component></sides-component>
+      </main>
 
-    <footer>
-      <footer-component></footer-component>
-    </footer>
+      <footer>
+        <footer-component></footer-component>
+      </footer>
 
-  </div>
-  <!--  </div>-->
+    </div>
+<!--  </div>-->
 </template>
 
 <script>
@@ -59,7 +59,7 @@ export default {
       menuList: [],
       contente: "",
       out: "",
-      showModal: true,
+      showModal: "",
       content: "content",
     }
   },
@@ -68,6 +68,13 @@ export default {
     this.getContentHome();
   },
   methods: {
+    closeModal() {
+      this.out = "out";
+      setTimeout(function () {
+        this.showModal = false
+      }.bind(this), 1000)
+    },
+
     async getMenu() {
       const res = await axios.get("api/products=menu");
       const menu = res.data.menu;
@@ -76,7 +83,13 @@ export default {
     },
     async getContentHome() {
       const res = await axios.get("api/home/content");
-      this.contente = res.data.content;
+      if(res.status === 200 && res.data.content.length !== 0){
+        this.showModal = true;
+        this.contente = res.data.content;
+      }else{
+        console.log(res.data.content,"hello");
+        this.showModal = false;
+      }
     }
   }
 }
@@ -135,11 +148,12 @@ export default {
 
     .modal {
       background: white;
-      padding: 50px;
+      padding: 10px;
       display: inline-block;
       border-radius: 3px;
       font-weight: 300;
       position: relative;
+      width: 200px;
 
       h2 {
         font-size: 25px;
@@ -181,7 +195,10 @@ export default {
   background: white;
   position: relative;
   z-index: 0;
-
+}
+span{
+  display: flex;
+  justify-content: flex-end;
 }
 
 @keyframes fadeIn {

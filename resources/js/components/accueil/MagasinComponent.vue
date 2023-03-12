@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import imageFood from "../../../assets/image/BOBApremierepartie-56 1.png"
-import bubbleTea from "../../../assets/image/bubbleTea.png"
+import imageFood from "../../../assets/image/bobasiteCarre.jpg"
+import bubbleTea from "../../../assets/image/bobasite-2Carre.jpg"
 import imageLogoRed from "../../../assets/image/imageLogoRed.png"
 
 export default {
@@ -31,9 +31,6 @@ export default {
       imageLogoRed: imageLogoRed,
     }
   },
-  mounted() {
-    console.log(this.content);
-  }
 }
 </script>
 
@@ -141,8 +138,7 @@ p {
     width: 800px;
   }
   .food {
-    width: 500px;
-    height: 350px;
+    width: 300px;
   }
   .container1 {
     max-width: 80%;
@@ -163,8 +159,7 @@ p {
     font-size: 50px;
   }
   .food {
-    width: 600px;
-    height: 400px;
+    width: 300px;
   }
   .container {
     max-width: 80%;

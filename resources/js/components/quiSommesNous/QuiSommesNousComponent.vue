@@ -8,22 +8,14 @@
   <section class="containerHistoire">
     <div class="contentHistoire">
       <histoire-component image="bobashopresize-histoire.jpg"
-                          text="Le Boba Shop est un projet mené par 3 associés. Notre équipe est
-composée de Marcelino Bloch, Franco-Chilien, Océane Chayavong, laotienne et
-Maria Mojica, colombienne. S’étant rencontrés dans un cadre professionnel, nous
-avons réalisé avoir des valeurs communes telles que : l'alimentation, le partage et là
-solidarité. Nous nous sommes donc investis pour vous proposer le phénomène
-mondialement connu, qu’est le bubble tea et ce accompagné de recettes fusionnant
-le meilleur de nos deux cultures est accessible pour tout régime alimentaire. Ainsi
-s’est développé peu à peu l’identité du Boba Shop tel qu’il vous est présenté, des
-créations originales conçues pour tous."
+                          :text="text"
                           title="Notre histoire"
                           logo="back-1 5.png"
       ></histoire-component>
     </div>
     <div class="contentHistoire">
       <histoire-component image="bobashopresize-huminatas.jpg"
-                          text="Nos menus sont faits maison. Ils pourront varier au fil des saisons afin de vous proposer des aliments frais. Nous réalisons nos assemblages en amont est utilisons exclusivement la cuisson vapeur ou au four comme c’est réalisé traditionnellement. Ce procédé permet de préparer la commande à la minute. assurant un repas chaud et rapide à emporter. L’équipe s’engage également à proposer en permanence des recettes accessibles aux différents régimes alimentaires."
+                          :text="'Nos menus sont faits maison.\n\n Ils pourront varier au fil des saisons afin de vous proposer des aliments frais. Nous réalisons nos assemblages en amont est utilisons exclusivement la cuisson vapeur ou au four comme c’est réalisé traditionnellement. Ce procédé permet de préparer la commande à la minute. assurant un repas chaud et rapide à emporter. \n\nL’équipe s’engage également à proposer en permanence des recettes accessibles aux différents régimes alimentaires.'"
                           title="Nos produits"
                           logo="back-1 5.png"
                           logoRight="logoRight"
@@ -34,7 +26,7 @@ créations originales conçues pour tous."
     </div>
     <div class="contentHistoire">
       <histoire-component image="bobashopresize-histoire.jpg"
-                          text="Situé au passage de la mésange, le Boba Shop est un salon de thé proposant principalement des bubble tea, il constitue un point de vente destiné aux passants à la recherche de boissons et petits plats à emporter. À l’image de ses fondateurs, le Boba Shop propose des encas de fusion latino-asiatique, qui vous permettra de découvrir les cultures. Soucieux d’offrir une alimentation complète, rapide et de qualité"
+                          :text="'Situé au passage de la mésange, le Boba Shop est un salon de thé proposant principalement des bubble tea, il constitue un point de vente destiné aux passants à la recherche de boissons et petits plats à emporter. \n\nÀ l’image de ses fondateurs, le Boba Shop propose des encas de fusion latino-asiatique, qui vous permettra de découvrir les cultures. Soucieux d’offrir une alimentation complète, rapide et de qualité.'"
                           title="Notre local"
                           logo="back-1 5.png"
       ></histoire-component>
@@ -43,7 +35,8 @@ créations originales conçues pour tous."
 </template>
 
 <script>
-import backQui from "../../../assets/image/backQui.png"
+import backQuiDesktop from "../../../assets/image/backQuiDesktop.jpg";
+import backQuiMobile from "../../../assets/image/backQuiMobile.jpg";
 import HistoireComponent from "../../components/HistoireComponent.vue";
 import logoEmpanadas from "../../../assets/image/back-1 4.png"
 
@@ -52,10 +45,21 @@ export default {
   components: {
     HistoireComponent
   },
+  mounted() {
+    if (document.documentElement.scrollWidth > 550) {
+      this.backQui = this.backQuiDesktop;
+    } else {
+      this.backQui = this.backQuiMobile;
+    }
+  },
   data() {
     return {
-      backQui: backQui,
+      backQui: "",
+      backQuiMobile,
+      backQuiDesktop,
       logoEmpanadas: logoEmpanadas,
+      text: `Le Boba Shop est un projet mené par 3 associés. Notre équipe est composée de Marcelino Bloch, Franco-Chilien, Océane Chayavong, laotienne et Maria Mojica, colombienne. \n\n S’étant rencontrés dans un cadre professionnel, nous avons réalisé avoir des valeurs communes telles que : l'alimentation, le partage et la solidarité. Nous nous sommes donc investis pour vous proposer le phénomène mondialement connu, qu’est le bubble tea et ce accompagné de recettes fusionnant le meilleur de nos deux cultures est accessible pour tout régime alimentaire.\nAinsi s’est développé peu à peu l’identité du Boba Shop tel qu’il vous est présenté, des créations originales conçues pour tous.`
+
     }
   }
 }
@@ -70,6 +74,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-position: center;
 }
 
 .containerBack h1 {

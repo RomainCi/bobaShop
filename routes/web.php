@@ -17,11 +17,20 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //})->name('login');
 
-Route::get('/admin/panel', function () {
-    return view('welcome');
-})->middleware(['admin']);
 
-Route::get('confirmation/email/id={id}&token={token}', [RegisterController::class, 'show']);
+/////////////////déverrouiller /////////////////////////
+///
+///
+//Route::get('/admin/panel', function () {
+//    return view('welcome');
+//})->middleware(['admin']);
+//
+//Route::get('confirmation/email/id={id}&token={token}', [RegisterController::class, 'check']);
+//
+//Route::get('/compte',function (){
+//    return view('welcome');
+//})->middleware(['auth:sanctum']);
+
 
 Route::group(['middleware' => 'web'], function () {
     Route::view('/', 'welcome');

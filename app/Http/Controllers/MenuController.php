@@ -79,8 +79,11 @@ class MenuController extends Controller
     {
         try {
             $menu = ProductsMenu::findOrFail($id);
-            $menu->$request->validated();
-            $menu['usersAdmin_id']->Auth::guard('admin')->user()['id'];
+            $validated =$request->validated();
+            $menu->name = $validated['name'];
+            $menu->sides = $validated['sides'];
+            $menu->size = $validated['size'];
+            $menu->price = $validated['price'];
             $menu->save();
             return response()->json([
                 "menus" => $menu

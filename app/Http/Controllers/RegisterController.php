@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRegisterRequest;
 use App\Jobs\BufferUsersDeleteJob;
 use App\Jobs\BufferUsersJob;
-use App\Models\BufferUsers;
 use App\Models\User;
 use App\Models\Users_token;
 use DateTime;
 use DateTimeZone;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
@@ -19,11 +20,19 @@ class RegisterController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return JsonResponse
      */
-    public function index(): void
+    public function index():JsonResponse
     {
-
+        try {
+            $id = Auth::user()->id;
+            $user = User::where('id', $id)->select(["email", "phone", "lastname", "firstname", "birthdays"])->first();
+            return response()->json([
+                "user"=> $user,
+            ]);
+        }catch (\Exception $e){
+            dd($e);
+        }
     }
 
     /**
@@ -43,7 +52,7 @@ class RegisterController extends Controller
                 "users_id" => $user->id,
                 "token" => $token,
             ]);
-            BufferUsersJob::dispatch($user,$token);
+            BufferUsersJob::dispatch($user, $token);
             BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(1));
             return \response("success");
         } catch (\Exception $e) {
@@ -59,15 +68,15 @@ class RegisterController extends Controller
      * @param string $token
      * @return Response
      */
-    public function show(int $id, string $token): Response
+    public function check(int $id, string $token): Response
     {
         try {
             $dateTimeZone = new DateTimeZone('Europe/Paris');
             $dt = new DateTime('now', $dateTimeZone);
             $email_verified_at = $dt->format('Y-m-d H:i:s');
             $user = User::findOrFail($id);
-            $user_token= User::findOrFail($id)->token;
-            abort_if($user_token === null ,404,'errorNull');
+            $user_token = User::findOrFail($id)->token;
+            abort_if($user_token === null, 404, 'errorNull');
             abort_if($user_token->token !== $token, 404, 'error!!');
             $user = User::findOrFail($id);
             $user->email_verified_at = $email_verified_at;
@@ -84,10 +93,10 @@ class RegisterController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
+     *
      * @return Response
      */
-    public function update(Request $request, int $id): Response
+    public function update(Request $request): Response
     {
         //
     }
@@ -102,4 +111,5 @@ class RegisterController extends Controller
     {
         //
     }
+
 }

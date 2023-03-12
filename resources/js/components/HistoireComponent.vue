@@ -60,6 +60,8 @@ export default {
   font-weight: 400;
   font-size: 15px;
   letter-spacing:1px;
+  white-space: pre-line;
+
 }
 
 .contentImage {

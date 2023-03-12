@@ -8,6 +8,7 @@ import ConnexionView from "../../views/ConnexionView.vue";
 import RegisterView from "../../views/RegisterView.vue";
 import BasketView from "../../views/BasketView.vue";
 import AdminPanelView from "../../views/AdminPanelView.vue";
+import UserView from "../../views/UserView.vue";
 
 const routes = [
     {
@@ -32,10 +33,10 @@ const routes = [
     },
     // {
     //     path: "/admin/panel",
-    //     name:"adminPanel",
+    //     name: "adminPanel",
     //     component: AdminPanelView,
     // },
-
+    //
     // {
     //     path: "/commandes",
     //     name: "commandes",
@@ -47,14 +48,19 @@ const routes = [
     //     component: ConnexionView,
     // },
     // {
-    //     path:"/inscription",
-    //     name:"inscription",
+    //     path: "/inscription",
+    //     name: "inscription",
     //     component: RegisterView,
     // },
     // {
-    //     path:"/panier",
-    //     name:"panier",
+    //     path: "/panier",
+    //     name: "panier",
     //     component: BasketView,
+    // },
+    // {
+    //     path: "/compte",
+    //     name: "compte",
+    //     component: UserView,
     // }
 
 ]

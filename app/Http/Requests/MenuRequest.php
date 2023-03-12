@@ -27,7 +27,7 @@ class MenuRequest extends FormRequest
             "name" => "required|string",
             "sides" => "integer|required",
             "size" => "integer|required",
-            "price" => "decimal|required",
+            "price" => "numeric|required",
         ];
     }
 }

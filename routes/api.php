@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\HomeContentController;
@@ -47,4 +48,21 @@ Route::get('/home/content', [HomeContentController::class, "index"]);
 Route::put('/home/content={id}', [HomeContentController::class, "update"])->middleware(['admin']);
 Route::delete('/home/content={id}', [HomeContentController::class, 'destroy'])->middleware(['admin']);
 Route::post('/home/content', [HomeContentController::class, "store"])->middleware(['admin']);
+
+Route::get('/admin/verification', function () {
+    return response()->json([
+        "message" => "admin",
+    ]);
+})->middleware(['admin']);
+
+Route::get('/user/verification', function () {
+    return response()->json([
+        "message" => "user",
+    ]);
+})->middleware(['auth:sanctum']);
+
+Route::get('/user', [RegisterController::class, "index"])->middleware(["auth:sanctum"]);
+
+route::get('/admin', [AdminController::class, "show"])->middleware(['admin']);
+
 URL::forceScheme('https');

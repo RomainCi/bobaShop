@@ -42,8 +42,6 @@ export default {
   data() {
     return {
       displayContent: this.logoRight,
-      contentQuestionReverse: this.contentQuestionReverse,
-      contentImageStart: this.contentImageStart,
     }
   }
 }

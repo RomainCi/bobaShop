@@ -4,6 +4,7 @@ export default createStore({
     state: {
         nbrBasket: 0,
         admin: 0,
+        user:0,
     },
     getters: {},
     mutations: {
@@ -12,6 +13,9 @@ export default createStore({
         },
         check(state, playAdmin) {
             state.admin = playAdmin
+        },
+        checkUser(state,playUser){
+            state.user = playUser
         }
     },
     actions: {
@@ -20,6 +24,9 @@ export default createStore({
         },
         checkAdmin({commit}, playAdmin) {
             commit('check', playAdmin)
+        },
+        checkUser({commit},playUser){
+            commit('checkUser',playUser)
         }
     },
     modules: {},

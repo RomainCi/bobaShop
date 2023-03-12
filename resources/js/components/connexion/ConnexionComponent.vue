@@ -27,11 +27,16 @@ export default {
   },
   methods: {
     async authentification() {
-      console.log(this.form);
       const csrf = await axios.get("sanctum/csrf-cookie");
       const res = await axios.post('api/login', this.form);
+      console.log(res);
       if (res.data.message === "admin") {
-        location.reload();
+        this.$store.dispatch('checkAdmin', true);
+
+      }
+      if (res.data.message === "success") {
+        this.$store.dispatch('checkUser', true)
+        await this.$router.push('/');
       }
     },
   }

@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import backQui from "../../../assets/image/backQui.png"
+import backgroundFaqDesktop from "../../../assets/image/backgroundFaqDesktop.jpg"
+import backgroundFaqMobile from "../../../assets/image/backgroundFaqMobile.jpg"
 import QuestionComponent from "../QuestionComponent.vue";
 
 export default {
@@ -36,9 +37,18 @@ export default {
   components: {
     QuestionComponent,
   },
+  mounted() {
+    if (document.documentElement.scrollWidth > 550) {
+      this.backQui = this.backgroundFaqDesktop;
+    }else{
+      this.backQui = this.backgroundFaqMobile;
+    }
+  },
   data() {
     return {
-      backQui: backQui,
+      backQui: "",
+      backgroundFaqDesktop,
+      backgroundFaqMobile,
       question1: [
         {
           element: {
@@ -83,6 +93,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-position: center;
 }
 
 .containerBack h1 {

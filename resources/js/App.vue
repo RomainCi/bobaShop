@@ -9,15 +9,19 @@ import FooterComponent from "./components/FooterComponent.vue";
 export default {
   name: "App",
   props: {
-    test: Number
+    connexionAdmin:Boolean,
+    connexionUser:Boolean,
   },
   components: {
     FooterComponent,
   },
   mounted() {
-    console.log(this.test);
-    this.$store.dispatch('checkAdmin', this.test);
-  }
+    console.log(this.connexionAdmin,"adminconnexion");
+    console.log(this.connexionUser,"connexionUser")
+    this.$store.dispatch('checkAdmin', this.connexionAdmin);
+    this.$store.dispatch('checkUser',this.connexionUser)
+  },
+  methods: {}
 
 }
 </script>

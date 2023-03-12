@@ -9,7 +9,7 @@
       <div class="contentLogo">
         <a target="_blank" href="https://www.instagram.com/boba.shop67/?hl=fr"> <img class="insta" :src="logoInsta"
                                                                                      alt="instagram"></a>
-        <img :src="logoFb" alt="facebook">
+<!--        <img :src="logoFb" alt="facebook">-->
       </div>
     </div>
     <p class="text">Intégration par RC Tech Web et design par Hbz Communication</p>

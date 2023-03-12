@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import backContact from "../../../assets/image/backContact.png"
+import backContactMobile from "../../../assets/image/backgroundContactMobile.jpg"
+import backContactDesktop from "../../../assets/image/backgroundContactDesktop.jpg"
 import {LCircle, LIcon, LMap, LMarker, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css"
 import bubbleTea from "../../../assets/image/bobashopresize-adresse.jpg"
@@ -62,7 +63,7 @@ export default {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
           '&copy; <a target="_blank" href="https://osm.org/copyright">OpenStreetMap</a> contributors',
-      backContact,
+      backContact:"",
       zoom: 15,
       center: [48.584342, 7.74842],
       markerLatLng: [48.584342, 7.74842],
@@ -70,14 +71,16 @@ export default {
       maxZoom: 18,
       myPosition: null,
       bubbleTea: bubbleTea,
+      backContactMobile,
+      backContactDesktop
     }
   },
   mounted() {
-    // create an icon
-    const icon = new Icon({
-      iconUrl: 'path/to/icon.png',
-      iconSize: [32, 32],
-    });
+    if (document.documentElement.scrollWidth > 550) {
+      this.backContact = this.backContactDesktop;
+    }else{
+      this.backContact = this.backContactMobile;
+    }
   },
   methods: {
     async geolocation() {
@@ -109,6 +112,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-position: center;
 }
 
 .containerBack h1 {
