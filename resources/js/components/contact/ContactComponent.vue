@@ -9,7 +9,7 @@
         <div class="contentText">
           <h2>Contact</h2>
           <p>email : contact@boba-shop.fr</p>
-          <p>telephone : +33 7 53 69 72 81</p>
+          <p>telephone : 03 88 68 31 98</p>
         </div>
         <img :src="bubbleTea" alt="bubble_tea">
       </div>
