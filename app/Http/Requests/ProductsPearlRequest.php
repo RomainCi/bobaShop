@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MenuRequest extends FormRequest
+class ProductsPearlRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class MenuRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string",
-            "sides" => "integer|required",
-            "size" => "integer|required",
-            "price" => "numeric|required",
+            "name" => "string|required",
+            "stock" => 'integer|required|min:0',
+            "color" => 'required|string'
         ];
     }
 }

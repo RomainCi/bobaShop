@@ -1,13 +1,13 @@
 <template>
-  <div class="content">
+  <div class="content" :class="{ 'borderBottom': length-1 !== index}">
     <div class="containerText">
-      <p>{{ name }} {{size}} <span class="size">ml</span></p>
+      <p>{{ name }} {{ size }} <span class="size">ml</span></p>
       <p class="prix"><span>Prix</span>{{ prix }}</p>
     </div>
     <div class="contentImage">
       <img :src="image" alt="bubbleTea">
     </div>
-<!--    <button @click="eventModal(id)">test</button>-->
+    <button @click="eventModal(id)">commander</button>
   </div>
 </template>
 
@@ -20,7 +20,9 @@ export default {
     name: String,
     prix: String,
     id: Number,
-    size:Number,
+    size: Number,
+    index: Number,
+    length: Number,
   },
   data() {
     return {
@@ -30,13 +32,13 @@ export default {
   methods: {
     eventModal() {
       const choice = {
-        "id" : this.id,
-        "name" : this.name,
-        "size" : this.size,
-        "price" : this.prix
+        "id": this.id,
+        "name": this.name,
+        "size": this.size,
+        "price": this.prix
       };
       this.$emit("eventChild", choice);
-      this.$emit("eventChildModal",true);
+      this.$emit("eventChildModal", true);
     }
   }
 }
@@ -64,8 +66,11 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px dashed black;
   padding: 15px;
+}
+
+.borderBottom {
+  border-bottom: 1px dashed black;
 }
 
 .contentImage {
@@ -95,6 +100,29 @@ span {
   font-family: Lato, sans-serif;
   font-weight: 400;
 }
+button {
+    background-color: #EAB99F;
+    color: #ffffff;
+    font-family: 'Lato', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    height: 30px;
+    line-height: 16px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #DCA788;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
 
 /*@media screen and (min-width: 650px){*/
 /*  p{*/
@@ -111,6 +139,8 @@ span {
 @media screen and (min-width: 900px) {
   .content {
     border-bottom: none;
+    width: 368.4px;
+    margin-top: 30px;
   }
 
   span {
@@ -130,6 +160,11 @@ span {
 @media screen and (min-width: 1300px) {
   span {
     font-size: 15px;
+  }
+
+  .content {
+    border-bottom: none;
+    width: 569px;
   }
 
   img {

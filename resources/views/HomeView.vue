@@ -1,33 +1,34 @@
 <template>
-<!--  <div class="modal-active">-->
-<!--    <div id="modal-container" v-if="showModal" :class="out" class="two" @click="closeModal">-->
-<!--      <div class="modal-background">-->
-<!--        <div class="modal">-->
-<!--          <span @click="out = 'out', closeModal()"><i class="fa-solid fa-x"></i></span>-->
-<!--          <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="modal-active">
+      <div id="modal-container" v-if="showModal" :class="out" class="two" @click="closeModal">
+        <div class="modal-background">
+          <div class="modal">
+            <span @click="out = 'out', closeModal()"><i class="fa-solid fa-x"></i></span>
+            <p v-for="(value,index) in contente" :key="index">{{ value.content }}</p>
+          </div>
+        </div>
+      </div>
 
-    <div :class="content">
-      <header>
-        <navbar-component v-on:position="fixed = $event"></navbar-component>
-      </header>
+  <div :class="content">
+    <header>
+      <navbar-component v-on:position="fixed = $event"></navbar-component>
+    </header>
 
-      <main :class="fixed">
-        <magasin-component></magasin-component>
-        <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
-        <menu-component :menu="menuList"></menu-component>
-        <creation-bubble-tea-component></creation-bubble-tea-component>
-        <sides-component></sides-component>
-      </main>
+    <main :class="fixed">
+      <magasin-component></magasin-component>
+      <bubble-tea-component :menu="singleMenuList"></bubble-tea-component>
+      <menu-component :menu="menuList"></menu-component>
+      <creation-bubble-tea-component :syrups="productsSyrups" :pearls="productsPearls"
+                                     :teas="productsTeas"></creation-bubble-tea-component>
+      <sides-component :sides="productsSides"></sides-component>
+    </main>
 
-      <footer>
-        <footer-component></footer-component>
-      </footer>
+    <footer>
+      <footer-component></footer-component>
+    </footer>
 
+  </div>
     </div>
-<!--  </div>-->
 </template>
 
 <script>
@@ -61,11 +62,15 @@ export default {
       out: "",
       showModal: "",
       content: "content",
+      productsTeas: [],
+      productsSides: [],
+      productsPearls: [],
+      productsSyrups: [],
     }
   },
   mounted() {
-    this.getMenu()
     this.getContentHome();
+    this.indexProducts();
   },
   methods: {
     closeModal() {
@@ -75,19 +80,25 @@ export default {
       }.bind(this), 1000)
     },
 
-    async getMenu() {
-      const res = await axios.get("api/products=menu");
-      const menu = res.data.menu;
+    async indexProducts() {
+      const res = await axios.get('api/products');
+      this.productsTeas = res.data.teas.data;
+      this.productsSides = res.data.sides.data;
+      this.productsPearls = res.data.pearls.data;
+      this.productsSyrups = res.data.syrups.data;
+      const menu = res.data.menus.data;
       this.singleMenuList = menu.filter(menu => menu.sides === 0);
       this.menuList = menu.filter(menu => menu.sides !== 0);
+      console.log(res);
     },
+
     async getContentHome() {
       const res = await axios.get("api/home/content");
-      if(res.status === 200 && res.data.content.length !== 0){
+      if (res.status === 200 && res.data.content.length !== 0) {
         this.showModal = true;
         this.contente = res.data.content;
-      }else{
-        console.log(res.data.content,"hello");
+      } else {
+        console.log(res.data.content, "hello");
         this.showModal = false;
       }
     }
@@ -196,7 +207,8 @@ export default {
   position: relative;
   z-index: 0;
 }
-span{
+
+span {
   display: flex;
   justify-content: flex-end;
 }

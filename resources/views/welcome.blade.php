@@ -12,13 +12,14 @@ alimentaires. 26 rue de la mesange, 67000 Strasbourg, France.">
 </head>
 <body style="margin: 0">
 <div id="app">
-
     {{--    <test-component :tata="{{ auth()->check() }}"></test-component>--}}
     {{--    <navbar-component :tata="{{Auth::guard('admin')->check()}}"></navbar-component>--}}
-    <app :connexion-admin="<?php echo json_encode(Auth::guard('admin')->check()); ?>" :connexion-user="<?php echo json_encode(auth()->check()); ?>"></app>
+    <app :connexion-admin="<?php echo json_encode(Auth::guard('admin')->check()); ?>"
+         :connexion-user="<?php echo json_encode(auth()->check()); ?>"></app>
     {{--    <testView :tata="true"></testView>--}}
 </div>
 @vite('resources/js/app.js')
 <script src="https://kit.fontawesome.com/40f157f11e.js" crossorigin="anonymous"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTCgHPyklKUafE6iglmnEeyitc2FrI5QE&libraries=places" async defernpm install @googlemaps/js-api-loader></script>
 </body>
 </html>

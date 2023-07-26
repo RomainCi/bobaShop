@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MenuRequest;
+use App\Http\Requests\ProductsMenuRequest;
 use App\Models\ProductsMenu;
+use App\Models\ProductsPearl;
+use App\Models\ProductsSide;
+use App\Models\ProductsSyrup;
+use App\Models\ProductsTea;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class MenuController extends Controller
+class ProductsMenuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +21,12 @@ class MenuController extends Controller
      */
     public function index(): JsonResponse
     {
+
         try {
             $admin = Auth::guard('admin')->user();
             if ($admin !== null) {
                 $menus = ProductsMenu::orderBy('price', 'asc')
-                ->get();
+                    ->get();
                 return response()->json([
                     "menu" => $menus
                 ]);
@@ -40,17 +45,16 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param MenuRequest $request
+     * @param ProductsMenuRequest $request
      * @return JsonResponse
      */
-    public function store(MenuRequest $request): JsonResponse
+    public function store(ProductsMenuRequest $request): JsonResponse
     {
+
         try {
             $menu = $request->validated();
-            $newMenu = ProductsMenu::create($menu);
-            return response()->json([
-                "menu" => $newMenu
-            ]);
+            $menu = ProductsMenu::create($menu);
+            return response()->json($menu);
         } catch (\Exception $e) {
             dd($e);
         }
@@ -60,34 +64,52 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param ProductsMenu $menu
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(ProductsMenu $menu): JsonResponse
     {
+        try {
+            $pearls = ProductsPearl::select('id', 'name', 'color')->get();
+            $teas = ProductsTea::select('id', 'name')->get();
+            $syrups = ProductsSyrup::select('id', 'name', 'color')->get();
+            $sides = ProductsSide::select('id', 'name', 'quantity')->get();
 
+            $response = [
+                "pearls" => $pearls,
+                "teas" => $teas,
+                "syrups" => $syrups,
+                "number_side" => $menu->sides,
+            ];
+
+            if ($menu->sides !== 0) {
+                $response['sides'] = $sides;
+            }
+
+            return response()->json($response);
+
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param MenuRequest $request
-     * @param int $id
+     * @param ProductsMenuRequest $request
+     * @param ProductsMenu $menu
      * @return JsonResponse|void
      */
-    public function update(MenuRequest $request, int $id)
+    public function update(ProductsMenuRequest $request, ProductsMenu $menu)
     {
         try {
-            $menu = ProductsMenu::findOrFail($id);
-            $validated =$request->validated();
+            $validated = $request->validated();
             $menu->name = $validated['name'];
             $menu->sides = $validated['sides'];
             $menu->size = $validated['size'];
             $menu->price = $validated['price'];
             $menu->save();
-            return response()->json([
-                "menus" => $menu
-            ]);
+            return response()->json($menu);
         } catch (\Exception $e) {
             dd($e);
         }
@@ -96,13 +118,13 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param ProductsMenu $menu
      * @return Response
      */
-    public function destroy(int $id): Response
+    public function destroy(ProductsMenu $menu): Response
     {
         try {
-            ProductsMenu::destroy($id);
+            $menu->delete();
             return response('success');
         } catch (\Exception $e) {
             dd($e);

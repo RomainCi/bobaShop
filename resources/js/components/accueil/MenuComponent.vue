@@ -5,20 +5,22 @@
       <h2>Nos menus</h2>
       <p class="emporter">uniquement à emporter</p>
     </div>
-    <div class="container">
-      <menu-prix-component v-for="(value,index) in menu" :key="index" :class="menu.length-1 === index ? '' : 'border'"
+    <div class="container" :class="getClass()">
+      <menu-prix-component v-for="(value,index) in menu" :key="index"
                            :prix="`${value.price}€`" :menu="value.name"
                            :size="value.size"
+                           :index="index"
+                           :length="menu.length"
+                           :lastLength="lastLength"
                            @eventChildModal="modal = $event"
                            @eventChild="event($event)"
                            :id="value.id"
                            :side="value.sides === 1 ? `+ ${value.sides} Side`: `+ ${value.sides} Sides`"
       >
-
       </menu-prix-component>
     </div>
     <div v-if="modal" class="modal-content">
-      <modal-bubble-component :choice="choice"></modal-bubble-component>
+      <modal-bubble-component :choice="choice" @eventChildModals="modal = $event"></modal-bubble-component>
     </div>
   </section>
 </template>
@@ -40,7 +42,8 @@ export default {
   data() {
     return {
       image: imageBubbleTea,
-      modal:false,
+      modal: false,
+      lastLength: 0,
     }
   },
   methods: {
@@ -48,6 +51,13 @@ export default {
       console.log(e, "le e");
       this.choice = e;
     },
+    getClass() {
+      if (this.menu.length % 3 === 1) {
+        this.lastLength = this.menu.length;
+      }
+      return this.menu.length % 3 === 1 ? "center" : "";
+      // "menu.length%3 === 1 ? 'center' : ''"
+    }
   }
 }
 </script>
@@ -92,6 +102,7 @@ h2 {
   justify-content: space-between;
   width: 100%;
 }
+
 .modale-overlay {
   position: fixed;
   top: 0;
@@ -109,7 +120,7 @@ h2 {
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 50px;
   z-index: 9999;
 }
 
@@ -126,12 +137,17 @@ h2 {
 
 @media screen and (min-width: 900px) {
   .container {
-    flex-wrap: nowrap;
     width: 800px;
+    display: flex;
+    justify-content: flex-start;
   }
-  .border {
-    border-right: 2px dashed black;
+  .center {
+    justify-content: center;
   }
+  //.border {
+  //  border-right: 2px dashed black;
+  //  border-left: 2px dashed black;
+  //}
   h2 {
     font-size: 30px;
   }

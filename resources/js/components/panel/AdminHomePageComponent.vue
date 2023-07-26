@@ -96,9 +96,11 @@ h2, p {
   flex-direction: column;
   padding: 10px;
 }
-label{
+
+label {
   text-align: center;
 }
+
 span {
   font-weight: bold;
 }

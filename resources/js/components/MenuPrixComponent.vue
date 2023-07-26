@@ -1,14 +1,15 @@
 <template>
-  <div class="content">
+  <div class="content"
+       :class="{ 'border': length-1 !== index, 'borderPair': (index+1) % 3 === 2 , 'borderPaire' : (index+1) === lastLength}">
     <div class="containerText">
-      <p>{{ menu }} {{size}} <span class="size">ml</span></p>
+      <p>{{ menu }} {{ size }} <span class="size">ml</span></p>
       <p class="prix"><span>Prix</span> {{ prix }}</p>
     </div>
     <div class="contentImage">
       <img :src="image" alt="bubbleTea">
       <p>{{ side }}</p>
     </div>
-<!--    <button @click="eventModal(id)">test</button>-->
+    <button @click="eventModal(id)">commander</button>
   </div>
 </template>
 
@@ -22,23 +23,27 @@ export default {
     prix: String,
     side: String,
     size: Number,
-    id:Number,
+    id: Number,
+    index: Number,
+    length: Number,
+    lastLength: Number,
   },
   data() {
     return {
-      image: imageBubbleTea
+      image: imageBubbleTea,
+      border: "",
     }
   },
   methods: {
     eventModal() {
       const choice = {
-        "id" : this.id,
-        "name" : this.menu,
-        "size" : this.size,
-        "price" : this.prix
+        "id": this.id,
+        "name": this.menu,
+        "size": this.size,
+        "price": this.prix
       };
       this.$emit("eventChild", choice);
-      this.$emit("eventChildModal",true);
+      this.$emit("eventChildModal", true);
     }
   }
 }
@@ -52,6 +57,7 @@ export default {
   font-size: 18px;
   text-transform: lowercase;
 }
+
 p {
   font-family: Rufina, sans-serif;
   font-weight: 700;
@@ -65,12 +71,15 @@ img {
   height: 100px;
 }
 
+.border {
+  border-bottom: 1px dashed black;
+}
+
 .content {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px dashed black;
   padding: 15px;
 }
 
@@ -96,7 +105,29 @@ span {
   font-family: Lato, sans-serif;
   font-weight: 400;
 }
+button {
+    background-color: #EAB99F;
+    color: #ffffff;
+    font-family: Lato, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    height: 30px;
+    line-height: 16px;
+    margin-top: 15px;
+}
 
+button:hover {
+    background-color: #DCA788;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
 //@media screen and (min-width: 650px) {
 //  span {
 //    font-size: 15px;
@@ -111,8 +142,21 @@ span {
 //}
 
 @media screen and (min-width: 900px) {
+  .border {
+    border-bottom: none;
+  }
+  .borderPair {
+    border-right: 2px dashed black;
+    border-left: 2px dashed black;
+  }
+  .borderPaire {
+    border-right: 2px dashed black;
+    border-left: 2px dashed black;
+  }
   .content {
     border-bottom: none;
+    width: 230px;
+    margin-top: 30px;
   }
   span {
     font-size: 10px;
@@ -133,6 +177,9 @@ span {
   img {
     height: 120px;
     width: 86px;
+  }
+  .content{
+    width: 360px;
   }
   p {
     font-size: 25px;

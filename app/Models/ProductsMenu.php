@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\ProductsMenu
@@ -27,10 +28,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu whereUpdatedAt($value)
  * @property int $size
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu whereSize($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsMenu withoutTrashed()
  * @mixin \Eloquent
  */
 class ProductsMenu extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $guarded = ['id'];
 }

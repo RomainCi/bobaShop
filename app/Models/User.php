@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -112,11 +114,48 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \App\Models\Users_token> $tokenMany
+ * @property-read int|null $token_many_count
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property string|null $stripe_id
+ * @property string|null $pm_type
+ * @property string|null $pm_last_four
+ * @property string|null $trial_ends_at
+ * @property-read Collection<int, \App\Models\Commands> $commands
+ * @property-read int|null $commands_count
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read int|null $subscriptions_count
+ * @property-read Collection<int, \App\Models\Users_token> $tokenMany
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read \App\Models\BufferUpdateEmail|null $updateEmail
+ * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
+ * @property-read int|null $update_email_many_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User hasExpiredGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder|User onGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePmLastFour($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePmType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTrialEndsAt($value)
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \App\Models\Orders> $orders
+ * @property-read int|null $orders_count
+ * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read Collection<int, \App\Models\Users_token> $tokenMany
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
+ * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read Collection<int, \App\Models\Orders> $orders
+ * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
+ * @property-read Collection<int, \App\Models\Users_token> $tokenMany
+ * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
  * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -144,8 +183,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function token():HasOne
+    public function token(): HasOne
     {
-        return $this->hasOne(Users_token::class,'users_id','id');
+        return $this->hasOne(Users_token::class, 'users_id', 'id');
+    }
+
+    public function tokenMany(): HasMany
+    {
+        return $this->hasMany(Users_token::class, 'users_id', 'id');
+    }
+
+    public function updateEmail(): HasOne
+    {
+        return $this->hasOne(BufferUpdateEmail::class, 'users_id', 'id')->where('email_verified_at', '=', null);
+    }
+
+    public function updateEmailMany(): HasMany
+    {
+        return $this->hasMany(BufferUpdateEmail::class, 'users_id', 'id')->where('email_verified_at', '=', null);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Orders::class, 'users_id', 'id');
+    }
+
+    public function information(): HasOne
+    {
+        return $this->hasOne(UsersInformations::class, 'users_id', 'id');
     }
 }

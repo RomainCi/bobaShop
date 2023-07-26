@@ -12,13 +12,15 @@
                                  :name="`${value.name}`"
                                  :size="value.size"
                                  :prix="`${value.price}€`"
-                                 :class="index === 0 ? 'border' : ''"
+                                 :index="index"
+                                 :length="menu.length"
+                                 :class="[(index+1) % 2 === 1 ? 'border' : '', index === 0 ? 'border' : '']"
 
       >
       </bubble-tea-prix-component>
     </div>
     <div v-if="modal" class="modal-content">
-      <modal-bubble-component :choice="choice"></modal-bubble-component>
+      <modal-bubble-component :choice="choice" @eventChildModals="modal = $event"></modal-bubble-component>
     </div>
   </section>
 </template>
@@ -113,7 +115,7 @@ h2 {
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 50px;
   z-index: 9999;
 }
 
@@ -136,8 +138,10 @@ h2 {
 
 @media screen and (min-width: 900px) {
   .container {
-    flex-wrap: nowrap;
     width: 800px;
+    display: flex;
+    /*display: flex;*/
+    /*justify-content: space-around;*/
   }
 
   .border {
