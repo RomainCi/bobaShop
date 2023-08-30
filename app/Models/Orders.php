@@ -8,29 +8,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+
 /**
  * App\Models\Orders
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Orders newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Orders newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Orders query()
  * @property int $id
  * @property int $users_id
  * @property string $status
  * @property string $total_price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $hours
+ * @property-read \App\Models\Invoices|null $invoice
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrdersMenu> $ordersMenu
  * @property-read int|null $orders_menu_count
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Orders newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Orders newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Orders query()
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Orders whereHours($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereTotalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orders whereUsersId($value)
- * @property-read \App\Models\Invoices|null $invoice
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrdersMenu> $ordersMenu
- * @property-read \App\Models\User $user
  * @mixin \Eloquent
  */
 class Orders extends Model

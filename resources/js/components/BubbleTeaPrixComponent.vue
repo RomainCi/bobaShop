@@ -2,7 +2,7 @@
   <div class="content" :class="{ 'borderBottom': length-1 !== index}">
     <div class="containerText">
       <p>{{ name }} {{ size }} <span class="size">ml</span></p>
-      <p class="prix"><span>Prix</span>{{ prix }}</p>
+      <p class="prix"><span>Prix</span>{{ prix }} €</p>
     </div>
     <div class="contentImage">
       <img :src="image" alt="bubbleTea">
@@ -108,7 +108,7 @@ button {
     font-weight: bold;
     padding: 6px 12px;
     border: none;
-    border-radius: 20px;
+    border-radius: 6px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     display: flex;
@@ -117,13 +117,13 @@ button {
     height: 30px;
     line-height: 16px;
     margin-top: 15px;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #DCA788;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    outline: none;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
 }
-
 /*@media screen and (min-width: 650px){*/
 /*  p{*/
 /*    font-size: 25px;*/

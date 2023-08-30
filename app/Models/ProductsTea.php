@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * App\Models\ProductsTea
  *
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea query()
  * @property int $id
  * @property string $name
  * @property string $image_url
@@ -19,7 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsTea whereId($value)

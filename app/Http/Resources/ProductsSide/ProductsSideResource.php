@@ -20,10 +20,10 @@ class ProductsSideResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "description" => $this->description,
-            "price" => $this->price,
+            "description" => $this->when($this->show, $this->description),
+            "price" => $this->when($this->show, $this->price),
             "quantity" => $this->quantity,
-            "image_url" => $this->image_url,
+            "image_url" => $this->when($this->show, $this->image_url),
             "stock" => $this->stock,
         ];
     }

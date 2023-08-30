@@ -24,8 +24,8 @@ class OrdersRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -35,27 +35,27 @@ class OrdersRule implements Rule
         $syrupIds = ProductsSyrup::pluck('id')->toArray();
         $pearlIds = ProductsPearl::pluck('id')->toArray();
         $sideIds = ProductsSide::pluck('id')->toArray();
-        $menusSides = ProductsMenu::pluck('sides','id')->toArray();
-//        dd($menusSides);
+        $menusSides = ProductsMenu::pluck('sides', 'id')->toArray();
+
 
         foreach ($value as $item) {
-            if ($item['sides'] !== null) {
+            if(!empty($item['sides'])){
                 $numSides = count($item['sides']);
-            } else {
+            }else{
                 $numSides = 0;
             }
-//            dd($item['menus']['id'],$menusSides[$item['menus']['id']],$numSides);
+
             // Vérifier que chaque élément du tableau a des clés valides
-            if (!isset($item['teas'], $item['syrups'], $item['pearls'], $item['menus'])) {
+            if (!isset($item['tea'], $item['syrup'], $item['pearl'], $item['menu'])) {
                 return false;
             }
             // Vérifier que les clés 'id' de chaque élément sont des entiers valides
-            if (!in_array($item['teas']['id'], $teaIds)
-                || !in_array($item['syrups']['id'], $syrupIds)
-                || !in_array($item['pearls']['id'], $pearlIds)
-                || !array_key_exists($item['menus']['id'], $menuPrices)
-                || $item['menus']['price'] !== $menuPrices[$item['menus']['id']]
-                || $menusSides[$item['menus']['id']] !== $numSides
+            if (!in_array($item['tea']['id'], $teaIds)
+                || !in_array($item['syrup']['id'], $syrupIds)
+                || !in_array($item['pearl']['id'], $pearlIds)
+                || !array_key_exists($item['menu']['id'], $menuPrices)
+                || $item['menu']['price'] !== $menuPrices[$item['menu']['id']]
+                || $menusSides[$item['menu']['id']] !== $numSides
             ) {
                 return false;
             }
@@ -81,6 +81,6 @@ class OrdersRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Erreur avec la commande';
     }
 }

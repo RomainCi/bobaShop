@@ -15,19 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-//        $this->call(ProductsBubbleTableSeeder::class);
+//        $this->call(UsersTableSeeder::class);
         $this->call(ProductsMenuSeeder::class);
         $this->call(UsersAdminSeeder::class);
         $this->call(ProductsPearlSeeder::class);
         $this->call(ProductsSideSeeder::class);
         $this->call(ProductsSyrupSeeder::class);
         $this->call(ProductsTeaSeeder::class);
-//         \App\Models\User::factory(1)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+//        $this->call(UsersInformationSeeder::class);
     }
 }

@@ -3,35 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Http\Action\VerificationIP_Address\VerificationIPAction;
-use App\Jobs\DeleteTokenJob;
 use App\Jobs\ForgetPasswordMailJob;
-use App\Models\User;
-use App\Models\Users_token;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
+use Throwable;
 
 class ForgetPasswordController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return Application|ResponseFactory|Response
+     *
+     * @throws Throwable
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response|JsonResponse|Application|ResponseFactory
     {
         try {
             $email = $request->validate([
                 "email" => 'required|email|exists:users'
             ]);
-            $ip = $request->ip();
+        } catch (Exception $e) {
+            Log::error('Error dans la transaction pour ForgetPasswordController' . $e->getMessage());
+            return response()->json([
+                "status" => "notFound",
+                "message" => "Cet email est inexistant"
+            ],400);
+        }
 
+        DB::beginTransaction();
+        try {
+            $ip = $request->ip();
             $verification = (new VerificationIPAction())->handle($email['email'], $ip);
             if (!$verification) {
                 return response('veuillez essayer dans 15 min', 403);
@@ -46,14 +54,20 @@ class ForgetPasswordController extends Controller
                 "ip_address" => $request->ip(),
             ]);
 
-            ForgetPasswordMailJob::dispatch($token,$email['email'])->delay(now()->addRealSeconds(1));
-//            DeleteTokenJob::dispatch($user_token)->delay(now()->addRealMinutes(1));
+            ForgetPasswordMailJob::dispatch($token, $email['email'])->delay(now()->addRealSeconds(5));
+            DB::commit();
+            return response()->json([
+                'status'=> "success",
+                "message"=> "Vous allez recevoir un email dans quelques instants pensé à vérifier vos spams."
+            ]);
 
-            return response('success', 200);
-        } catch (\Exception $e) {
-            dd($e);
-            return \response('error', 404);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour ForgetPasswordController' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ],500);
         }
-
     }
 }

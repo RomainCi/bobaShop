@@ -11,6 +11,7 @@ class ProductsPearlCollection extends ResourceCollection
 {
     public $collection = ProductsPearlResource::class;
 
+
     /**
      * Transform the resource collection into an array.
      *
@@ -20,7 +21,7 @@ class ProductsPearlCollection extends ResourceCollection
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
-            'data' => $this->collection
+            'data' => $this->resource,
         ];
     }
 }

@@ -17,10 +17,11 @@
             <p>Erreur lors de la connexion</p>
         </div>
         <div v-if="modalMail" class="modal-content content-forget">
+            <p class="oublie">Vous avez oublié votre mot de passe, veuillez écrire votre adresse email ! </p>
             <label>Email</label>
             <input class="modal-mail" type="email" v-model="forget.email">
             <button @click="forgetPassword">Valider</button>
-            <p>Vous allez recevoir un lien dans votre boite mail</p>
+            <p v-show="show">{{ response }}</p>
         </div>
     </section>
 </template>
@@ -35,37 +36,40 @@ export default {
                 password: null,
             },
             modal: false,
-            modalMail:false,
-            forget:{
-                email:null,
+            modalMail: false,
+            response: null,
+            show: false,
+            forget: {
+                email: null,
             }
         }
     },
     methods: {
         async authentification() {
-            console.log(this.form);
             try {
                 const csrf = await axios.get("sanctum/csrf-cookie");
                 const res = await axios.post('api/login', this.form);
-                console.log(res);
                 if (res.status === 200) {
                     window.location = import.meta.env.VITE_APP_URL;
                 }
             } catch (e) {
-                console.log("e", e.response.request.status);
                 if (e.response.request.status !== 200) {
                     this.modal = !this.modal;
                 }
             }
         },
-        async forgetPassword(){
+        async forgetPassword() {
+            this.response = null;
+            this.show = false;
             try {
-                const res = await axios.post('api/forget',this.forget);
-                console.log(res);
-            }catch (e) {
-               if(e.response.request.status !== 200){
-                   alert('cette adresse mail existe pas');
-               }
+                const res = await axios.post('api/forget', this.forget);
+                if (res.data.status === "success") {
+                    this.response = res.data.message;
+                    this.show = true;
+                }
+            } catch (e) {
+                this.response = e.response.data.message;
+                this.show = true;
             }
         }
     }
@@ -73,6 +77,15 @@ export default {
 </script>
 
 <style scoped>
+.oublie {
+    font-size: 16px;
+    font-family: Lato, sans-serif;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-top: 5px;
+}
+
 section {
     background-color: white;
     display: flex;
@@ -98,15 +111,18 @@ section {
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 20px;
-    border-radius: 30px;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     z-index: 9999;
+    width: 80%;
+    max-width: 583px;
 }
 
 h1 {
-    color: black;
+    color: #EAB99F;
     font-family: Rufina, sans-serif;
-    font-size: 3rem;
-    margin-bottom: 3rem;
+    font-size: 40px;
+    margin-bottom: 2rem;
 }
 
 .contentForm {
@@ -117,9 +133,9 @@ h1 {
 
 form {
     background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,35 +157,45 @@ input {
     margin-bottom: 1rem;
     font-size: 1rem;
     border: none;
-    background-color: #e2d4cd;
+    background-color: #EAB99F;
     border-radius: 6px;
     color: white;
     font-family: Lato, sans-serif;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #EAB99F;
 }
 
 button {
-    padding: 1rem 2rem;
-    background-color: #e2d4cd;
+    padding: 0.8rem 1.8rem;
+    background-color: #EAB99F;
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.3rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
 }
 
 button:hover {
-    background-color: #eab99f;
+    outline: none;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
 p {
     margin-top: 1.5rem;
     font-size: 1rem;
     color: #666;
+    font-family: Lato, sans-serif;
 }
 
 .forget, .account {
-    border-bottom: 1px red solid;
+    border-bottom: 1px black solid;
     color: black;
     font-family: Lato, sans-serif;
     cursor: pointer;
@@ -178,14 +204,17 @@ p {
 .forget {
     margin-top: 10px;
 }
-.modal-mail{
-    width: fit-content;
+
+.modal-mail {
+    width: 80%;
 }
-.content-forget{
+
+.content-forget {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 @media screen and (max-width: 600px) {
     .contentForm {
         width: 280px;
@@ -202,7 +231,7 @@ p {
 
     h1 {
         font-size: 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
 
     input {
@@ -221,4 +250,9 @@ p {
     }
 }
 
+@media screen and (min-width: 1300px) {
+    h1 {
+        font-size: 50px;
+    }
+}
 </style>

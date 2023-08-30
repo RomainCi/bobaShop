@@ -10,16 +10,18 @@ use JsonSerializable;
 class ProductsMenuCollection extends ResourceCollection
 {
     public $collection = ProductsMenuResource::class;
+
+
     /**
      * Transform the resource collection into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
     {
         return [
-            "data"=> $this->collection
+            "data" => $this->collection
         ];
     }
 }

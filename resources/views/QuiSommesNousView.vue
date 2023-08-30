@@ -16,6 +16,7 @@ import QuiSommesNousComponent from "../js/components/quiSommesNous/QuiSommesNous
 import FooterComponent from "../js/components/FooterComponent.vue";
 export default {
   name: "QuiSommesNousView",
+    emits: ['position'],
   components: {
     NavbarComponent,
     QuiSommesNousComponent,

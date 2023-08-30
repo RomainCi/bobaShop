@@ -132,17 +132,11 @@
     <div class="invoice-info">
         <div>
             @if($user->information->society !== null)
-                <p>Société :</p>
-                <p>{{$user->information->society}}</p>
-                <p>{{$user->information->street}}</p>
-                <p>{{$user->information->city}}, {{$user->information->postal_code}}</p>
-                <p>{{$user->information->country}}</p>
+                <p>Société : {{$user->information->society}}</p>
+                <p>Adresse : {{$user->information->street}}, {{$user->information->city}} {{$user->information->postal_code}}, {{$user->information->country}}</p>
             @else
-                <p>Client :</p>
-                <p>{{$user->lastname}}, {{$user->firstname}}</p>
-                <p>{{$user->information->street}}</p>
-                <p>{{$user->information->city}}, {{$user->information->postal_code}}</p>
-                <p>{{$user->information->country}}</p>
+                <p>Client : {{$user->lastname}}, {{$user->firstname}}</p>
+                <p>Adresse : {{$user->information->street}} {{$user->information->city}}, {{$user->information->postal_code}} {{$user->information->country}}</p>
             @endif
         </div>
         <div>

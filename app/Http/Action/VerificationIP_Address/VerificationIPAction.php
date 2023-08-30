@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class VerificationIPAction
 {
-    public function handle(string $email, string $ip)
+    public function handle(string $email, string $ip): bool
     {
         // Vérifier si l'adresse IP a moins de 3 enregistrements
         $ipCount = DB::table('password_resets')->where('ip_address', $ip)->count();

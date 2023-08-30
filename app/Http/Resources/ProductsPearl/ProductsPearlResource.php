@@ -9,7 +9,6 @@ use JsonSerializable;
 
 class ProductsPearlResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +20,7 @@ class ProductsPearlResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "color" => $this->color,
+            "color" => $this->when($this->show, $this->color),
             "stock" => $this->stock,
         ];
     }

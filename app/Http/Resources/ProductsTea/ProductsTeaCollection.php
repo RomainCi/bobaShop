@@ -11,6 +11,7 @@ class ProductsTeaCollection extends ResourceCollection
 {
     public $collects = ProductsTeaResource::class;
 
+
     /**
      * Transform the resource collection into an array.
      *

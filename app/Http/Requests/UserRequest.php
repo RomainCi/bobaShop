@@ -35,10 +35,10 @@ class UserRequest extends FormRequest
             "password" => ['required', 'confirmed', Password::min(8)->numbers()->mixedCase()->symbols()],
             "password_confirmation" => 'required',
             "check" => ['required', Rule::in(true)],
-            "address.street" => 'string|required',
-            "address.city" => 'string|required',
-            "address.country" => 'string|required',
-            "address.postal_code" => 'string|required',
+            "address.street" => 'required|string',
+            "address.city" => 'required|string',
+            "address.country" => 'required|string',
+            "address.postal_code" => 'required|string',
         ];
     }
 }

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Action\Orders\ShowOrdersAction;
 use App\Http\Requests\OrdersRequest;
+use App\Http\Resources\Order\ShowOrderRessource;
 use App\Jobs\DeleteOrdersJob;
+use App\Models\Orders;
+use App\Services\BasketService;
 use App\Services\OrdersService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class OrdersController extends Controller
 {
@@ -21,9 +22,9 @@ class OrdersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
-    public function index()
+    public function index(): void
     {
     }
 
@@ -31,69 +32,105 @@ class OrdersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param OrdersRequest $request
+     * @param BasketService $basketService
+     * @param OrdersService $ordersService
      * @return JsonResponse
+     * @throws Throwable
      */
-    public function store(OrdersRequest $request): JsonResponse
+    public function store(OrdersRequest $request, BasketService $basketService, OrdersService $ordersService): JsonResponse
     {
-        try {
-            $orders = $request->validated();
-            $orders = $orders['data'];
-
-            $sidesNofilter = array_column($orders, 'sides');
-            $sides = array_filter($sidesNofilter);
-            $menus = array_column($orders, 'menus');
-            $price = array_column($menus, 'price');
-
-
-            $ordersService = new OrdersService();
-            $order = $ordersService->storeOrders($price);
-
-            $ordersMenu = $ordersService->storeOrdersMenus($order['id'], $price, $orders);
-
-            $ordersService->storeOrdersSides($ordersMenu, $sides);
-
-            DeleteOrdersJob::dispatch($order['id'])->delay(now()->addRealMinutes(5));
-
-            return response()->json($order['id']);
-        } catch (\Exception $e) {
-            dd($e);
+        $orders = $request->validated();
+        $hours = $orders['hours'];
+        $token = $basketService->checkToken();
+        if (!$token) {
+            return response()->json([
+                "status" => "error",
+                "message" => "Votre panier est vide"
+            ], 400);
         }
+
+        ///RECUPERATION DES DONNES//////////////////
+        $basket = $basketService->showBasket();
+        if ($basket === null) {
+            return new JsonResponse([
+                "status" => 'expire',
+                'message' => 'Votre panier a expiré'
+            ], 400);
+        }
+
+        $price = $ordersService->totalPrice($basket);
+        if (!$price) {
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 400);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $order = $ordersService->storeOrders($price, $hours);
+            $res = $ordersService->storeOrdersMenus($order['id'], $basket);
+            if (!$res) {
+                throw new Exception('Erreur dans $ordersService->storeOrdersMenus');
+            }
+            $res = $ordersService->storeOrdersSides($order, $basket);
+            if (!$res) {
+                throw new Exception('Erreur dans $ordersService->storeOrdersSides');
+            }
+            DB::commit();
+            DeleteOrdersJob::dispatch($order['id'])->delay(now()->addRealMinutes(5));
+            return response()->json([
+                "id" => $order['id'],
+                "status" => "success",
+                "message" => "success",
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour storeOrder' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 400);
+        }
+
+
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return JsonResponse
+     * @return ShowOrderRessource|JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(int $id): ShowOrderRessource|JsonResponse
     {
         if (!Gate::allows('payment', $id)) {
-            abort(403);
+            return response()->json([
+                "status" => "error",
+                "message" => "Vous n'avez pas l'autorisation"
+            ], 403);
         }
-
-        $orders = (new ShowOrdersAction())->handle($id);
-        $user = Auth::user();
-        $userInfo = [
-            'firstname' => $user->firstname,
-            'lastname' => $user->lastname,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'birthdays' => $user->birthdays,
-            'id'=>$user->id,
-        ];
-        $userInformation = $user->information;
-        return response()->json(["orders" => $orders, "user" => $userInfo, "address" => $userInformation]);
+        try {
+            $order = Orders::with(['user.information', 'ordersMenu.menus', 'ordersMenu.teas', 'ordersMenu.pearls', 'ordersMenu.syrups', 'ordersMenu.teas', 'ordersMenu.sides.side'])->findOrFail($id);
+            return new ShowOrderRessource($order);
+        } catch (Exception $e) {
+            Log::error('Error dans la transaction pour OrdersShow' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return Response
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): void
     {
     }
 
@@ -102,9 +139,9 @@ class OrdersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id): void
     {
         //
     }

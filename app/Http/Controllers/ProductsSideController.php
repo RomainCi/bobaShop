@@ -4,39 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductsSideRequest;
 use App\Models\ProductsSide;
+use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProductsSideController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     * @return void
      */
-    public function index(): JsonResponse
+    public function index(): void
     {
-        $productsSides = ProductsSide::all();
-        foreach ($productsSides as $key => $value) {
-            if (Storage::disk('s3')->exists($value->image_url)) {
-                $value->image_url = Storage::temporaryUrl($value->image_url, now()->addRealMinutes(1));
-            }
-        }
 
-        return response()->json([
-            "productsSides" => $productsSides
-        ]);
+//        try {
+//            $productsSides = ProductsSide::all();
+//            foreach ($productsSides as $key => $value) {
+//                if (Storage::disk('s3')->exists($value->image_url)) {
+//                    $value->image_url = Storage::temporaryUrl($value->image_url, now()->addRealMinutes(1));
+//                }
+//            }
+//
+//            return response()->json([
+//                "status" => "success",
+//                "message" => "success",
+//                "data" => $productsSides
+//            ]);
+//        } catch (Exception $e) {
+//            Log::error('Error dans la transaction pour indexProductsSide' . $e->getMessage());
+//            return response()->json([
+//                "status" => "error",
+//                "message" => "Une erreur c'est produite"
+//            ], 500);
+//        }
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param ProductsSideRequest $request
-     * @return JsonResponse|void
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function store(ProductsSideRequest $request)
+    public function store(ProductsSideRequest $request): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $productsSide = $request->validated();
             if (!$productsSide['image']) {
@@ -49,9 +65,20 @@ class ProductsSideController extends Controller
             unset($productsSide['image']);
             $side = ProductsSide::create($productsSide);
             $side->image_url = asset($side->image_url);
-            return response()->json($side);
-        } catch (\Exception $e) {
-            dd($e);
+
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+                "data" => $side,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour storeProductsSide' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
     }
 
@@ -59,9 +86,9 @@ class ProductsSideController extends Controller
      * Display the specified resource.
      *
      * @param ProductsSide $productsSide
-     * @return Response
+     * @return void
      */
-    public function show(ProductsSide $productsSide)
+    public function show(ProductsSide $productsSide): void
     {
         //
     }
@@ -72,23 +99,41 @@ class ProductsSideController extends Controller
      * @param ProductsSideRequest $request
      * @param ProductsSide $side
      * @return JsonResponse
+     * @throws Throwable
      */
     public function update(ProductsSideRequest $request, ProductsSide $side): JsonResponse
     {
         $productsSide = $request->validated();
-        if ($productsSide['image'] !== null) {
-            $file = $productsSide['image'];
-            $name = time() . $file->getClientOriginalName();
-            $file->move(public_path('images/sides'), $name);
-            $side->image_url = 'images/sides/' . $name;
+        DB::beginTransaction();
+        try {
+            if ($productsSide['image'] !== null) {
+                $file = $productsSide['image'];
+                $name = time() . $file->getClientOriginalName();
+                $file->move(public_path('images/sides'), $name);
+                $side->image_url = 'images/sides/' . $name;
+            }
+
+            $side->name = $productsSide['name'];
+            $side->stock = $productsSide['stock'];
+            $side->price = $productsSide['price'];
+            $side->quantity = $productsSide['quantity'];
+            $side->save();
+            $side->image_url = asset($side->image_url);
+
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+                "data" => $side
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour updateProductsSide' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
-        $side->name = $productsSide['name'];
-        $side->stock = $productsSide['stock'];
-        $side->price = $productsSide['price'];
-        $side->quantity = $productsSide['quantity'];
-        $side->save();
-        $side->image_url = asset($side->image_url);
-        return response()->json($side);
     }
 
     /**
@@ -96,14 +141,26 @@ class ProductsSideController extends Controller
      *
      * @param ProductsSide $side
      * @return JsonResponse
+     * @throws Throwable
      */
     public function destroy(ProductsSide $side): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $side->delete();
-            return response()->json("success");
-        } catch (\Exception $e) {
-            dd($e);
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour destroyProductsSide' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
     }
 }

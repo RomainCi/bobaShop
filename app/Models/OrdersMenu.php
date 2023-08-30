@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 /**
  * App\Models\OrdersMenu
  *
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu query()
  * @property int $id
  * @property int $pearl_id
  * @property int $syrup_id
@@ -28,6 +26,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $sides_count
  * @property-read \App\Models\ProductsSyrup $syrups
  * @property-read \App\Models\ProductsTea $teas
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu query()
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereMenuId($value)
@@ -37,7 +38,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereSyrupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereTeaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersMenu whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrdersSides> $sides
  * @mixin \Eloquent
  */
 class OrdersMenu extends Model
@@ -45,6 +45,8 @@ class OrdersMenu extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    public $timestamps = true;
+
 
     public function menus(): BelongsTo
     {

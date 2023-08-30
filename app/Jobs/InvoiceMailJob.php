@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\InvoiceAdminMail;
 use App\Mail\InvoiceMail;
 use App\Models\Orders;
 use App\Models\User;
@@ -41,5 +42,8 @@ class InvoiceMailJob implements ShouldQueue
         $invoice = $this->order->invoice;
         \Mail::to($this->user->email)
             ->send(new InvoiceMail($invoice));
+        \Mail::to('facture@boba-shop.fr')
+            ->send(new InvoiceAdminMail($invoice));
+
     }
 }

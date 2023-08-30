@@ -1,192 +1,384 @@
 <template>
     <section>
         <h1>Mon panier</h1>
-        <div class="content-all" v-if="commandWait.length !== 0">
-            <div class="content-price basket">
-                <div class="content-basket" v-for="(element,index) in commandWait" :key="index">
-                    <img :src="imageBubbleTea">
-                    <div class="content-descriptif">
-                        <div class="content-text-menu">
-                            <p>{{ element.selectedMenu.name }}</p>
-                        </div>
-                        <div class="content-text-descriptif">
-                            <p class="description">Thé : {{ element.selectedTea.name }} </p>
-                            <p class="description">Perle : {{ element.selectedPerle.name }}</p>
-                            <p class="description">Sirop : {{ element.selectedSirop.name }}</p>
+        <div v-if="loading">
+            <p>Chargement en cours...</p>
+        </div>
+        <div v-else>
+            <div class="content-all" v-if="products.length !== 0 && total !== 0 && message === ''">
+                <div class="content-price basket">
+                    <div class="content-basket" v-for="(element,index) in products" :key="index">
+                        <div
+                            v-if="element.pearl && element.menu && element.sides && element.tea && element.syrup && arrayBool[index]"
+                            class="content-basket">
+                            <img :src="imageTea" v-if="element.sides.length !== 0">
+                            <img :src="imageMenu" v-else>
+                            <div class="content-descriptif">
+                                <div class="content-text-menu">
+                                    <p>{{ element.menu.name }}</p>
+                                </div>
+                                <div class="content-text-descriptif">
+                                    <p class="description">Thé : {{ element.tea.name }} </p>
+                                    <p class="description">Perle : {{ element.pearl.name }}</p>
+                                    <p class="description">Sirop : {{ element.syrup.name }}</p>
+                                    <div v-if="element.sides.length !== 0">
+                                        <p class="description">Sides :
+                                            <span class="description" v-for="(e,i) in element.sides" :key="i">
+                                                <span v-if="e">{{ e.name }}&nbsp;</span>&nbsp;
+                                                 <span v-else>{{ this.arrayBool[index] = false }}</span>
+                                            </span>
 
-                            <div v-if="element.selectedSide.length !== 0">
-                                <p class="description">-side : <span class="description"
-                                                                     v-for="(e,i) in element.selectedSide" :key="i">
-                               {{ e.name }} &nbsp;
-                            </span></p>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="content-price-menu">
+                                {{ element.menu.price }}€
+                            </div>
+                            <div class="content-price-delete">
+                                <button class="button-delete" @click="deleteBasket(element.id,index)"><i
+                                    class="fa-solid fa-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-else class="content-basket">
+                            <img :src="imageTea">
+                            <div class="content-text-menu">
+                                <p style="margin-right: auto;margin-left: auto">Certains articles n'existent plus</p>
+                            </div>
+                            <div class="content-price-delete">
+                                <button class="button-delete" @click="deleteBasket(element.id,index)"><i
+                                    class="fa-solid fa-x"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="content-price-menu">
-                        {{ element.selectedMenu.price }}
-                    </div>
-                    <div class="content-price-delete">
-                        <button class="button-delete" @click="deleteBasket(index)"><i class="fa-solid fa-x"></i>
-                        </button>
-                    </div>
                 </div>
-            </div>
-            <div class="container-price-button">
-                <div class="content-price-total">
-                    <p class="title-price">FACTURE</p>
-                    <div>
-                        <p class="p-price">Prix ht : </p>
-                        <p class="p-price-right">{{ totalHT.toFixed(2) + "€" }}</p>
-                    </div>
-                    <div>
-                        <p class="p-price">TVA : </p>
-                        <p class="p-price-right">{{ tva.toFixed(2) + "€" }}</p>
-                    </div>
-                    <div class="line"></div>
-                    <div>
-                        <p class="p-price total">Total TTC : </p>
-                        <p class="p-price-right"> {{ total.toFixed(2) + "€" }}</p>
-                    </div>
-                </div>
+                <div class="container-price-button">
+                    <div class="content-price-total content-hours">
+                        <p class="title-price" v-show="show">HEURE DE RÉCUPÉRATION</p>
+                        <div v-if="hours === false" style="display: flex ; flex-direction: column">
+                            <p>Le magasin est actuellement fermé</p>
+                            <p>Les horaires sont du mardi au dimanche de 11H30 à 19h00</p>
 
+                        </div>
+                        <div v-else class="content-open-shop">
+                            <div v-show="show" class="content-update-hours">
+                                <p>Votre commande sera prête à {{ hours }}</p>
+                                <button class="button-hours" @click="show = !show">changer l'heure</button>
+                            </div>
+                            <div v-show="!show" class="content-update-hours">
+                                <div class="container-cancel-hours">
+                                    <button class="cancel-hours" @click="show = !show,hoursForm = hours"><i
+                                        class="fa-solid fa-x"></i></button>
+                                </div>
+                                <form class="content-update-hours-form" @submit.prevent="updateHours">
+                                    <label for="heureRecuperation">Heure</label>
+                                    <input type="time" id="heureRecuperation" v-model="hoursForm" max="18:30"
+                                           :min="hoursMin"
+                                           required>
+                                    <button class="button-hours" type="submit">valider</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-price-button">
+                    <div class="content-price-total">
+                        <p class="title-price">FACTURE</p>
+                        <div>
+                            <p class="p-price">Prix ht : </p>
+                            <p class="p-price-right">{{ totalHT.toFixed(2) + "€" }}</p>
+                        </div>
+                        <div>
+                            <p class="p-price">TVA : </p>
+                            <p class="p-price-right">{{ tva.toFixed(2) + "€" }}</p>
+                        </div>
+                        <div class="line"></div>
+                        <div>
+                            <p class="p-price total">Total TTC : </p>
+                            <p class="p-price-right"> {{ total.toFixed(2) + "€" }}</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="content-button" v-if="hours !== false">
+                    <button class="button" @click="storeOrder">CONFIRMER LA COMMANDE</button>
+                </div>
             </div>
-            <div class="content-button">
-                <button class="button" @click="storeOrder">CONFIRMER LA COMMANDE</button>
+            <div v-else>
+                <p>{{ message }}</p>
             </div>
-        </div>
-        <div v-else>
-            <p>Aucun article</p>
+            <div>
+                <p>{{ messageOrder }}</p>
+            </div>
         </div>
     </section>
 </template>
 
 <script>
 import imageBubbleTea from "../../../assets/image/imageBubbleTea.png"
+import imageTea from "../../../assets/image/basket/bobasite-2Carre.avif"
+import imageMenu from "../../../assets/image/basket/bobasiteCarre.avif"
+import {DateTime} from 'luxon'
 
 export default {
     name: "BasketComponent",
     data() {
         return {
-            commandWait: [],
             total: 0,
-            modal: false,
             tva: 0,
             totalHT: 0,
             imageBubbleTea,
-            // modalPayment: true,
+            hours: null,
+            show: true,
+            hoursForm: null,
+            hoursMin: null,
+            error: null,
+            products: [],
+            message: "",
+            loading: true,
+            imageTea,
+            imageMenu,
+            arrayBool: [],
+            messageOrder: "",
         }
     },
     mounted() {
-        this.recuperationLocalStorage();
-        this.calculPrice();
+        // this.recuperationLocalStorage();
+        this.showProducts();
+        // this.updateHoursNow();
+        // this.interval = setInterval(this.updateHoursNow, 120000);
     },
     methods: {
-        calculPrice() {
-            console.log(this.commandWait, "price");
-            this.commandWait.forEach((e, i) => {
-                const price = parseFloat(e.selectedMenu.price.replace("€", ""));
-                this.total += price;
+        updateHours() {
+            this.show = !this.show;
+            this.hours = this.hoursForm;
 
+        },
+        updateHoursNow() {
+            // Obtenir l'heure actuelle
+            const date = DateTime.local().setZone("Europe/Paris").plus({minutes: 720});
+            console.log(date.toLocaleString(DateTime.TIME_24_SIMPLE));
+            if (date.weekday >= 2 && date.weekday <= 6) {
+                if (date.hour >= 11 && date.minute >= 30 && date.hour < 18) {
+                    this.hours = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+                    console.log(this.hours);
+                    this.hoursForm = this.hours;
+                    this.hoursMin = this.hours;
+                } else if (date.hour === 18 && date.minute <= 30) {
+                    this.hours = date.toLocaleString(DateTime.TIME_24_SIMPLE);
+                    console.log(this.hours);
+                    this.hoursForm = this.hours;
+                    this.hoursMin = this.hours;
+                } else {
+                    return this.hours = false;
+                }
+            } else {
+                return this.hours = false;
+            }
+        },
+
+        calculPrice() {
+            this.products.forEach((e, i) => {
+                this.arrayBool[i] = true;
+                if (e.menu && e.menu.price && e.pearl && e.syrup && e.tea && e.sides) {
+
+                    e.sides.forEach((element, index) => {
+                        if (element === null) {
+                            this.products[i].menu.price = "0";
+                        }
+                    });
+                    const price = parseFloat(e.menu.price);
+                    this.total += price;
+                    console.log(this.total, "toal");
+                }
             })
-            this.tva = (this.total / 105.5) * 5.5;
+
+            this.tva = (this.total * 0.1); // Calcul de la TVA à 10%
             this.totalHT = this.total - this.tva;
-            console.log(this.tva, "tva");
+            console.log(this.arrayBool, this.total);
         },
-        deleteBasketAll() {
-            localStorage.removeItem('commandWait');
-            this.commandWait = [];
-            console.log(this.commandWait.length, "longeur Deleye");
-            this.total = 0;
-            this.$store.dispatch('ajouterElement', -1);
-            this.modal = false;
+
+        async showProducts() {
+            try {
+                const res = await axios.get('api/basket')
+                if (res.data.status === "success") {
+                    this.message = "";
+                    this.products = res.data.data.basket;
+                    if (this.products.length === 0) {
+                        this.message = "Votre panier est vide";
+                    }
+                    this.calculPrice();
+                } else {
+                    this.products = [];
+                    this.message = res.data.message;
+                }
+                return this.loading = false;
+            } catch (e) {
+                if (e.response.data.status === "error") {
+                    this.message = e.response.data.message;
+                    return this.loading = false;
+                } else {
+                    this.message = "Une erreur c'est produite";
+                    return this.loading = false;
+                }
+            }
         },
-        recuperationLocalStorage() {
-            this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
-            console.log(this.commandWait, 'test command');
-        },
-        deleteBasket(index) {
-            this.commandWait.splice(index, 1);
-            localStorage.removeItem('commandWait');
-            localStorage.setItem("commandWait", JSON.stringify(this.commandWait));
-            this.$store.dispatch('ajouterElement', this.commandWait.length);
-            this.total = 0;
-            this.calculPrice();
+
+        async deleteBasket(id, index) {
+            try {
+                const res = await axios.delete(`api/basket/${id}`);
+                console.log(res, 'le res');
+                if (res.data.status === "success") {
+                    this.message = "";
+                    this.products.splice(index, 1);
+                    this.total = 0;
+                    this.arrayBool = [];
+                    this.calculPrice();
+                    if (this.products.length === 0) {
+                        this.message = "Votre panier est vide"
+                    }
+                }
+            } catch (e) {
+                console.log(e, "destroy");
+                if (e.response.data.status === "denied") {
+                    console.log("je suis la ")
+                    this.message = e.response.data.message;
+                    console.log(this.message);
+                } else if (e.response.data.status === "error") {
+                    console.log(e.response, 'le e');
+                    this.message = e.response.data.message;
+                    this.products = [];
+                    this.total = 0;
+                } else {
+                    this.products = [];
+                    this.total = 0;
+                    this.message = "Une erreur c'est produite";
+                }
+            }
         },
         async storeOrder() {
-            console.log(this.commandWait, "buy");
-            let ordersId = this.commandWait.map((obj, index) => {
-                const {selectedMenu, selectedTea, selectedSirop, selectedPerle, selectedSide} = obj;
-
-                const sideIds = selectedSide ? selectedSide.map(side => ({"id": side.id})) : [];
-
-                let result = {
-                    menus: {"id": selectedMenu.id, 'price': selectedMenu.price.replace("€", "")},
-                    teas: {"id": selectedTea.id},
-                    syrups: {"id": selectedSirop.id,},
-                    pearls: {"id": selectedPerle.id},
-                }
-
-                if (selectedSide && selectedSide.length > 0) {
-                    console.log(sideIds, 'sidesIdsss');
-                    result.sides = sideIds;
-                } else {
-                    result.sides = null;
-                }
-
-                return result
-            })
+            console.log(this.products);
             try {
-                console.log(ordersId);
-                let test = {
-                    menus: {"id": 4, "price": "8.80"},
-                    teas: {"id": 1},
-                    syrups: {"id": 1},
-                    pearls: {"id": 1},
-                    sides: [
-                        {"id": 3,}, {"id": 4}
-                    ],
-                };
+                const res = await axios.post("api/orders", {'hours': this.hours});
 
-                let tata = [];
-
-                for (let i = 0; i < 100; i++) {
-                    tata.push({
-                        menus: test.menus,
-                        teas: test.teas,
-                        syrups: test.syrups,
-                        pearls: test.pearls,
-                        sides: test.sides
-                    });
+                if (res.data.status === "success") {
+                    await this.$router.push(`/commandes/${res.data.id}`);
+                }
+            } catch (e) {
+                if (e.response.data.status === "error") {
+                    this.total = 0;
+                    this.loading = true;
+                    await this.showProducts();
+                } else {
+                    this.total = 0;
+                    this.loading = true;
+                    await this.showProducts();
                 }
 
-
-                const res = await axios.post("api/orders", {'data': ordersId});
-                if (res.status === 200) {
-                    await this.$router.push(`/commandes/${res.data}`);
-                    // this.deleteBasketAll();
-                }
-            } catch (error) {
-                if (error.response.status === 401) {
-                    await this.$router.push('/authentification');
-                } else if (error.response.status === 403) {
-                    alert('pas bien');
-                }
             }
 
         }
+    }
+    ,
+    created() {
+        // Mettre à jour l'heure actuelle toutes les 60 secondes
+        this.interval = setInterval(this.updateHeureActuelle, 60000);
+    }
+    ,
+    beforeDestroy() {
+        // Nettoyer l'intervalle lorsque le composant est détruit
+        clearInterval(this.interval);
     }
 }
 </script>
 
 <style scoped>
-/*.StripeElement {*/
-/*  border: 1px solid blue;*/
-/*  background-color: white;*/
-/*  padding: 10px;*/
-/*  border-radius: 4px;*/
-/*}*/
+.error {
+    margin-right: auto;
+}
+
 section {
     min-height: 68.5vh;
+}
+
+.content-hours {
+    width: 100% !important;
+}
+
+.container-cancel-hours {
+    width: 100% !important;
+}
+
+.content-update-hours {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100% !important;
+    align-items: center;
+}
+
+label {
+    font-family: Lato, sans-serif;
+    color: #EAB99F;
+}
+
+input {
+    border: none;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 2px #ddd;
+    font-family: Lato, sans-serif;
+    color: #EAB99F;
+}
+
+input:focus {
+    color: white;
+    background-color: #EAB99F;
+    outline: none;
+}
+
+
+.content-update-hours-form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    position: absolute;
+    justify-content: space-between;
+    height: 125px;
+}
+
+.content-open-shop {
+    width: 100% !important;
+}
+
+.container-cancel-hours {
+    width: 100%;
+}
+
+.cancel-hours {
+    margin-left: auto;
+    /*margin-top: 15px;*/
+    margin-right: 10px;
+    font-family: 'Rufina', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: transparent;
+    box-shadow: none;
+    color: #EAB99F;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    border: none;
 }
 
 .modale-overlay-panier {
@@ -200,7 +392,6 @@ section {
 }
 
 
-
 /* Cadre pour le titre */
 h1 {
     text-align: center;
@@ -210,11 +401,14 @@ h1 {
 }
 
 img {
-    height: 100px;
+    height: 80px;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: 5px;
 }
 
 p {
-
+    color: #EAB99F;
     border-radius: 5px;
     padding: 10px;
     font-family: Lato, serif;
@@ -241,25 +435,31 @@ div.v-for-element {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 70%;
+    width: 100%;
 }
-.content-text-descriptif{
+
+.content-text-descriptif {
     height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-top:10px ;
+    padding-top: 10px;
     padding-bottom: 10px;
+    width: 85%;
+    margin-left: 15px;
 }
-.content-text-menu{
+
+.content-text-menu {
     height: 30%;
 }
+
 .content-text-menu p {
     padding: 0;
     margin: 10px 0 0;
     text-transform: uppercase;
     color: #EAB99F;
 }
+
 /* Cadre pour le bouton supprimer */
 
 
@@ -270,6 +470,7 @@ div.v-for-element {
     background-color: #EAB99F;
     border-radius: 40px;
     padding: 5px;
+    color: white;
 }
 
 .content-price {
@@ -298,6 +499,7 @@ div.v-for-element {
     align-self: center;
     box-shadow: -20px 20px 15px -3px rgba(0, 0, 0, 0.1);
 }
+
 
 .content-price-total div {
     display: flex;
@@ -347,7 +549,7 @@ div.v-for-element {
 .button {
     background-color: #EAB99F;
     color: #ffffff;
-    font-family: 'Rufina', serif;
+    font-family: Lato, sans-serif;
     font-size: 1rem;
     font-weight: bold;
     padding: 6px 12px;
@@ -357,25 +559,42 @@ div.v-for-element {
     cursor: pointer;
     width: 100%;
     height: 50px;
+    transition: all 0.3s ease;
+}
+
+.button-hours {
+    background-color: #EAB99F;
+    color: #ffffff;
+    font-family: Lato, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    width: 50%;
+    transition: all 0.3s ease;
 }
 
 .button-delete {
-    font-family: 'Rufina', serif;
+    font-family: Lato, sans-serif;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     background-color: transparent;
-    box-shadow: none;
     color: #EAB99F;
     display: flex;
     align-items: center;
     align-self: center;
     border: none;
+    box-shadow: none;
+
 }
 
-.button:hover {
-    background-color: #DCA788;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+.button-hours:hover, .button:hover {
+    outline: none;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
 .font-upper {
@@ -392,7 +611,8 @@ div.v-for-element {
     margin-left: 5px;
 
 }
-.title-price{
+
+.title-price {
     margin-top: 5px;
     margin-bottom: 0;
 }

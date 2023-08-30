@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 /**
  * App\Models\Invoices
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $users_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Orders $order
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Invoices newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoices newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoices query()
@@ -32,4 +36,14 @@ class Invoices extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'users_id','id');
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Orders::class,'orders_id','id');
+    }
 }

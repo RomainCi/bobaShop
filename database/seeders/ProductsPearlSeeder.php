@@ -19,32 +19,32 @@ class ProductsPearlSeeder extends Seeder
             [
                 'name' => 'cerise',
                 'color' => '#BB2A39',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'passion',
                 'color' => '#FFA800',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'pomme verte',
                 'color' => '#00F301',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'tapioca',
                 'color' => '#453600',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'litchi',
                 'color' => '#F5E9E9',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'gelée multi fruit',
                 'color' => '#FEC900',
-                'stock' => 100
+                'stock' => 0
             ],
         ];
 

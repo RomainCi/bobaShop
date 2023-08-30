@@ -8,18 +8,18 @@
             <form @submit.prevent="sendFormulaire">
                 <div class="form-group name-group">
                     <div>
-                        <label for="lastname">Nom</label>
+                        <label for="lastname">Nom *</label>
                         <input type="text" id="lastname" v-model="form.lastname">
                     </div>
                     <div>
-                        <label for="firstname">Prénom</label>
+                        <label for="firstname">Prénom *</label>
                         <input type="text" id="firstname" v-model="form.firstname">
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                    <label for="birthdate">Date de naissance (xx/xx/xxxx)</label>
+                    <label for="birthdate">Date de naissance (jj/mm/aaaa) *</label>
                     <input type="text" id="birthdate" maxlength="10" v-model="dateInput" ref="dateInput"
                            @keyup="onKeyPress">
                 </div>
@@ -34,22 +34,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Téléphone</label>
-                    <vue-tel-input id="phone" v-model="form.phone" mode="international"></vue-tel-input>
+                    <label for="phone">Téléphone *</label>
+                    <vue-tel-input
+                        :inputOptions="inputOptions" id="phone" v-model="form.phone"
+                        mode="international"></vue-tel-input>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Email *</label>
                     <input type="email" id="email" v-model="form.email">
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Mot de passe *</label>
+                    <label for="password">Mot de passe **</label>
                     <input type="password" id="password" v-model="form.password">
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirmation">Vérification mot de passe</label>
+                    <label for="password_confirmation">Vérification mot de passe *</label>
                     <input type="password" id="password_confirmation" v-model="form.password_confirmation">
                 </div>
 
@@ -57,34 +59,64 @@
                     <label for="check">Conditions générales</label>
                     <input type="checkbox" id="check" v-model="form.check">
                 </div>
-                <p class="password-information">* Le mot de passe doit contenir un minimun de 8 charactere avec un
-                    chiffre, une majuscule et un charactére spécial.</p>
+                <p class="password-information">* Obligatoire</p>
+                <p class="password-information">** Le mot de passe doit contenir un minimum de 8 caractères avec un
+                    chiffre, une majuscule et un caractère spécial</p>
                 <button>Valider</button>
             </form>
         </div>
         <div v-if="modal" class="modal-content">
             <p>Erreur lors de l'envoie du formulaire</p>
+            <div class="containerError" v-for="(value,index) in validationErrors" :key="index">
+                <p>{{ value[0] }}</p>
+            </div>
+            <p>{{ error }}</p>
         </div>
         <div class="modal-content" v-if="success">
-            <p>Vous aller recevoir un lien de vérification dans votre boîte mail d'ici quelque minute. Ce lien sera
-                valable 10 min.<br> Pensez a vérifier vos spam si celui n'apparait pas </p>
+            <p>{{ messageStore }}</p>
         </div>
     </section>
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core"
 import {VueTelInput} from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 import SearchAdressComponent from "@/components/SearchAdressComponent.vue";
+import {sameAs, required, email, helpers} from "@vuelidate/validators";
 
 
 export default {
     name: "RegisterComponent",
+    setup() {
+        return {v$: useVuelidate()};
+    },
     components: {
         VueTelInput,
         SearchAdressComponent,
     },
-
+    validations() {
+        return {
+            form: {
+                lastname: {required},
+                firstname: {required},
+                phone: {
+                    required,
+                    checkPhone: helpers.regex(/^\+?\d{5,15}$/),
+                },
+                email: {required, email},
+                password: {
+                    required,
+                    checkPassword: helpers.regex(
+                        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!§€/¤£@$<>%^&*§¤:;,-]).{8,}$/
+                    ),
+                },
+                password_confirmation: {
+                    sameAsPassword: sameAs(this.form.password),
+                },
+            },
+        }
+    },
     data() {
         return {
             dateInput: "",
@@ -106,6 +138,12 @@ export default {
             },
             modal: false,
             success: false,
+            inputOptions: {
+                placeholder: "",
+            },
+            validationErrors: {},
+            error: "",
+            messageStore: null,
         }
     },
 
@@ -116,14 +154,21 @@ export default {
         async sendFormulaire() {
             try {
                 this.form.birthdays = this.dateInput;
-                console.log(this.form);
                 const res = await axios.post('api/user', this.form);
-                console.log(res)
-                if (res.status === 200 && res.data === "success") {
-                    this.success = !this.success;
+                console.log(res);
+                if (res.data.status === "success") {
+                    this.success = true;
+                    this.messageStore = res.data.message;
                 }
             } catch (e) {
-                if (e.response.request.status !== 200) {
+                console.log(e);
+                if (e.response.status === 422 && e.response && e.response.data && e.response.data.errors) {
+                    this.error = "";
+                    this.validationErrors = e.response.data.errors;
+                    this.modal = !this.modal;
+                } else {
+                    this.validationErrors = "";
+                    this.error = e.response.data.message;
                     this.modal = !this.modal;
                 }
             }
@@ -134,7 +179,6 @@ export default {
         },
         formatDate(e) {
             let currentValue = e.target.value;
-            console.log(currentValue);
             let lastChar = currentValue.charAt(currentValue.length - 1);
             let isNumberOrSlash = /^\d+$|^\d+\/\d*$/.test(currentValue);
             if (isNumberOrSlash) {
@@ -165,6 +209,10 @@ export default {
 </script>
 
 <style scoped>
+.containerError p {
+    margin: 0;
+}
+
 p {
     font-family: Lato, sans-serif;
     font-size: 16px;
@@ -210,9 +258,9 @@ h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     padding: 2rem;
-    border-radius: 20px;
+    border-radius: 6px;
     max-width: 600px;
     background-color: #fff;
     margin-bottom: 2rem;
@@ -237,24 +285,23 @@ h1 {
 .form-group input[type="email"],
 .form-group input[type="password"] {
     border: none;
-    border-radius: 20px;
+    border-radius: 6px;
     font-size: 1.2rem;
     padding: 0.5rem;
-    color: #555;
-    background-color: transparent;
+    color: white;
+    background-color: #EAB99F;
     transition: all 0.3s ease;
-    box-shadow: 0 0 0 2px #ddd;
     font-family: Lato, sans-serif;
 }
 
+
 #phone {
     border: none;
-    border-radius: 20px;
+    border-radius: 6px;
     font-size: 1.2rem;
-    color: #555;
-    background-color: transparent;
+    color: black;
+    background-color: #EAB99F !important;
     transition: all 0.3s ease;
-    box-shadow: 0 0 0 2px #ddd;
     padding: 0.215rem 0.5rem;
     font-family: Lato, sans-serif;
 }
@@ -275,8 +322,10 @@ label {
     box-shadow: 0 0 0 2px #EAB99F;
 }
 
-.form-group input[type="checkbox"] {
-    margin-right: 0.5rem;
+
+.form-group input[type="checkbox"]:checked :before {
+    color: blue;
+    background-color: red;
 }
 
 button {
@@ -290,11 +339,15 @@ button {
     padding: 0.5rem 1.5rem;
     transition: all 0.3s ease;
     width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
 }
 
 button:hover {
-    background-color: #D89E71;
+    outline: none;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
 }
+
 
 /* Aligner les champs nom et prénom */
 .form-group.name-group {
@@ -328,6 +381,7 @@ button:hover {
     text-align: left;
     font-size: 12px;
 }
+
 @media screen and (min-width: 600px ) {
     .form-container {
         width: 80%;

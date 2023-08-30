@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductsPearlRequest;
 use App\Models\ProductsPearl;
+use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProductsPearlController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return void
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -23,16 +26,24 @@ class ProductsPearlController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductsPearlRequest $request
-     * @return JsonResponse|void
+     * @return JsonResponse
      */
-    public function store(ProductsPearlRequest $request)
+    public function store(ProductsPearlRequest $request): JsonResponse
     {
         try {
             $validated = $request->validated();
             $pearl = ProductsPearl::create($validated);
-            return response()->json($pearl);
-        } catch (\Exception $e) {
-            dd($e);
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+                "data" => $pearl,
+            ]);
+        } catch (Exception $e) {
+            Log::error('Error dans la transaction pour storeProductsPearl' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
     }
 
@@ -40,9 +51,9 @@ class ProductsPearlController extends Controller
      * Display the specified resource.
      *
      * @param ProductsPearl $productsPearl
-     * @return Response
+     * @return void
      */
-    public function show(ProductsPearl $productsPearl)
+    public function show(ProductsPearl $productsPearl): void
     {
         //
     }
@@ -53,9 +64,11 @@ class ProductsPearlController extends Controller
      * @param ProductsPearlRequest $request
      * @param ProductsPearl $pearl
      * @return JsonResponse
+     * @throws Throwable
      */
     public function update(ProductsPearlRequest $request, ProductsPearl $pearl): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $productsPearl = $request->validated();
             $pearl->name = $productsPearl['name'];
@@ -63,9 +76,18 @@ class ProductsPearlController extends Controller
             $pearl->color = $productsPearl['color'];
             $pearl->save();
 
-            return response()->json("success");
-        } catch (\Exception $e) {
-            dd($e);
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour updateProductsPearl' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
 
     }
@@ -74,15 +96,26 @@ class ProductsPearlController extends Controller
      * Remove the specified resource from storage.
      *
      * @param ProductsPearl $pearl
-     * @return JsonResponse|void
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function destroy(ProductsPearl $pearl)
+    public function destroy(ProductsPearl $pearl): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $pearl->delete();
-            return response()->json("success");
-        } catch (\Exception $e) {
-            dd($e);
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour destroyProductsPearl' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
 
     }

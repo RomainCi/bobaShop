@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
  * App\Models\OrdersSides
  *
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides query()
  * @property int $id
  * @property int $orders_menus_id
  * @property int $side_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ProductsSide $side
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides query()
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrdersSides whereOrdersMenusId($value)

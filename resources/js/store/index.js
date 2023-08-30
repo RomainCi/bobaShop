@@ -5,6 +5,7 @@ export default createStore({
         nbrBasket: 0,
         admin: 0,
         user: 0,
+        faux: null,
     },
 
     mutations: {
@@ -17,6 +18,9 @@ export default createStore({
         checkUser(state, playUser) {
             state.user = playUser
         },
+        // faux(state, playFaux) {
+        //     state.faux = playFaux
+        // }
 
     },
     actions: {
@@ -29,6 +33,9 @@ export default createStore({
         checkUser({commit}, playUser) {
             commit('checkUser', playUser)
         },
+        // faux({commit}, playFaux) {
+        //     commit('faux', playFaux);
+        // }
 
     },
     modules: {},

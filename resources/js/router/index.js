@@ -3,7 +3,6 @@ import HomeView from "../../views/HomeView.vue";
 import ContactView from "../../views/ContactView.vue";
 import QuiSommesNousView from "../../views/QuiSommesNousView.vue";
 import FaqView from "../../views/FaqView.vue";
-import OrdersView from "../../views/OrdersView.vue";
 import ConnexionView from "../../views/ConnexionView.vue";
 import RegisterView from "../../views/RegisterView.vue";
 import BasketView from "../../views/BasketView.vue";
@@ -42,11 +41,6 @@ const routes = [
         component: AdminPanelView,
     },
 
-    {
-        path: "/commandes",
-        name: "commandes",
-        component: OrdersView,
-    },
     {
         path: "/authentification",
         name: "authentification",

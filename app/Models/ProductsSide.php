@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * App\Models\ProductsSide
  *
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide query()
  * @property int $id
  * @property string $name
  * @property string|null $flavor
@@ -24,7 +22,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide whereCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSide whereDeletedAt($value)

@@ -20,7 +20,7 @@ class ProductsTeaResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "image_url" => $this->image_url,
+            "image_url" => $this->when($this->show, $this->image_url),
             "name" => $this->name,
             "stock" => $this->stock,
         ];

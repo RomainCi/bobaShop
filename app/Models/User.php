@@ -17,140 +17,59 @@ use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
+
 /**
  * App\Models\User
  *
  * @property int $id
- * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property string|null $remember_token
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property string $lastname
  * @property string $firstname
  * @property string $birthdays
  * @property string $phone
- * @property string $token
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @method static \Illuminate\Database\Eloquent\Builder|User whereBirthdays($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereToken($value)
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\Users_token> $tokenMany
- * @property-read int|null $token_many_count
- * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $stripe_id
  * @property string|null $pm_type
  * @property string|null $pm_last_four
  * @property string|null $trial_ends_at
- * @property-read Collection<int, \App\Models\Commands> $commands
- * @property-read int|null $commands_count
+ * @property-read \App\Models\UsersInformations|null $information
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\Orders> $orders
+ * @property-read int|null $orders_count
  * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
  * @property-read int|null $subscriptions_count
+ * @property-read \App\Models\Users_token|null $token
  * @property-read Collection<int, \App\Models\Users_token> $tokenMany
+ * @property-read int|null $token_many_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @property-read \App\Models\BufferUpdateEmail|null $updateEmail
  * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
  * @property-read int|null $update_email_many_count
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User hasExpiredGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User onGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereBirthdays($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePmLastFour($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePmType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTrialEndsAt($value)
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\Orders> $orders
- * @property-read int|null $orders_count
- * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
- * @property-read Collection<int, \App\Models\Users_token> $tokenMany
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, \App\Models\Orders> $orders
- * @property-read Collection<int, \Laravel\Cashier\Subscription> $subscriptions
- * @property-read Collection<int, \App\Models\Users_token> $tokenMany
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read Collection<int, \App\Models\BufferUpdateEmail> $updateEmailMany
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable

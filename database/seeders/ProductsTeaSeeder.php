@@ -17,19 +17,19 @@ class ProductsTeaSeeder extends Seeder
     {
         $teas = [
             [
-                'name' => 'vert avec jasmin',
+                'name' => 'vert au jasmin',
                 'image_url' => 'images/teas/the-jasmin.png',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'vert',
                 'image_url' => 'images/teas/the-vert.png',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'noir',
                 'image_url' => 'images/teas/the-noir.png',
-                'stock' => 100
+                'stock' => 0
             ],
         ];
         foreach ($teas as $tea){

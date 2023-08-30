@@ -6,11 +6,10 @@ use App\Http\Requests\UserInformationRequest;
 use App\Models\User;
 use App\Models\UsersInformations;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use PHPUnit\Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserInformationController extends Controller
 {
@@ -58,21 +57,34 @@ class UserInformationController extends Controller
      * @param UserInformationRequest $request
      * @param UsersInformations $information
      * @return JsonResponse
+     * @throws \Throwable
      */
     public function update(UserInformationRequest $request, UsersInformations $information): JsonResponse
     {
-
         if (!Gate::allows('information', $information->users_id)) {
             abort(403);
         }
         $userInformation = $request->validated();
-        $information->update($userInformation['address']);
-        $user = User::find(Auth::user()->id);
-        $user->lastname = $userInformation['user']['lastname'];
-        $user->firstname = $userInformation['user']['firstname'];
-        $user->phone = $userInformation['user']['phone'];
-        $user->save();
-        return response()->json('success');
+
+        DB::beginTransaction();
+        try {
+            $information->update($userInformation['address']);
+            $information->save();
+            $user = User::find(Auth::user()->id);
+            $user->lastname = $userInformation['user']['lastname'];
+            $user->firstname = $userInformation['user']['firstname'];
+            $user->phone = $userInformation['user']['phone'];
+            $user->save();
+            DB::commit();
+
+            return response()->json('success');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error during transaction: ' . $e->getMessage());
+            return response()->json([
+                "message" => "Une erreur c'est produite"
+            ], 500);
+        }
 
     }
 

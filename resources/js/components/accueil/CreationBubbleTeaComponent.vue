@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="test">
-        <p class="title">Les thé</p>
+        <p class="title">Les thés</p>
         <div class="containerTea">
           <content-tea-component v-for="(value,index) in teas" :key="index" :text="value.name"
                                  :image="value.image_url"></content-tea-component>

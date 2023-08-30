@@ -18,12 +18,10 @@
                             <input v-model="password.password_confirmation" type="password">
                         </div>
 
-                        <p class="password-information">* Le mot de passe doit contenir un minimun de 8 charactere avec
-                            un chiffre, une
-                            majuscule et
-                            un charactére spécial.</p>
+                        <p class="password-information">* Le mot de passe doit contenir un minimum de 8 caractères avec
+                            un chiffre, une majuscule et un caractère spécial.</p>
                         <button>valider</button>
-
+                        <p v-if="message">{{ message }}</p>
                     </form>
                 </div>
             </section>
@@ -53,17 +51,22 @@ export default {
                 password: null,
                 password_confirmation: null,
                 token: this.token,
-            }
+            },
+            message: null,
         }
     },
     methods: {
         async updatePassword() {
+            this.message = null;
             try {
-                console.log(this.password);
-                const res = axios.put('api/update/password', this.password);
+                const res = await axios.put('api/update/password', this.password);
                 console.log(res);
+                if (res.data.status === "success") {
+                    this.message = res.data.message;
+                }
             } catch (e) {
-
+                console.log(e);
+                this.message = e.response.data.message;
             }
 
         }

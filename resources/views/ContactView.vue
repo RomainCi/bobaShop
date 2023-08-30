@@ -14,6 +14,7 @@ import ContactComponent from "../js/components/contact/ContactComponent.vue";
 import FooterComponent from "../js/components/FooterComponent.vue";
 export default {
   name: "ContactView",
+    emits: ['position'],
   components: {
     NavbarComponent,
     ContactComponent,

@@ -5,6 +5,7 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ConnexionController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\HomeContentController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PaymentStoreController;
 use App\Http\Controllers\ProductsController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\ProductsSideController;
 use App\Http\Controllers\ProductsSyrupController;
 use App\Http\Controllers\ProductsTeaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ShowProductsController;
 use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInformationController;
@@ -30,9 +32,22 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//HOME MESSAGE
+Route::get('/home/content', [HomeContentController::class, "index"]);
+Route::put('/home/content={id}', [HomeContentController::class, "update"])->middleware(['admin']);
+Route::delete('/home/content={id}', [HomeContentController::class, 'destroy'])->middleware(['admin']);
+Route::post('/home/content', [HomeContentController::class, "store"])->middleware(['admin']);
+
+
+//BASKET
+Route::post('/basket', \App\Http\Controllers\PostBasketController::class);
+Route::get('/basket', \App\Http\Controllers\ShowBasketController::class);
+Route::delete('/basket/{basketMenu}', \App\Http\Controllers\DestroyBasketController::class);
 
 //PRODUCTS
 Route::get('/products', ProductsController::class)->name('products.index');
+Route::get('/products/{menu}', ShowProductsController::class)->name('products.show');
+
 
 //PEARLS
 Route::apiResource('products/pearls', ProductsPearlController::class)->except(['index'])->middleware(['admin']);
@@ -53,7 +68,6 @@ Route::get('products/teas', [ProductsTeaController::class, "index"])->name('teas
 //MENUS CHANGER LE SHOW
 Route::apiResource('products/menus', ProductsMenuController::class)->except(['index', 'show'])->middleware(['admin']);
 Route::get('products/menus', [ProductsMenuController::class, "index"])->name('menus.index');
-Route::get('products/menus/{menu}', [ProductsMenuController::class, "show"])->name('menus.show');
 
 //USERS IL MANQUE INDEX SHOW UPDATE DESTROY
 Route::apiResource('user', UserController::class)->except(['store'])->middleware(["auth:sanctum"]);
@@ -70,51 +84,21 @@ Route::post('payment/{order}', PaymentStoreController::class)->middleware(['auth
 Route::apiResource('user/information', UserInformationController::class)->middleware(["auth:sanctum"]);
 
 //FORGET PASSWORD
-Route::post('/forget',ForgetPasswordController::class)->name('forgetPassword.store');
+Route::post('/forget', ForgetPasswordController::class)->name('forgetPassword.store');
 
 //RESET PASSWORD
-Route::put('/update/password',UpdatePasswordController::class)->name('updatePassword.update');
+Route::put('/update/password', UpdatePasswordController::class)->name('updatePassword.update');
 
-//Route::group(['prefix' => '/products=menu', 'middleware' => ['admin']], function () {
-//    Route::post('', [ProductsMenuController::class, "store"]);
-//    Route::put('/id={id}', [ProductsMenuController::class, 'update']);
-//    Route::delete('/id={id}', [ProductsMenuController::class, 'destroy']);
-//});
+//LOGOUT
+Route::post('/logout', LogoutController::class)->name('logout.post');
 
-
-//Route::post('register', [RegisterController::class, "store"]);
-
+//CONNEXION
 Route::post('/login', [ConnexionController::class, "authentification"]);
 
-Route::get('/products=bubble/id={id}', [ProductssController::class, "show"]);
 
-
-//Route::middleware('')post('/products=command/id={id}',[ProductssController::class,"store"]);
-Route::group(['prefix' => '/products=command', 'middleware' => ['auth:sanctum']], function () {
-    Route::post('', [CommandController::class, "store"]);
-});
-
-
-Route::get('/home/content', [HomeContentController::class, "index"]);
-Route::put('/home/content={id}', [HomeContentController::class, "update"])->middleware(['admin']);
-Route::delete('/home/content={id}', [HomeContentController::class, 'destroy'])->middleware(['admin']);
-Route::post('/home/content', [HomeContentController::class, "store"])->middleware(['admin']);
-
-Route::get('/admin/verification', function () {
-    return response()->json([
-        "message" => "admin",
-    ]);
-})->middleware(['admin']);
-
-Route::get('/user/verification', function () {
-    return response()->json([
-        "message" => "user",
-    ]);
-})->middleware(['auth:sanctum']);
-
-Route::get('/user', [RegisterController::class, "index"])->middleware(["auth:sanctum"]);
-Route::put('/user', [RegisterController::class, 'update'])->middleware(["auth:sanctum"]);
-Route::get('/admin', [AdminController::class, "show"])->middleware(['admin']);
+//Route::get('/user', [RegisterController::class, "index"])->middleware(["auth:sanctum"]);
+//Route::put('/user', [RegisterController::class, 'update'])->middleware(["auth:sanctum"]);
+//Route::get('/admin', [AdminController::class, "show"])->middleware(['admin']);
 
 
 //URL::forceScheme('https');

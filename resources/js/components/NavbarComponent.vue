@@ -1,4 +1,5 @@
 <template>
+    <div class="modale-overlay" v-show="show" @click="show = false"></div>
     <nav id="nav">
         <img alt="logo" @click="$router.push('/')" :src="logo" class="logo">
         <div class="container">
@@ -11,19 +12,18 @@
                         </li>
 
                         <li @click="closeMenu">
+                            <router-link to="/qui-sommes-nous">Qui sommes-nous</router-link>
+                        </li>
+
+                        <li @click="closeMenu">
+                            <router-link to="/FAQ">FAQ</router-link>
+                        </li>
+                        <li @click="closeMenu">
                             <router-link to="/contact">Contact</router-link>
                         </li>
 
-                        <li @click="closeMenu">
-                            <router-link to="/qui-sommes-nous">Qui sommes nous</router-link>
-                        </li>
-
-                        <li @click="closeMenu">
-                            <router-link to="/FAQ">F.A.Q</router-link>
-                        </li>
-
                         <li v-if="$store.state.admin" @click="closeMenu">
-                            <a href="http://127.0.0.1:8000/admin/panel">test</a>
+                            <a href="http://127.0.0.1:8000/admin/panel">Panel</a>
                         </li>
 
 
@@ -36,20 +36,25 @@
                 <ul class="contain-item">
                     <li @click="closeMenu" v-if="$store.state.nbrBasket !== -1">
                         <router-link class="link-basket" to="/panier"><i class="fa-solid fa-basket-shopping"></i>
-                            <span>{{
-                                    $store.state.nbrBasket === 0 ? commandWait.length : $store.state.nbrBasket
-                                }}</span>
+                            <!--                            <span>{{-->
+                            <!--                                    $store.state.nbrBasket-->
+                            <!--                                }}</span>-->
                         </router-link>
                     </li>
                     <li @click="closeMenu" v-else>
-                        <router-link to="/panier" class="link-basket">Panier <span>{{ 0 }}</span></router-link>
+                        <router-link to="/panier" class="link-basket"><i class="fa-solid fa-basket-shopping"></i>
+                            <!--                            <span>{{ commandWait.length }}</span>-->
+                        </router-link>
                     </li>
-                    <li @click="closeMenu" v-if="!$store.state.user">
-                        <router-link to="/authentification"><i class="fa-solid fa-user"></i></router-link>
+                    <li @click="closeMenu" v-if="$store.state.user || $store.state.admin">
+                        <i @click="show=true" class="fa-solid fa-user"></i>
                     </li>
                     <li @click="closeMenu" v-else>
-                        <router-link to="/compte"><i class="fa-solid fa-user"></i></router-link>
+                        <router-link to="/authentification"><i class="fa-solid fa-user"></i></router-link>
                     </li>
+                    <div class="logout-container" v-show="show">
+                        <p class="logout" @click="logout">Déconexion</p>
+                    </div>
                 </ul>
 
             </div>
@@ -64,6 +69,7 @@ import imageLogo from "../../assets/image/imageLogo.png"
 
 export default {
     name: "NavbarComponent",
+    emits: ['position'],
     data() {
         return {
             toggle: false,
@@ -74,6 +80,7 @@ export default {
             commandWait: [],
             modalAdmin: false,
             modalUser: false,
+            show: false
         }
     },
 
@@ -88,6 +95,12 @@ export default {
             // this.toggle = false;
             return this.$emit('position', "notFixed");
         },
+        async logout() {
+            const res = await axios.post('api/logout');
+            if (res.status === 200 && res.data.message === "success") {
+                window.location = import.meta.env.VITE_APP_URL;
+            }
+        }
     },
     mounted() {
         this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
@@ -99,12 +112,53 @@ export default {
 
 <style lang="scss" scoped>
 $backgroundColor: #EAB99F;
+.modale-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 98;
+    //backdrop-filter: blur(15px);
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    //height: 100%;
+}
+
+.logout-container {
+    position: absolute;
+    top: 70px;
+    right: 2px;
+    background-color: white;
+    height: 30px;
+    display: flex;
+    padding: 5px;
+    align-items: center;
+    border-radius: 20px;
+    z-index: 99;
+    width: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.logout {
+    margin: 0;
+    font-family: Lato, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+}
+
 .open {
     width: 0;
 }
-.container{
+
+.container {
     display: flex;
 }
+
 span {
     position: absolute;
     top: 50%;
@@ -118,6 +172,9 @@ span {
     src: url("/resources/assets/fonts/Rufina-Regular.ttf") format('truetype');
 }
 
+i {
+    cursor: pointer;
+}
 
 .logo {
     height: 30px;
@@ -132,6 +189,7 @@ nav {
     height: 8.5Vh;
     width: 100%;
     background-color: $backgroundColor;
+    position: relative;
 }
 
 nav p {
@@ -292,7 +350,7 @@ a {
     li {
         font-size: 18px;
     }
-    nav .menu-hamburger{
+    nav .menu-hamburger {
         margin-right: 0;
     }
 

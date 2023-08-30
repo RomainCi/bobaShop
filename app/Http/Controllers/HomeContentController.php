@@ -8,13 +8,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Cookie;
 
 class HomeContentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     *
+     * @throws \Exception
      */
     public function index(): JsonResponse
     {
@@ -102,4 +104,5 @@ class HomeContentController extends Controller
             dd($e);
         }
     }
+
 }

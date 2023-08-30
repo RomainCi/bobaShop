@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * App\Models\ProductsSyrup
  *
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup query()
  * @property int $id
  * @property string $name
  * @property string $color
@@ -19,7 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsSyrup whereDeletedAt($value)

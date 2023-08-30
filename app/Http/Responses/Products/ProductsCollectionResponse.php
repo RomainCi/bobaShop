@@ -34,6 +34,7 @@ class ProductsCollectionResponse implements \Illuminate\Contracts\Support\Respon
             "pearls" => new ProductsPearlCollection($this->collectionPearl),
             "syrups"=> new ProductsSyrupCollection($this->collectionSyrup),
             "menus" => new ProductsMenuCollection($this->collectionMenu),
+            "status"=> "success",
         ], $this->status);
     }
 }

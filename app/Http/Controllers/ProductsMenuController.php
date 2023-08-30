@@ -8,9 +8,13 @@ use App\Models\ProductsPearl;
 use App\Models\ProductsSide;
 use App\Models\ProductsSyrup;
 use App\Models\ProductsTea;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProductsMenuController extends Controller
 {
@@ -21,7 +25,7 @@ class ProductsMenuController extends Controller
      */
     public function index(): JsonResponse
     {
-
+        dd("oki");
         try {
             $admin = Auth::guard('admin')->user();
             if ($admin !== null) {
@@ -47,16 +51,27 @@ class ProductsMenuController extends Controller
      *
      * @param ProductsMenuRequest $request
      * @return JsonResponse
+     * @throws Throwable
      */
     public function store(ProductsMenuRequest $request): JsonResponse
     {
-
+        $menu = $request->validated();
+        DB::begintransaction();
         try {
-            $menu = $request->validated();
             $menu = ProductsMenu::create($menu);
-            return response()->json($menu);
-        } catch (\Exception $e) {
-            dd($e);
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+                "data" => $menu,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour storeProductsMenu' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
 
     }
@@ -65,32 +80,11 @@ class ProductsMenuController extends Controller
      * Display the specified resource.
      *
      * @param ProductsMenu $menu
-     * @return JsonResponse
+     * @return void
      */
-    public function show(ProductsMenu $menu): JsonResponse
+    public function show(ProductsMenu $menu): void
     {
-        try {
-            $pearls = ProductsPearl::select('id', 'name', 'color')->get();
-            $teas = ProductsTea::select('id', 'name')->get();
-            $syrups = ProductsSyrup::select('id', 'name', 'color')->get();
-            $sides = ProductsSide::select('id', 'name', 'quantity')->get();
 
-            $response = [
-                "pearls" => $pearls,
-                "teas" => $teas,
-                "syrups" => $syrups,
-                "number_side" => $menu->sides,
-            ];
-
-            if ($menu->sides !== 0) {
-                $response['sides'] = $sides;
-            }
-
-            return response()->json($response);
-
-        } catch (\Exception $e) {
-            dd($e);
-        }
     }
 
     /**
@@ -99,19 +93,31 @@ class ProductsMenuController extends Controller
      * @param ProductsMenuRequest $request
      * @param ProductsMenu $menu
      * @return JsonResponse|void
+     * @throws Throwable
      */
     public function update(ProductsMenuRequest $request, ProductsMenu $menu)
     {
+        $validated = $request->validated();
+        DB::beginTransaction();
         try {
-            $validated = $request->validated();
+
             $menu->name = $validated['name'];
             $menu->sides = $validated['sides'];
             $menu->size = $validated['size'];
             $menu->price = $validated['price'];
             $menu->save();
-            return response()->json($menu);
+            DB::commit();
+            return response()->json([
+                "status" => "success",
+                "message" => "success",
+            ]);
         } catch (\Exception $e) {
-            dd($e);
+            DB::rollBack();
+            Log::error('Error dans la transaction pour updateProductsMenu' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
     }
 
@@ -119,15 +125,26 @@ class ProductsMenuController extends Controller
      * Remove the specified resource from storage.
      *
      * @param ProductsMenu $menu
-     * @return Response
+     * @return JsonResponse
+     * @throws Throwable
      */
-    public function destroy(ProductsMenu $menu): Response
+    public function destroy(ProductsMenu $menu): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $menu->delete();
-            return response('success');
-        } catch (\Exception $e) {
-            dd($e);
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+                "status" => "success",
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour destroyProductsMenu' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
     }
 }

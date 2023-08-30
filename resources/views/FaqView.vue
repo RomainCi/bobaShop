@@ -17,6 +17,7 @@ import FooterComponent from "../js/components/FooterComponent.vue";
 
 export default {
   name: "FaqView",
+    emits: ['position'],
   components: {
     NavbarComponent,
     FaqComponent,

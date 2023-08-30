@@ -3,10 +3,10 @@
   <div v-show="show" class="content">
     <ul>
       <li>Nom : {{ productsTea[index].name }}</li>
-      <li>Image : <img alt="tea" :src="productsTea[index].image_url"></li>
+      <li class="image">Image : <img alt="tea" :src="productsTea[index].image_url"></li>
       <li>Stock : {{ productsTea[index].stock }}</li>
     </ul>
-    <button @click="this.show = !this.show ,this.$emit('editEmit',true)" :disabled="edit">edit</button>
+    <button :class="{ 'btn-edit': edit }" @click="this.show = !this.show ,this.$emit('editEmit',true)" :disabled="edit">edit</button>
     <button @click="modalDelete = !modalDelete">supprimer</button>
   </div>
 
@@ -122,41 +122,162 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  width: 150px;
-  height: 130px;
-  border: 1px solid black;
+.btn-edit {
+    background-color: red;
+    /* Autres styles que vous souhaitez appliquer au bouton désactivé */
+}
+.containerMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
 }
 
-img {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
+h2 {
+    text-align: center;
+}
+.image{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+img{
+    height: 50px;
+    border-radius: 50%;
+}
+.container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.content {
+    border: #EAB99F 1px solid;
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+    height: 100%;
 }
 
 ul {
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+}
+
+.name {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .modale-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 98;
-  backdrop-filter: blur(15px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 98;
+    backdrop-filter: blur(15px);
 }
 
 .modal-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 9999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input {
+    padding: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #EAB99F;
+    border-radius: 6px;
+    color: white;
+    font-family: Lato, sans-serif;
+}
+label {
+    text-align: center;
+    font-size: 13px;
+    font-family: Lato, sans-serif;
+}
+
+button {
+    padding: 5px;
+    background-color: #EAB99F;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+label {
+    margin-left: 10px;
+}
+
+
+.textAjouter {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+
+.containerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: black 1px solid;
+    width: 200px;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+.cancel {
+    width: 130px;
+}
+
+.contentButton {
+    display: flex;
+    justify-content: space-around;
+}
+
+span {
+    font-weight: bold;
 }
 </style>

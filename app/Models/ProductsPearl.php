@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * App\Models\ProductsPearl
  *
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl query()
  * @property int $id
  * @property string $name
  * @property string $color
@@ -19,7 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductsPearl whereDeletedAt($value)

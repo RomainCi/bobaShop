@@ -8,17 +8,20 @@ use App\Jobs\BufferUsersDeleteJob;
 use App\Jobs\BufferUsersJob;
 use App\Models\User;
 use App\Models\Users_token;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -29,27 +32,40 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param UserRequest $request
-     * @return Response
+     * @return Response|JsonResponse
+     * @throws Throwable
      */
-    public function store(UserRequest $request): Response
+    public function store(UserRequest $request): Response|JsonResponse
     {
+
+        $user = $request->safe()->except(["check", "address"]);
+        $information = $request->safe()->only(['address']);
+        $randomBytes = random_bytes(64);
+        $token = bin2hex($randomBytes);
+        $user["password"] = Hash::make($user['password']);
+        DB::beginTransaction();
         try {
-            $user = $request->safe()->except(["check","address"]);
-            $information = $request->safe()->only(['address']);
-            $randomBytes = random_bytes(64);
-            $token = bin2hex($randomBytes);
-            $user["password"] = \Hash::make($user['password']);
             $user = User::create($user);
             Users_token::create([
                 "users_id" => $user->id,
                 "token" => $token,
             ]);
-            (new StoreInformationUser())->handle($information,$user);
-            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(30));
-            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(1));
-            return \response("success");
-        } catch (\Exception $e) {
-            return \response(403);
+            (new StoreInformationUser())->handle($information, $user);
+            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
+            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
+            DB::commit();
+            return response()->json([
+                "status"=> "success",
+                "message" => "Vous allez recevoir un lien de vérification dans votre boîte mail d'ici quelques minutes. Ce lien sera valable 15 min. Pensez à vérifier vos spams s'il n'apparaît pas dans votre messagerie !"
+
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Error dans la transaction pour storeUser' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite. Peut être que vous avez déjà un compte"
+            ], 400);
         }
     }
 
@@ -57,9 +73,9 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     *
      */
-    public function show($id)
+    public function show(int $id):void
     {
         //
     }
@@ -67,8 +83,6 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
@@ -77,8 +91,6 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
