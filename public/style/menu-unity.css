@@ -1,0 +1,215 @@
+.sectionMenuUnity {
+    position: relative;
+    background-color: white;
+}
+
+.fakePerleMenuUnity {
+    display: none;
+}
+
+.containerMenuUnity {
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-left: 30px;
+    margin-top: 30px;
+    margin-right: 30px;
+    border: 3px solid #B66A54;
+    position: relative;
+    z-index: 4;
+}
+
+h2 {
+    font-family: Rufina, sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    margin: 10px 0 10px 0;
+}
+
+p {
+    font-family: Rufina, sans-serif;
+    font-size: 13px;
+    text-align: center;
+}
+
+.containerTitleMenuUnity {
+    width: 100%;
+    height: 150px;
+    border-bottom: 1px dashed black;
+}
+
+.contentTitleMenuUnity {
+    height: 100px;
+    position: absolute;
+    background: #EBF0E4;
+    top: 30px;
+    width: 100%;
+    margin-right: 30px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerTeaMenuUnity {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    align-items: center;
+    border-bottom: 1px dashed black;
+}
+
+.containerPerleMenuUnity {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    padding-top: 30px;
+    align-items: center;
+}
+
+.containerTitleMenuUnity h2 {
+    display: none;
+}
+
+.containerTitleMenuUnity p {
+    display: none;
+}
+
+.titleMenuUnity {
+    font-family: Rufina, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media screen and (max-width: 380px) {
+    .containerPerleMenuUnity {
+        gap: 10px;
+    }
+}
+
+@media screen and (min-width: 400px) {
+    .containerPerleMenuUnity {
+        gap: 10px;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .containerMenuUnity {
+        width: 500px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    h2 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (min-width: 900px) {
+/*//.tata{*/
+/*//  display: flex;*/
+/*//  flex-direction: column;*/
+/*//}*/
+    .containerTitleMenuUnity h2 {
+        font-size: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: inline-block;
+    }
+    .containerTitleMenuUnity p {
+        font-size: 13px;
+        display: inline-block;
+    }
+    .contentTitleMenuUnity {
+        display: none;
+    }
+    .sectionMenuUnity {
+        padding: 0;
+        margin: 0;
+    }
+
+    .containerMenuUnity {
+        display: flex;
+        width: 800px;
+        padding-right: 0;
+        padding-left: 0;
+        margin-right: auto;
+        margin-left: auto;
+        align-items: stretch;
+    }
+    .containerTitleBubbleMenuUnity{
+        align-self: center;
+    }
+    .containerTitleMenuUnity {
+        width: 210px;
+        border-bottom: none;
+        background-color: #EBF0E4;
+        height: 100%;
+        margin-right: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .containerPerleMenuUnity {
+        gap: 0;
+        padding: 0 20px;
+    /*//height: 80%;*/
+        display: flex;
+        align-items: flex-start;
+    }
+    .containerTeaMenuUnity {
+        flex-wrap: wrap;
+        justify-content: center;
+        border-bottom: none;
+        border-left: 1px dashed black;
+        margin: 0;
+        width: 60px;
+        padding: 0 20px;
+        height: 80%;
+    }
+    .borderRightMenuUnity {
+        border-left: 1px dashed black;
+        border-right: 1px dashed black;
+        max-width: 190.65px;
+        height: 80%;
+    }
+    .borderLeftMenuUnity {
+    /*//border-left: 1px dashed black;*/
+        max-width: 190.65px;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .containerMenuUnity {
+        width: 1000px;
+    }
+    .fakePerleMenuUnity {
+        display: block;
+        width: 70px;
+        height: 110px;
+    }
+    .containerTitleMenuUnity h2 {
+        font-size: 30px;
+    }
+    /*.containerPerle{*/
+    /*//height: 600px;*/
+    /*};*/
+    .titleMenuUnity {
+        font-size: 25px;
+    }
+    .borderRightMenuUnity {
+        border-left: 2px dashed black;
+        border-right: 2px dashed black;
+        min-width: 269.2px;
+    }
+    .borderLeftMenuUnity {
+    /*//border-left: 2px dashed black;*/
+        min-width: 269.2px;
+    }
+    .containerTeaMenuUnity {
+        width: 70px;
+        border-left: 2px dashed black;
+    }
+}

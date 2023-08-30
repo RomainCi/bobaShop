@@ -37,7 +37,7 @@ class BufferUsersMail extends Mailable implements ShouldQueue
     public function envelope():Envelope
     {
         return new Envelope(
-            from: new Address('no-reply@bobashop.fr'),
+            from: new Address('no-reply@boba-shop.fr','Boba Shop'),
             subject: 'Formulaire Verifications Email',
         );
     }

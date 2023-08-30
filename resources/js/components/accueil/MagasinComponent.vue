@@ -9,7 +9,7 @@
       <div class="container">
         <div class="content">
           <img class="bubbleTea" :src="bubbleTea" alt="bubbleTea">
-          <p>Née d'Amérique du Sud et d'Asie</p>
+          <p>Née en Amérique du Sud et en Asie</p>
         </div>
         <img class="logo" :src="imageLogoRed" alt="imageLogo">
       </div>

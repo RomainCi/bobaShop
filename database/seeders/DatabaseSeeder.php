@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\ProductsMenu;
 use App\Models\Users_Admin;
 use Illuminate\Database\Seeder;
 
@@ -16,15 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(ProductsBubbleTableSeeder::class);
+//        $this->call(UsersTableSeeder::class);
         $this->call(ProductsMenuSeeder::class);
         $this->call(UsersAdminSeeder::class);
-//         \App\Models\User::factory(1)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(ProductsPearlSeeder::class);
+        $this->call(ProductsSideSeeder::class);
+        $this->call(ProductsSyrupSeeder::class);
+        $this->call(ProductsTeaSeeder::class);
+//        $this->call(UsersInformationSeeder::class);
     }
 }

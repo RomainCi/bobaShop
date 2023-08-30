@@ -7,34 +7,39 @@
         <div v-if="showSidebar" class="sidebar">
           <button @click="showSidebar = false">Fermer</button>
           <ul>
-            <li><a>Profil</a></li>
-            <li><a href="#">Changer l'email</a></li>
-            <li><a href="#">Changer le mot de passe</a></li>
-            <li><a href="#">Factures</a></li>
+            <li @click="choice = 1">Profil</li>
+            <li @click="choice = 2">Sécurité</li>
+            <li>Factures</li>
           </ul>
         </div>
       </transition>
       <div class="sidebar h">
         <ul>
-          <li><a>Profil</a></li>
-          <li><a href="#">Changer l'email</a></li>
-          <li><a href="#">Changer le mot de passe</a></li>
-          <li><a href="#">Factures</a></li>
+          <li>Profil</li>
+          <li>Sécurité</li>
+          <li>Factures</li>
         </ul>
       </div>
     </nav>
 
-    <div class="content">
-      <h2>Profil</h2>
-
+    <div class="contents">
+      <profil-component :user="user" v-if="choice === 1"></profil-component>
+      <security-component v-if="choice === 2" :security="security"></security-component>
     </div>
 
   </section>
 </template>
 
 <script>
+import ProfilComponent from "@/components/compte/ProfilComponent.vue";
+import SecurityComponent from "@/components/compte/SecurityComponent.vue";
+
 export default {
   name: "CompteComponent",
+  components: {
+    ProfilComponent,
+    SecurityComponent,
+  },
   data() {
     return {
       sidebarLinks: [
@@ -60,12 +65,29 @@ export default {
         }
       ],
       showSidebar: false,
+      user: {},
+      security:{},
+      choice: 1,
     }
   },
   methods: {
-  async showUser(){
+    async showUser() {
       const res = await axios.get('api/user');
-      console.log(res)
+      console.log(res);
+      if (res.status === 200) {
+        // this.user = res.data.user;
+        const { lastname, firstname, birthdays } = res.data.user;
+        this.user = {
+          lastname,
+          firstname,
+          birthdays
+        };
+        const {email} = res.data.user;
+        this.security = {
+          email,
+          "password" : "********",
+        };
+      }
     }
   },
   mounted() {
@@ -113,10 +135,9 @@ button {
   width: 40%;
 }
 
-.h{
+.h {
   display: none;
 }
-
 
 
 /* Style pour le bouton fermer */
@@ -150,13 +171,13 @@ a {
   transition: 0.3s;
 }
 
-.sidebar ul li a:hover {
+.sidebar ul li:hover {
   background-color: white;
   color: white;
 }
 
 /* Style pour le contenu principal */
-.content {
+.contents {
   padding: 2rem;
   margin-top: 5rem;
   background-color: white;
@@ -166,7 +187,7 @@ a {
   margin-right: auto;
 }
 
-.content h2 {
+.contents h2 {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
@@ -185,7 +206,7 @@ label {
   color: #333;
   margin-bottom: 0.5rem;
 }
-.test
+
 input[type="text"],
 input[type="email"],
 input[type="date"] {
@@ -217,7 +238,7 @@ button:hover {
   z-index: 2;
 }
 
-.sidebar ul li a {
+.sidebar ul li {
   display: block;
   color: white;
   font-size: 1.2rem;
@@ -255,21 +276,26 @@ button:hover {
 .sidebar-enter-to {
   transform: translateX(0);
 }
-@media screen and (min-width: 900px) {
-.h{
-  display: block;
-  width: fit-content;
-  left: 0;
 
-}
-  .content{
+@media screen and (min-width: 900px) {
+  .h {
+    display: block;
+    width: fit-content;
+    left: 0;
+
+  }
+
+  .contents {
     margin-left: 200px;
     max-width: 100%;
+    background-color: yellow;
   }
-  h1{
+
+  h1 {
     margin-left: 200px;
   }
-  .buttonShow{
+
+  .buttonShow {
     display: none;
   }
 }

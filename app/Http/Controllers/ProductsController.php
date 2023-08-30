@@ -2,40 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductsStoreRequest;
-use App\Models\Commands;
-use App\Models\CommandsSides;
-use App\Models\ProductsBubble;
+use App\Http\Action\Products\IndexProductsAction;
+use App\Http\Responses\Products\ProductsCollectionResponse;
 use App\Models\ProductsMenu;
+use App\Models\ProductsPearl;
+use App\Models\ProductsSide;
+use App\Models\ProductsSyrup;
+use App\Models\ProductsTea;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class ProductsController extends Controller
 {
-
-
-   public function store(\Request $request)
-   {
-
-   }
-
-    public function show($id): JsonResponse
+    /**
+     * Handle the incoming request.
+     *
+     * @return ProductsCollectionResponse|JsonResponse
+     */
+    public function __invoke(): ProductsCollectionResponse|JsonResponse
     {
-        $menu = ProductsMenu::findOrFail($id);
-        if ($menu->sides === 0) {
-            $products = ProductsBubble::select('id', 'name', 'type')
-                ->where('type', '!=', 'side')
-                ->get();
-        } else {
-            $products = ProductsBubble::select('id', 'name', 'type')
-                ->get();
+        try {
+            $productsSyrups = ProductsSyrup::query()->get()->map(function ($productSyrup) {
+                $productSyrup->show = true;
+
+                return $productSyrup;
+            });
+
+            $productsTeas = (new IndexProductsAction)->handle(ProductsTea::query()->get())->map(function ($productTea) {
+                $productTea->show = true;
+
+                return $productTea;
+            });
+
+            $productsSides = (new IndexProductsAction)->handle(ProductsSide::query()->get())->map(function ($productSide) {
+                $productSide->show = true;
+
+                return $productSide;
+            });
+            $productsMenus = ProductsMenu::orderBy('price', 'asc')->get();
+
+
+            $productPearls = ProductsPearl::query()->get()->map(function ($productPearl) {
+                $productPearl->show = true;
+                return $productPearl;
+            });
+
+            return new ProductsCollectionResponse(
+                $productsTeas,
+                $productsSides,
+                $productPearls,
+                $productsSyrups,
+                $productsMenus,
+            );
+        } catch (Exception $e) {
+            Log::error('Error dans la transaction pour Products' . $e->getMessage());
+            return response()->json([
+                "status" => "error",
+                "message" => "Une erreur c'est produite"
+            ], 500);
         }
-        return response()->json([
-            "products" => $products,
-            "side" => $menu->sides,
-        ]);
+
+
     }
-
-
-
-
 }

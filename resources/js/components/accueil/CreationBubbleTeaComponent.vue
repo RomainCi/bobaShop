@@ -5,42 +5,32 @@
       <p>Au choix : 1 thé + 1 sirop + 1 gout perle</p>
     </div>
     <div class="container">
-      <div>
+      <div class="containerTitleBubble">
         <div class="containerTitle">
           <h2>Créez votre Bubble Tea</h2>
           <p>Au choix : 1 thé + 1 sirop + 1 gout perle</p>
         </div>
       </div>
       <div class="test">
-        <p class="title">Les thé</p>
+        <p class="title">Les thés</p>
         <div class="containerTea">
-          <content-tea-component text="Thé vert avec jasmin" image="thé-jasmin.png"></content-tea-component>
-          <content-tea-component text="Thé vert" image="the-vert.png"></content-tea-component>
-          <content-tea-component text="Thé noir" image="the-noir.png"></content-tea-component>
+          <content-tea-component v-for="(value,index) in teas" :key="index" :text="value.name"
+                                 :image="value.image_url"></content-tea-component>
+
         </div>
       </div>
-      <div>
+      <div class="tata">
         <p class="title">Les sirops</p>
         <div class="containerPerle borderRight">
-          <perle-component text="framboise" color="#D85A5D"></perle-component>
-          <perle-component text="pêche" color="#EF9300"></perle-component>
-          <perle-component text="brown sugar" color="#8B5900"></perle-component>
-          <perle-component text="kiwi" color="#A9F18E"></perle-component>
-          <perle-component text="passion" color="#FFA800"></perle-component>
-          <perle-component text="mangue" color="#FBB201"></perle-component>
-          <perle-component text="citron" color="#F0DE00"></perle-component>
+          <perle-component v-for="(value,index) in syrups" :key="index" :text="value.name" :color="value.color"></perle-component>
+
         </div>
       </div>
-      <div>
+      <div class="tata">
         <p class="title">Les perles</p>
         <div class="containerPerle borderLeft">
-          <perle-component text="cerise" color="#BB2A39"></perle-component>
-          <perle-component text="passion" color="#FFA800"></perle-component>
-          <perle-component text="pomme verte" color="#00F301"></perle-component>
-          <perle-component text="tapioca" color="#453600"></perle-component>
-          <perle-component text="litchi" color="#F5E9E9"></perle-component>
-          <perle-component text="gelée multi fruit" color="#FEC900"></perle-component>
-          <div class="fakePerle"></div>
+          <perle-component v-for="(value,index) in pearls" :key="index" :text="value.name" :color="value.color"></perle-component>
+
         </div>
       </div>
     </div>
@@ -56,6 +46,11 @@ export default {
   components: {
     PerleComponent,
     ContentTeaComponent,
+  },
+  props: {
+    teas: Array,
+    pearls: Array,
+    syrups:Array,
   },
   data() {
     return {}
@@ -135,17 +130,21 @@ p {
   padding-top: 30px;
   align-items: center;
 }
-.containerTitle h2{
+
+.containerTitle h2 {
   display: none;
 }
-.containerTitle p{
+
+.containerTitle p {
   display: none;
 }
+
 .title {
   font-family: Rufina, sans-serif;
   font-size: 20px;
   font-weight: 700;
 }
+
 @media screen and (max-width: 380px) {
   .containerPerle {
     gap: 10px;
@@ -170,6 +169,10 @@ p {
 }
 
 @media screen and (min-width: 900px) {
+  //.tata{
+  //  display: flex;
+  //  flex-direction: column;
+  //}
   .containerTitle h2 {
     font-size: 25px;
     margin-left: 10px;
@@ -183,9 +186,22 @@ p {
   .contentTitle {
     display: none;
   }
-  section{
+  section {
     padding: 0;
     margin: 0;
+  }
+
+  .container {
+    display: flex;
+    width: 800px;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    align-items: stretch;
+  }
+  .containerTitleBubble{
+    align-self: center;
   }
   .containerTitle {
     width: 210px;
@@ -196,18 +212,12 @@ p {
     padding-left: 20px;
     padding-right: 20px;
   }
-  .container {
-    display: flex;
-    width: 800px;
-    align-items: center;
-    padding-right: 0;
-    padding-left: 0;
-    margin-right: auto;
-    margin-left: auto;
-  }
   .containerPerle {
     gap: 0;
     padding: 0 20px;
+    //height: 80%;
+    display: flex;
+    align-items: flex-start;
   }
   .containerTea {
     flex-wrap: wrap;
@@ -217,41 +227,51 @@ p {
     margin: 0;
     width: 60px;
     padding: 0 20px;
+    height: 80%;
   }
   .borderRight {
     border-left: 1px dashed black;
+    border-right: 1px dashed black;
+    max-width: 190.65px;
+    height: 80%;
   }
   .borderLeft {
-    border-left: 1px dashed black;
+    //border-left: 1px dashed black;
+    max-width: 190.65px;
   }
 }
 
 @media screen and (min-width: 1300px) {
-  .container{
+  .container {
     width: 1000px;
   }
-  .fakePerle{
+  .fakePerle {
     display: block;
     width: 70px;
     height: 110px;
   }
- .containerTitle h2{
+  .containerTitle h2 {
     font-size: 30px;
   }
-  .title{
+  .containerPerle{
+    //height: 600px;
+  };
+  .title {
     font-size: 25px;
   }
   .borderRight {
     border-left: 2px dashed black;
+    border-right: 2px dashed black;
+    min-width: 269.2px;
   }
   .borderLeft {
-    border-left: 2px dashed black;
+    //border-left: 2px dashed black;
+    min-width: 269.2px;
   }
-  .containerTea{
+  .containerTea {
     width: 70px;
     border-left: 2px dashed black;
   }
 }
-
 
 </style>

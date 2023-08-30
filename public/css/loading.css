@@ -1,0 +1,50 @@
+/* loading-style.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    padding: 0;
+}
+
+.loading-container-home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 99%;
+    background-color: white;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.loading-bar {
+    width: 100px;
+    height: 4px;
+    background-color: #ddd;
+    border-radius: 2px;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background-color: #EAB99F;
+    border-radius: 2px;
+    animation: progressAnimation 2s linear infinite;
+}
+
+@keyframes progressAnimation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.loading-container-home p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #EAB99F;
+}

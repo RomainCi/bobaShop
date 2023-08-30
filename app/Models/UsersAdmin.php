@@ -27,15 +27,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|UsersAdmin whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UsersAdmin wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UsersAdmin whereUpdatedAt($value)
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @mixin \Eloquent
  */
 class UsersAdmin extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    protected $guard = 'admin';
+    protected string $guard = 'admin';
 
     protected $fillable = [
         'email', 'password',

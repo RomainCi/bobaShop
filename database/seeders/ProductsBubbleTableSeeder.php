@@ -18,82 +18,82 @@ class ProductsBubbleTableSeeder extends Seeder
             [
                 'name' => 'pêche',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'brown sugar',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'kiwi',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'passion',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'mangue',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'citron',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'framboise',
                 'type' => 'sirop',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'cerise',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'passion',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'pomme verte',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'tapioca',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'litchi',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'gelée multi fruit',
                 'type' => 'perle',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'vert avec jasmin',
                 'type' => 'thé',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'vert',
                 'type' => 'thé',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 'name' => 'noir',
                 'type' => 'thé',
-                'stock' => 100
+                'stock' => 0
             ],
             [
                 "name" => "humitas",

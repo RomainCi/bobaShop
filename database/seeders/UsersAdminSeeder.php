@@ -16,8 +16,8 @@ class UsersAdminSeeder extends Seeder
     public function run()
     {
         $user = [
-            "email" => "admin@gmail.com",
-            "password" => \Hash::make("admin"),
+            "email" => "admin@boba-shop.fr",
+            "password" => \Hash::make("zqJ@zb@J@DSXyzK&RhY4whm1eprTPrVVMQJQvC5B"),
         ];
         UsersAdmin::create($user);
     }

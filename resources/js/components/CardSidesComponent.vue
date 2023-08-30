@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="getImageUrl(image)" alt="nourriture">
+    <img :src="image" alt="nourriture">
     <p class="prix"></p>
     <div class="containerText">
       <p class="title">{{ title }}</p>
@@ -12,12 +12,12 @@
 <script>
 export default {
   name: "CardSidesComponent",
-  setup() {
-    const getImageUrl = (name) => {
-      return new URL(`../../assets/image/${name}`, import.meta.url).href
-    }
-    return {getImageUrl}
-  },
+  // setup() {
+  //   const getImageUrl = (name) => {
+  //     return new URL(`../../assets/image/${name}`, import.meta.url).href
+  //   }
+  //   return {getImageUrl}
+  // },
   props: {
     title: String,
     text: String,
@@ -27,18 +27,31 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 400px) {
+  img {
+    width: 100%;
+    /*max-height: 300px;*/
+    height: auto;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 400px ) {
+  img {
+    max-height: 300px;
+    height: auto;
+    max-width: 300px;
+    align-self: center;
+    /*width: 100%;*/
+  }
+}
+
 div {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
 
-img {
-  width: 100%;
-  max-height: 300px;
-  max-width: 350px;
-  align-self: center;
-}
 
 .prix {
   font-family: Rufina, sans-serif;
@@ -69,6 +82,14 @@ img {
   margin: 5px 0 0;
 }
 
+/*@media screen and (min-width: 800px){*/
+/*  img {*/
+/*    max-height: 300px;*/
+/*    width: 350px;*/
+/*    max-width: 350px;*/
+/*    align-self: center;*/
+/*  }*/
+/*}*/
 
 @media screen and (min-width: 1300px) {
   .prix {
@@ -78,7 +99,8 @@ img {
   .containerText .text {
     font-size: 13px;
   }
-  .containerText .title{
+
+  .containerText .title {
     font-size: 25px;
   }
 }

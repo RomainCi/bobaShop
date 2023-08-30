@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+    <router-view></router-view>
 </template>
 
 <script>
@@ -7,21 +7,23 @@
 import FooterComponent from "./components/FooterComponent.vue";
 
 export default {
-  name: "App",
-  props: {
-    connexionAdmin:Boolean,
-    connexionUser:Boolean,
-  },
-  components: {
-    FooterComponent,
-  },
-  mounted() {
-    console.log(this.connexionAdmin,"adminconnexion");
-    console.log(this.connexionUser,"connexionUser")
-    this.$store.dispatch('checkAdmin', this.connexionAdmin);
-    this.$store.dispatch('checkUser',this.connexionUser)
-  },
-  methods: {}
+    name: "App",
+    props: {
+        connexionAdmin: Boolean,
+        connexionUser: Boolean,
+        // userData: Object,
+    },
+    components: {
+        FooterComponent,
+    },
+    mounted() {
+        // console.log(this.userData);
+        // this.$store.dispatch('faux', this.userData);
+        this.$store.dispatch('checkAdmin', this.connexionAdmin);
+        this.$store.dispatch('checkUser', this.connexionUser);
+
+    },
+    methods: {}
 
 }
 </script>

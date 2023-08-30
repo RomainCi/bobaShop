@@ -1,288 +1,284 @@
 <template>
-  <div class="containerMain">
     <div class="modale-overlay" v-show="modalDelete" @click="modalDelete = false"></div>
-    <h2>Changer les menus</h2>
-
-    <p class="textAjouter" @click="modalStore = !modalStore" v-if="!modalStore">Pour ajouter un menu cliquer ici</p>
-
-    <div v-else class="containerForm">
-      <form @submit.prevent="storeMenus">
-        <label>nom</label>
-        <input type="text" v-model="menu.name" required>
-
-        <label>nombre de side</label>
-        <input type="number" v-model="menu.sides" @keydown="blockNonNumeric($event)" required>
-
-        <label>taille en ml</label>
-        <input type="number" v-model="menu.size" @keydown="blockNonNumeric($event)" required>
-
-        <label>prix</label>
-        <input type="number" v-model="menu.price" @keydown="blockNonNumericChars($event)" step="0.01"
-               pattern="[0-9]+([,\.][0-9]+)?" required>
-
-        <button>valider</button>
-      </form>
-      <button class="cancel" @click="modalStore = !modalStore">annuler</button>
+    <div v-show="show" class="content">
+        <ul>
+            <li>Nom : {{ productsMenu[index].name }}</li>
+            <li>Nombre de side : {{ productsMenu[index].sides }}</li>
+            <li>Taille : {{ productsMenu[index].size }}</li>
+            <li>Prix : {{ productsMenu[index].price }} €</li>
+        </ul>
+        <button :class="{ 'btn-edit': edit }" @click="this.show = !this.show ,this.$emit('editEmit',true)"
+                :disabled="edit">edit
+        </button>
+        <button @click="modalDelete = !modalDelete">supprimer</button>
     </div>
-    <div class="container">
-      <div v-for="(value,index) in menus" :key="index" class="content">
 
-        <div v-if="!modal[index]">
-          <ul>
-            <li class="name">
-              {{ value.name }}
-            </li>
-            <li>
-              side : <span>{{ value.sides }}</span>
-            </li>
-            <li>
-              taille : <span>{{ value.size }}</span>ml
-            </li>
-            <li>
-              prix : <span>{{ value.price }}</span> {{ value.currency }}
-            </li>
-          </ul>
-          <div class="contentButton">
-            <button @click="modal[index] = !modal[index], indexUpdate = index"
-                    :disabled="modal.some((value, i) => value && i !== index) ">
-              edit
-            </button>
-            <button
-                @click="modalDelete= !modalDelete , indexDelete = index, idDelete = value.id, nameDelete = value.name ">
-              supprimer
-            </button>
-          </div>
-          <div v-if="modalDelete" class="modal-content">
-            <p>êtes vous sur de supprimer le menu {{ nameDelete }}</p>
-            <button @click="modalDelete = false">annuler</button>
-            <button @click="deleteMenus">confirmer</button>
-          </div>
-        </div>
+    <div v-show="!show" class="content">
+        <label>Nom</label>
+        <input type="text" :value="productsMenu[index].name" @input="onInput($event,'name')">
 
-        <form v-else class="content contentPadding" @submit.prevent="updateMenus(value.id,index)">
-          <label>Nom</label>
-          <input type="text" v-model="menus[index].name" required>
+        <label>Nombre de side</label>
+        <input type="number" @keydown="blockNonNumeric($event)" :value="productsMenu[index].sides"
+               @input="onInput($event,'sides')">
 
-          <label>Side</label>
-          <input type="number" @keydown="blockNonNumeric($event)" v-model="menus[index].sides" required>
+        <label>Taille en ml</label>
+        <input type="number" @keydown="blockNonNumeric($event)" :value="productsMenu[index].size"
+               @input="onInput($event,'size')">
 
-          <label>Taille</label>
-          <input type="number" @keydown="blockNonNumeric($event)" v-model="menus[index].size" required>
+        <label>Prix</label>
+        <input type="number" @keydown="blockNonNumericFloat($event)" :value="productsMenu[index].price"
+               @input="onInput($event,'price')">
 
-          <label>Prix</label>
-          <input type="number" v-model="menus[index].price" @keydown="blockNonNumericChars($event)" step="0.01"
-                 pattern="[0-9]+([,\.][0-9]+)?" required>
-
-          <button>valider</button>
-          <button @click="modal[index] = !modal[index]">cancel</button>
-        </form>
-
-      </div>
+        <button
+            @click="this.show = !this.show ,messageErrorUpdate =null,this.$emit('editEmit',false),this.copied = { ...this.productsMenu[this.index] }">
+            annuler
+        </button>
+        <button @click="updateProductsMenu">valider</button>
+        <p v-show="messageErrorUpdate">{{ messageErrorUpdate }}</p>
     </div>
-  </div>
+
+    <div v-show="modalDelete" class="modal-content">
+        <p>êtes vous sur de supprimer le produit {{ productsMenu[index].name }}</p>
+        <button @click="modalDelete = false">annuler</button>
+        <button @click="destroyProductsMenu">confirmer</button>
+    </div>
 </template>
 
 <script>
 export default {
-  name: "AdminMenuComponent",
-  data() {
-    return {
-      modal: [],
-      menus: "",
-      modalDelete: false,
-      modalStore: false,
-      indexDelete: "",
-      nameDelete: "",
-      idDelete: "",
-      menu: {
-        name: "",
-        sides: "",
-        size: "",
-        price: "",
-      },
-      test: "",
-      indexUpdate: "",
+    name: "AdminMenuComponent",
+    emits: ['editEmit', 'newProducts', 'destroyProducts'],
+    props: {
+        productsMenu: Array,
+        index: Number,
+        edit: Boolean,
+    },
+    data() {
+        return {
+            show: true,
+            modalDelete: false,
+            copied: {...this.productsMenu[this.index]},
+            file: "",
+            price: 0,
+            messageErrorUpdate: null,
+        }
+    },
+    mounted() {
+    },
+    methods: {
+        blockNonNumeric(event) {
+            // Autorise les touches de chiffres, le point, la virgule, les flèches et la touche de suppression.
+            if (!event.key.match(/[0-9]|ArrowLeft|ArrowRight|Backspace|Delete/)) {
+                event.preventDefault();
+            }
+        },
+        blockNonNumericFloat(event) {
+            // Autorise les touches de chiffres, le point, la virgule, les flèches et la touche de suppression.
+            if (!event.key.match(/[0-9.,]|ArrowLeft|ArrowRight|Backspace|Delete/)) {
+                event.preventDefault();
+            }
+        },
+        onInput(e, key) {
+            if (key === "price") {
+                this.copied[key] = Number(e.target.value).toFixed(2);
+                this.copied[key] = parseFloat(this.copied[key]);
+            } else if (key === 'size') {
+                this.copied[key] = parseInt(e.target.value);
+            } else {
+                this.copied[key] = e.target.value;
+            }
+        },
+        async updateProductsMenu() {
+            this.messageErrorUpdate = null;
+            this.copied.price = (this.copied.price / 1).toFixed(2);
+            try {
+                const res = await axios.put(`api/products/menus/${this.copied.id}`, this.copied);
+                if (res.data.status === "success") {
+                    this.$emit('newProducts', this.copied);
+                    this.$emit('editEmit', false);
+                    this.show = !this.show;
+                }
+            } catch (e) {
+                this.messageErrorUpdate = e.response.data.message;
+            }
+
+        },
+        async destroyProductsMenu() {
+            const res = await axios.delete(`api/products/menus/${this.copied.id}`)
+            if (res.status === 200) {
+                this.modalDelete = false;
+                location.reload();
+            }
+        },
+        async storeMenus() {
+            console.log(this.menu);
+            const res = await axios.post('api/products/menus', this.menu)
+            if (res.status === 200) {
+                this.menu = {
+                    price: '',
+                    name: '',
+                    sides: '',
+                    size: ''
+                };
+                this.modalStore = false;
+                this.menus.push(res.data.menu);
+            }
+        }
     }
-  },
-  mounted() {
-    this.getAllMenus()
-  },
-  methods: {
-    blockNonNumeric(event) {
-      // Autorise les touches de chiffres, le point, la virgule, les flèches et la touche de suppression.
-      if (!event.key.match(/[0-9]|ArrowLeft|ArrowRight|Backspace|Delete/)) {
-        event.preventDefault();
-      }
-    },
-    blockNonNumericChars(event) {
-      // Autorise les touches de chiffres, le point, la virgule, les flèches et la touche de suppression.
-      if (!event.key.match(/[0-9]|\.|\,|ArrowLeft|ArrowRight|Backspace|Delete/)) {
-        event.preventDefault();
-      }
-    },
-    async getAllMenus() {
-      const res = await axios.get("api/products=menu");
-      this.menus = res.data.menu;
-    },
-    async updateMenus(id, index) {
-      let number = this.menus[index].price;
-      number = Number(number).toFixed(2);
-      number = Number(number);
-      this.menus[index].price = number;
-      const res = await axios.put(`api/products=menu/id=${id}`, this.menus[index]);
-      if (res.status === 200) {
-        this.modal[index] = false;
-        let found = this.menus.find((element, i) => i === index);
-        found = this.menu;
-      }
-    },
-    async deleteMenus() {
-      const res = await axios.delete(`api/products=menu/id=${this.idDelete}`)
-      if (res.status === 200) {
-        this.menus.splice(this.indexDelete, 1);
-      }
-    },
-    async storeMenus() {
-      console.log(this.menu);
-      const res = await axios.post('api/products=menu')
-      if (res.status === 200) {
-        this.menu = {
-          price: '',
-          name: '',
-          sides: '',
-          size: ''
-        };
-        this.menus.push(res.data.menu);
-      }
-    }
-  }
 }
 </script>
 
 <style scoped>
+.btn-edit {
+    background-color: red;
+    /* Autres styles que vous souhaitez appliquer au bouton désactivé */
+}
 
 .containerMain {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
 }
 
 h2 {
-  text-align: center;
+    text-align: center;
 }
 
 .container {
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  border: black 1px solid;
-  width: 150px;
-  height: 100%;
-  gap: 5px;
+    border: #EAB99F 1px solid;
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+    height: 100%;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 li {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
 .name {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .modale-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 98;
-  backdrop-filter: blur(15px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 98;
+    backdrop-filter: blur(15px);
 }
 
 .modal-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 9999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 9999;
 }
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 input {
-  padding-left: 5px;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-button {
-  margin-right: 10px;
-  margin-left: 10px;
+    padding: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #EAB99F;
+    border-radius: 6px;
+    color: white;
+    font-family: Lato, sans-serif;
 }
 
 label {
-  margin-left: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-family: Lato, sans-serif;
 }
 
+button {
+    padding: 5px;
+    background-color: #EAB99F;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+label {
+    margin-left: 10px;
+}
+
+
 .textAjouter {
-  text-align: center;
+    text-align: center;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  width: 150px;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
 }
 
 .containerForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: black 1px solid;
-  width: 200px;
-  gap: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: black 1px solid;
+    width: 200px;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
 }
 
 .cancel {
-  width: 130px;
+    width: 130px;
 }
 
 .contentButton {
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }
 
 span {
-  font-weight: bold;
+    font-weight: bold;
 }
 </style>
