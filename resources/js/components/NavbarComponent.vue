@@ -23,7 +23,7 @@
                         </li>
 
                         <li v-if="$store.state.admin" @click="closeMenu">
-                            <a :href="`${import.meta.env.VITE_APP_URL}/admin/panel`">Panel</a>
+                            <a :href="url">Panel</a>
                         </li>
 
 
@@ -80,7 +80,8 @@ export default {
             commandWait: [],
             modalAdmin: false,
             modalUser: false,
-            show: false
+            show: false,
+            url: "",
         }
     },
 
@@ -104,6 +105,7 @@ export default {
     },
     mounted() {
         this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
+        this.url = `${import.meta.env.VITE_APP_URL}/admin/panel`
         // this.verificationAdmin();
         // this.connexion();
     }
