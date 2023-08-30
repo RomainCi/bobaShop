@@ -9,6 +9,9 @@ class IndexProductsAction
 {
     public function handle($products)
     {
+        $appUrl = config('app.url');
+
+
         foreach ($products as $key => $value) {
                 $value->image_url = asset($value->image_url);
         }
