@@ -23,7 +23,7 @@
                         </li>
 
                         <li v-if="$store.state.admin" @click="closeMenu">
-                            <a href="http://127.0.0.1:8000/admin/panel">Panel</a>
+                            <a :href="`${import.meta.env.VITE_APP_URL}/admin/panel`">Panel</a>
                         </li>
 
 

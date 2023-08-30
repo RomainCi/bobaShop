@@ -169,10 +169,11 @@ export default {
             background: white;
             padding: 10px;
             display: inline-block;
-            border-radius: 3px;
+            border-radius: 20px;
             font-weight: 300;
             position: relative;
-            width: 200px;
+            width: fit-content;
+            max-width: 90%;
 
             h2 {
                 font-size: 25px;
