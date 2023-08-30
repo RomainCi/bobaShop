@@ -52,7 +52,6 @@ export default {
     },
     methods: {
         event(e) {
-            console.log(e, "le e");
             this.choice = e;
         },
         test() {

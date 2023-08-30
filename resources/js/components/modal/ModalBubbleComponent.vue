@@ -112,7 +112,6 @@ export default {
                 return this.show = true;
             }
             if (this.numberSide !== 0) {
-                console.log(this.selectedSide);
                 for (let e of this.selectedSide) {
                     if (e === null) {
                         this.show = true;
@@ -120,7 +119,6 @@ export default {
                     }
                 }
             }
-            console.log('oko');
             let data = [{
                 "tea": {'id': this.selectedTea},
                 "syrup": {'id': this.selectedSirop},
@@ -128,7 +126,7 @@ export default {
                 "menu": {'id': this.choice.id, "price": this.choice.price},
                 "sides": this.selectedSide.map(item => ({'id': item.id})),
             }];
-            console.log(data, "data lalal");
+
             try {
                 const res = await axios.post('api/basket', {"data": data});
                 if (res.status === 200 && res.data.status === "success") {
@@ -138,8 +136,6 @@ export default {
                 }
                 await this.productsAll();
             } catch (e) {
-                console.log(e, "le e response");
-                console.log(e.response.data.errors);
                 if (e.response.data.errors !== undefined) {
                     this.errorBasket = e.response.data.errors;
                 } else if (e.response.data.status === "error") {

@@ -9,7 +9,7 @@
                 <div class="contentText">
                     <h2>Contact</h2>
                     <p>email : contact@boba-shop.fr</p>
-                    <p>telephone : +33 7 53 69 72 81</p>
+                    <p>telephone : 03 88 68 31 98</p>
                 </div>
                 <img :src="bubbleTea" alt="bubble_tea">
             </div>
@@ -238,32 +238,32 @@ button:hover {
     }
 }
 
-//@media screen and (min-width: 1300px) {
-//    //.containerMain {
-//    //    width: 1000px;
-//    //    margin-top: 50px;
-//    //    padding: 40px;
-//    //}
-//    .container h2 {
-//        font-size: 30px;
-//    }
-//    .containerBack h1 {
-//        font-size: 50px;
-//    }
-//    .containerBack p {
-//        font-size: 18px;
-//    }
-//    img {
-//        max-width: 500px;
-//    }
-//    //.contentMap {
-//    //    max-width: 500px;
-//    //    height: 400px;
-//    //}
-//    .container p {
-//        font-family: Lato, sans-serif;
-//        margin: 0;
-//        font-size: 17px;
-//    }
-//}
+@media screen and (min-width: 1300px) {
+  .containerMain {
+    width: 1000px;
+    margin-top: 50px;
+  }
+  .container h2 {
+    font-size: 30px;
+  }
+  .containerBack h1 {
+    font-size: 50px;
+  }
+  .containerBack p {
+    font-size: 18px;
+  }
+  img {
+    max-width: 500px;
+  }
+  .contentMap {
+    max-width: 500px;
+    height: 400px;
+  }
+  .container p {
+    font-family: Lato, sans-serif;
+    margin: 0;
+    font-size: 17px;
+  }
+}
+
 </style>
