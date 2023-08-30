@@ -101,4 +101,4 @@ Route::post('/login', [ConnexionController::class, "authentification"]);
 //Route::get('/admin', [AdminController::class, "show"])->middleware(['admin']);
 
 
-//URL::forceScheme('https');
+URL::forceScheme('https');

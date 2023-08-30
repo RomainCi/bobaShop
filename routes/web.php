@@ -74,4 +74,4 @@ Route::get('/commandes/{id}', function ($id) {
 Route::get('/commandes/{id}/response', ResponseRequiresActionStripeController::class)->middleware(['auth:sanctum'])->name('requires_action');
 
 
-//URL::forceScheme('https');
+URL::forceScheme('https');
