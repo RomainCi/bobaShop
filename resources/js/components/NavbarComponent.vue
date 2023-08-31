@@ -88,12 +88,10 @@ export default {
     methods: {
         openMenu() {
             this.navLinks = "open";
-            // this.toggle = true;
             return this.$emit('position', 'fixed');
         },
         closeMenu() {
             this.navLinks = "close";
-            // this.toggle = false;
             return this.$emit('position', "notFixed");
         },
         async logout() {
@@ -104,10 +102,7 @@ export default {
         }
     },
     mounted() {
-        this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
-        this.url = `${import.meta.env.VITE_APP_URL}admin/panel`
-        // this.verificationAdmin();
-        // this.connexion();
+        this.url = `${import.meta.env.VITE_APP_URL}/admin/panel`
     }
 }
 </script>
