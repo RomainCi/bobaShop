@@ -60,27 +60,24 @@ class UserController extends Controller
             ]);
             $information = $information['address'];
             UsersInformations::create([
-                "users_id"=>$user->id,
-                "street"=>$information['street'],
-                "country"=>$information['country'],
-                "postal_code"=>$information['postal_code'],
-                "city"=>$information['city'],
-                "society"=>$information['society'],
+                "users_id" => $user->id,
+                "street" => $information['street'],
+                "country" => $information['country'],
+                "postal_code" => $information['postal_code'],
+                "city" => $information['city'],
+                "society" => $information['society'],
             ]);
-//            (new StoreInformationUser())->handle($information, $user);
-            DB::commit();
-//            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
-//            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
 
+            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
+            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
+            DB::commit();
             return response()->json([
                 "status" => "success",
                 "message" => "Vous allez recevoir un lien de vérification dans votre boîte mail d'ici quelques minutes. Ce lien sera valable 15 min. Pensez à vérifier vos spams s'il n'apparaît pas dans votre messagerie !"
 
             ]);
         } catch (Exception $e) {
-
             DB::rollBack();
-            dd($e);
             Log::error('Error dans la transaction pour storeUser' . $e->getMessage());
             return response()->json([
                 "status" => "error",

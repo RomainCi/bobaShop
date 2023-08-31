@@ -38,7 +38,7 @@ class CleanStaleBaskets implements ShouldQueue
      */
     public function handle()
     {
-        $cutoffTime = now()->subMinutes(1);
+        $cutoffTime = now()->subMinutes(15);
 
         try {
             $staleBaskets = Basket::with('basketMenu')->where('updated_at', '<=', $cutoffTime)->get();
