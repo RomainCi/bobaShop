@@ -45,17 +45,25 @@ class UserController extends Controller
         $user["password"] = Hash::make($user['password']);
         DB::beginTransaction();
         try {
-            $user = User::create($user);
+            $user = User::create([
+                'password' => $user["password"],
+                "lastname" => $user['lastname'],
+                "firstname" => $user['firstname'],
+                "phone" => $user['phone'],
+                "email" => $user['email'],
+                "birthdays" => $user['birthdays']
+            ]);
             Users_token::create([
                 "users_id" => $user->id,
                 "token" => $token,
             ]);
             (new StoreInformationUser())->handle($information, $user);
+            DB::commit();
             BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
             BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
-            DB::commit();
+
             return response()->json([
-                "status"=> "success",
+                "status" => "success",
                 "message" => "Vous allez recevoir un lien de vérification dans votre boîte mail d'ici quelques minutes. Ce lien sera valable 15 min. Pensez à vérifier vos spams s'il n'apparaît pas dans votre messagerie !"
 
             ]);
@@ -75,7 +83,7 @@ class UserController extends Controller
      * @param int $id
      *
      */
-    public function show(int $id):void
+    public function show(int $id): void
     {
         //
     }

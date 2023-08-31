@@ -105,7 +105,7 @@ export default {
     },
     mounted() {
         this.commandWait = JSON.parse(localStorage.getItem("commandWait")) || [];
-        this.url = `${import.meta.env.VITE_APP_URL}/admin/panel`
+        this.url = `${import.meta.env.VITE_APP_URL}admin/panel`
         // this.verificationAdmin();
         // this.connexion();
     }
