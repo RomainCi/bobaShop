@@ -42,7 +42,10 @@ class ForgetPasswordController extends Controller
             $ip = $request->ip();
             $verification = (new VerificationIPAction())->handle($email['email'], $ip);
             if (!$verification) {
-                return response('veuillez essayer dans 15 min', 403);
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Veuillez essayer dans 15 min"
+                ],403);
             }
             $randomBytes = random_bytes(64);
             $token = bin2hex($randomBytes);
