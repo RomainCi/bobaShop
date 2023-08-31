@@ -39,6 +39,7 @@ class UserRequest extends FormRequest
             "address.city" => 'required|string',
             "address.country" => 'required|string',
             "address.postal_code" => 'required|string',
+            'address.society' => 'nullable|string',
         ];
     }
 }

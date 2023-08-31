@@ -23,6 +23,11 @@
                     <input type="text" id="birthdate" maxlength="10" v-model="dateInput" ref="dateInput"
                            @keyup="onKeyPress">
                 </div>
+                <div class="form-group">
+                        <label for="society">Société</label>
+                        <input type="text" id="society" v-model="form.address.society">
+                </div>
+
 
                 <div class="form-group">
                     <search-adress-component @addressCity="form.address.city = $event "
@@ -133,6 +138,7 @@ export default {
                     street: "",
                     postal_code: "",
                     country: "",
+                    society: null,
                 },
                 check: false,
             },

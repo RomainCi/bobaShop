@@ -8,6 +8,7 @@ use App\Jobs\BufferUsersDeleteJob;
 use App\Jobs\BufferUsersJob;
 use App\Models\User;
 use App\Models\Users_token;
+use App\Models\UsersInformations;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class UserController extends Controller
     public function store(UserRequest $request): Response|JsonResponse
     {
 
-        $user = $request->safe()->except(["check", "address"]);
+        $user = $request->safe()->except(["check"]);
         $information = $request->safe()->only(['address']);
         $randomBytes = random_bytes(64);
         $token = bin2hex($randomBytes);
@@ -57,10 +58,19 @@ class UserController extends Controller
                 "users_id" => $user->id,
                 "token" => $token,
             ]);
-            (new StoreInformationUser())->handle($information, $user);
+            $information = $information['address'];
+            UsersInformations::create([
+                "users_id"=>$user->id,
+                "street"=>$information['street'],
+                "country"=>$information['country'],
+                "postal_code"=>$information['postal_code'],
+                "city"=>$information['city'],
+                "society"=>$information['society'],
+            ]);
+//            (new StoreInformationUser())->handle($information, $user);
             DB::commit();
-            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
-            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
+//            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
+//            BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
 
             return response()->json([
                 "status" => "success",
@@ -68,7 +78,9 @@ class UserController extends Controller
 
             ]);
         } catch (Exception $e) {
+
             DB::rollBack();
+            dd($e);
             Log::error('Error dans la transaction pour storeUser' . $e->getMessage());
             return response()->json([
                 "status" => "error",
