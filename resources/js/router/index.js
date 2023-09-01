@@ -1,15 +1,17 @@
 import {createRouter, createWebHistory} from "vue-router";
-import HomeView from "../../views/HomeView.vue";
-import ContactView from "../../views/ContactView.vue";
-import QuiSommesNousView from "../../views/QuiSommesNousView.vue";
-import FaqView from "../../views/FaqView.vue";
-import ConnexionView from "../../views/ConnexionView.vue";
-import RegisterView from "../../views/RegisterView.vue";
-import BasketView from "../../views/BasketView.vue";
-import AdminPanelView from "../../views/AdminPanelView.vue";
-import UserView from "../../views/UserView.vue";
-import PaymentView from "../../views/PaymentView.vue";
-import ResetPasswordView from "../../views/ResetPasswordView.vue";
+import {defineAsyncComponent} from "vue";
+
+const HomeView = defineAsyncComponent(() => import("../../views/HomeView.vue"));
+const ContactView = defineAsyncComponent(() => import("../../views/ContactView.vue"));
+const QuiSommesNousView = defineAsyncComponent(() => import("../../views/QuiSommesNousView.vue"));
+const FaqView = defineAsyncComponent(() => import("../../views/FaqView.vue"));
+const ConnexionView = defineAsyncComponent(() => import("../../views/ConnexionView.vue"));
+const RegisterView = defineAsyncComponent(() => import("../../views/RegisterView.vue"));
+const BasketView = defineAsyncComponent(() => import("../../views/BasketView.vue"));
+const AdminPanelView = defineAsyncComponent(() => import("../../views/AdminPanelView.vue"));
+const UserView = defineAsyncComponent(() => import("../../views/UserView.vue"));
+const PaymentView = defineAsyncComponent(() => import("../../views/PaymentView.vue"));
+const ResetPasswordView = defineAsyncComponent(() => import("../../views/ResetPasswordView.vue"));
 import store from '@/store';
 
 

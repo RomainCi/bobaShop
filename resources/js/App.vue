@@ -11,14 +11,11 @@ export default {
     props: {
         connexionAdmin: Boolean,
         connexionUser: Boolean,
-        // userData: Object,
     },
     components: {
         FooterComponent,
     },
     mounted() {
-        // console.log(this.userData);
-        // this.$store.dispatch('faux', this.userData);
         this.$store.dispatch('checkAdmin', this.connexionAdmin);
         this.$store.dispatch('checkUser', this.connexionUser);
 
