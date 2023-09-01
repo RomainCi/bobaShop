@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import imageBubbleTea from "../../../assets/image/imageBubbleTea.png"
+import imageBubbleTea from "../../../assets/image/homView/imageBubbleTea.avif"
 import imageTea from "../../../assets/image/basket/bobasite-2Carre.avif"
 import imageMenu from "../../../assets/image/basket/bobasiteCarre.avif"
 import {DateTime} from 'luxon'

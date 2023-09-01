@@ -1,14 +1,15 @@
 <template>
-    <header>
-        <navbar-component></navbar-component>
-    </header>
-    <main>
-        <connexion-component></connexion-component>
-    </main>
-    <footer>
-        <footer-component></footer-component>
-    </footer>
-
+    <div class="main-container">
+        <header>
+            <navbar-component></navbar-component>
+        </header>
+        <main>
+            <connexion-component></connexion-component>
+        </main>
+        <footer>
+            <footer-component></footer-component>
+        </footer>
+    </div>
 </template>
 
 <script>
@@ -27,13 +28,17 @@ export default {
 </script>
 
 <style scoped>
-footer{
+.main-container{
+    height: 100vh;
+}
+footer {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
 }
-main{
+
+main {
     height: 73vh;
 }
 </style>

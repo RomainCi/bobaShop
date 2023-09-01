@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import imageBubbleTea from "../../../assets/image/imageBubbleTea.png"
+import imageBubbleTea from "../../../assets/image/homView/imageBubbleTea.avif"
 import MenuPrixComponent from "../../components/MenuPrixComponent.vue";
 import ModalBubbleComponent from "../../components/modal/ModalBubbleComponent.vue";
 

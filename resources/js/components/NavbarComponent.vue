@@ -63,9 +63,8 @@
 </template>
 
 <script>
-import logo from "../../assets/image/logo.png";
-import backgroundImage from "../../assets/image/backgroundImageNavbar.png"
-import imageLogo from "../../assets/image/imageLogo.png"
+import logo from "../../assets/image/navabar/logo-1.avif";
+import imageLogo from "../../assets/image/navabar/imageLogo.avif"
 
 export default {
     name: "NavbarComponent",
@@ -75,7 +74,6 @@ export default {
             toggle: false,
             navLinks: "close",
             logo: logo,
-            backgroundImage: backgroundImage,
             imageLogo: imageLogo,
             commandWait: [],
             modalAdmin: false,
@@ -254,8 +252,9 @@ a {
         background-color: white;
         transition: all 0.5s ease-in;
         z-index: 100;
-        background-image: url("../../assets/image/backgroundImageNavbar.png");
+        background-image: url("../../assets/image/navabar/backgroundImageNavbar.avif");
         background-size: cover;
+        background-position: center;
     }
 
     .open {
@@ -268,9 +267,10 @@ a {
         background-color: white;
         transition: all 0.5s ease;
         z-index: 100;
-        background-image: url("../../assets/image/backgroundImageNavbar.png");
+        background-image: url("../../assets/image/navabar/backgroundImageNavbar.avif");
         width: 100%;
         background-size: cover;
+        background-position: center;
     }
 
     ul {
@@ -303,7 +303,7 @@ a {
     }
     .imageLogo {
         align-self: flex-end;
-        margin-top: -83px;
+        margin-right: 50px;
         height: 260px;
     }
     ul div {

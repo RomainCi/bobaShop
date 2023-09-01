@@ -41,11 +41,11 @@
 </template>
 
 <script>
-import backContactMobile from "../../../assets/image/backgroundContactMobile.jpg"
-import backContactDesktop from "../../../assets/image/backgroundContactDesktop.jpg"
+import backContactMobile from "../../../assets/image/contactView/backgroundContactMobile-1.avif"
+import backContactDesktop from "../../../assets/image/contactView/backgroundContactDesktop.avif"
 import {LCircle, LIcon, LMap, LMarker, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css"
-import bubbleTea from "../../../assets/image/bobashopresize-adresse.jpg"
+import bubbleTea from "../../../assets/image/contactView/bobashopresize-adresse.avif"
 import {Icon} from 'leaflet';
 
 export default {
@@ -198,6 +198,7 @@ button {
     transition: all 0.3s ease;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
     font-family: Lato, sans-serif;
+    margin-top: 20px;
 }
 
 button:hover {

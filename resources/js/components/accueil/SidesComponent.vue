@@ -47,8 +47,8 @@
 
 <script>
 import CardSidesComponent from "../../components/CardSidesComponent.vue";
-import empanadas from "../../../assets/image/back-1 4.png"
-import empanadas2 from "../../../assets/image/back-1 5.png"
+import empanadas from "../../../assets/image/homView/back-1 4.avif"
+import empanadas2 from "../../../assets/image/homView/back-1 5.avif"
 
 export default {
     name: "SidesComponent",

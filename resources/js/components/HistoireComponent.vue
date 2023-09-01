@@ -19,7 +19,8 @@ export default {
   name: "HistoireComponent",
   setup() {
     const getImageUrl = (name) => {
-      return new URL(`../../assets/image/${name}`, import.meta.url).href
+        console.log(name);
+      return new URL(`../../assets/image/QuiView/${name}`, import.meta.url).href
     }
     return {getImageUrl}
   },

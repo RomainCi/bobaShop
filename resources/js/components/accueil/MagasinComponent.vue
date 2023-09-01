@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import imageFood from "../../../assets/image/bobasiteCarre.jpg"
-import bubbleTea from "../../../assets/image/bobasite-2Carre.jpg"
-import imageLogoRed from "../../../assets/image/imageLogoRed.png"
+import imageFood from "../../../assets/image/homView/bobasiteCarre-1.avif"
+import bubbleTea from "../../../assets/image/homView/bobasite-2Carre-1.avif"
+import imageLogoRed from "../../../assets/image/homView/imageLogoRed.avif"
 
 export default {
   name: "MagasinComponent",
@@ -80,13 +80,6 @@ p {
   align-self: center;
 }
 
-.image {
-  background-image: url("../../../assets/image/BOBApremierepartie-56 1.png");
-  height: 300px;
-  background-size: cover;
-  width: 400px;
-  position: relative;
-}
 
 .container {
   display: flex;

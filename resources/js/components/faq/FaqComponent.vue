@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import backgroundFaqDesktop from "../../../assets/image/backgroundFaqDesktop.jpg"
-import backgroundFaqMobile from "../../../assets/image/backgroundFaqMobile.jpg"
+import backgroundFaqDesktop from "../../../assets/image/faqView/backgroundFaqDesktop.avif"
+import backgroundFaqMobile from "../../../assets/image/faqView/backgroundFaqMobile.avif"
 import QuestionComponent from "../QuestionComponent.vue";
 
 export default {

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import imageBubbleTea from "../../assets/image/imageBubbleTea.png"
+import imageBubbleTea from "../../assets/image/homView/imageBubbleTea.avif"
 
 export default {
   name: "BubbleTeaPrixComponent",

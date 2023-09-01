@@ -11,7 +11,7 @@
                 <button>connexion</button>
             </form>
             <p class="account" @click="this.$router.push('/inscription')">Vous n'avez pas de encore de compte ?</p>
-            <p @click="modalMail=true" class="forget">Mot de passe oublier ?</p>
+            <p @click="modalMail=true" class="forget">Mot de passe oublié ?</p>
         </div>
         <div v-if="modal" class="modal-content">
             <p>Erreur lors de la connexion</p>

@@ -9,7 +9,6 @@
       <div class="contentLogo">
         <a target="_blank" href="https://www.instagram.com/boba.shop67/?hl=fr"> <img class="insta" :src="logoInsta"
                                                                                      alt="instagram"></a>
-<!--        <img :src="logoFb" alt="facebook">-->
       </div>
     </div>
     <p class="text">Intégration par RC Tech Web et design par Hbz Communication</p>
@@ -17,9 +16,8 @@
 </template>
 
 <script>
-import bobaWhite from "../../assets/image/bobadefblanc 1.png"
-import logoFb from "../../assets/image/VectorFb.png"
-import logoInsta from "../../assets/image/VectorInsta.png"
+import bobaWhite from "../../assets/image/footerView/bobadefblanc 1.avif"
+import logoInsta from "../../assets/image/footerView/VectorInsta.png"
 
 export default {
   name: "FooterComponent",
@@ -27,7 +25,6 @@ export default {
     return {
       bobaWhite: bobaWhite,
       logoInsta: logoInsta,
-      logoFb: logoFb
     }
   }
 }
