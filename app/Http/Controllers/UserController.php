@@ -68,7 +68,7 @@ class UserController extends Controller
                 "society" => $information['society'],
             ]);
 
-            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(10));
+            BufferUsersJob::dispatch($user, $token)->delay(now()->addSeconds(30));
             BufferUsersDeleteJob::dispatch($user)->delay(now()->addRealMinutes(15));
             DB::commit();
             return response()->json([

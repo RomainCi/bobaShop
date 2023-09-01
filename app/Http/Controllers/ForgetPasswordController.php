@@ -57,7 +57,7 @@ class ForgetPasswordController extends Controller
                 "ip_address" => $request->ip(),
             ]);
 
-            ForgetPasswordMailJob::dispatch($token, $email['email'])->delay(now()->addRealSeconds(5));
+            ForgetPasswordMailJob::dispatch($token, $email['email'])->delay(now()->addRealSeconds(30));
             DB::commit();
             return response()->json([
                 'status'=> "success",
