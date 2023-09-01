@@ -6,7 +6,7 @@
         <main>
             <connexion-component></connexion-component>
         </main>
-        <footer>
+        <footer class="footer">
             <footer-component></footer-component>
         </footer>
     </div>
@@ -28,10 +28,10 @@ export default {
 </script>
 
 <style scoped>
-/*.main-container{*/
-/*    height: 100vh;*/
-/*}*/
-footer {
+.main-container{
+    height: 100vh;
+}
+.footer {
     position: absolute;
     bottom: 0;
     left: 0;
