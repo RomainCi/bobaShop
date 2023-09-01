@@ -154,7 +154,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import Paginate from "vuejs-paginate-next";
 import {VueTelInput} from 'vue-tel-input';
-import 'vue-tel-input/dist/vue-tel-input.css';
+import 'vue-tel-input/vue-tel-input.css';
 import SearchAdressComponent from "@/components/SearchAdressComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
 import {getCode} from 'iso-3166-1-alpha-2';
