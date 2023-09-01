@@ -29,16 +29,16 @@ export default {
 
 <style scoped>
 .main-container{
-    height: 100vh;
+    height: 110vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1; /* Utilise tout l'espace disponible sauf le footer */
 }
 .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    flex-shrink: 0; /* Empêche le footer de réduire l'espace disponible */
+    /* Vous pouvez ajouter d'autres styles au footer ici si nécessaire */
 }
 
-/*main {*/
-/*    height: 73vh;*/
-/*}*/
 </style>
