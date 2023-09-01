@@ -41,6 +41,7 @@
                 <div class="form-group">
                     <label for="phone">Téléphone *</label>
                     <vue-tel-input
+                        style="background-color: #FF0000"
                         :inputOptions="inputOptions" id="phone" v-model="form.phone"
                         mode="international"></vue-tel-input>
                 </div>
@@ -86,7 +87,7 @@
 <script>
 import useVuelidate from "@vuelidate/core"
 import {VueTelInput} from 'vue-tel-input';
-import 'vue-tel-input/dist/vue-tel-input.css';
+import 'vue-tel-input/vue-tel-input.css';
 import SearchAdressComponent from "@/components/SearchAdressComponent.vue";
 import {sameAs, required, email, helpers} from "@vuelidate/validators";
 
@@ -215,6 +216,9 @@ export default {
 </script>
 
 <style scoped>
+.vue-tel-input {
+    background-color: red;
+}
 .containerError p {
     margin: 0;
 }

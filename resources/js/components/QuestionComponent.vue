@@ -26,7 +26,7 @@ export default {
     name: "QuestionComponent",
     setup() {
         const getImageUrl = (name) => {
-            return new URL(`../../assets/image/${name}`, import.meta.url).href
+            return new URL(`../../assets/image/faqView/${name}`, import.meta.url).href
         }
         return {getImageUrl}
     },

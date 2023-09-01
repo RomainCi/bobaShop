@@ -1,17 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
-import {defineAsyncComponent} from "vue";
 
-const HomeView = defineAsyncComponent(() => import("../../views/HomeView.vue"));
-const ContactView = defineAsyncComponent(() => import("../../views/ContactView.vue"));
-const QuiSommesNousView = defineAsyncComponent(() => import("../../views/QuiSommesNousView.vue"));
-const FaqView = defineAsyncComponent(() => import("../../views/FaqView.vue"));
-const ConnexionView = defineAsyncComponent(() => import("../../views/ConnexionView.vue"));
-const RegisterView = defineAsyncComponent(() => import("../../views/RegisterView.vue"));
-const BasketView = defineAsyncComponent(() => import("../../views/BasketView.vue"));
-const AdminPanelView = defineAsyncComponent(() => import("../../views/AdminPanelView.vue"));
-const UserView = defineAsyncComponent(() => import("../../views/UserView.vue"));
-const PaymentView = defineAsyncComponent(() => import("../../views/PaymentView.vue"));
-const ResetPasswordView = defineAsyncComponent(() => import("../../views/ResetPasswordView.vue"));
+
 import store from '@/store';
 
 
@@ -19,71 +8,71 @@ const routes = [
     {
         path: "/",
         name: "home",
-        component: HomeView
+        component: () => import("../../views/HomeView.vue")
     },
     {
         path: "/contact",
         name: "contact",
-        component: ContactView
+        component: ()=> import("../../views/ConnexionView.vue")
     },
     {
         path: "/qui-sommes-nous",
         name: "qui-sommes-nous",
-        component: QuiSommesNousView,
+        component: ()=> import("../../views/QuiSommesNousView.vue")
     },
     {
         path: "/FAQ",
         name: "FAQ",
-        component: FaqView
+        component: ()=>import("../../views/FaqView.vue")
     },
     {
         path: "/admin/panel",
         name: "adminPanel",
         meta: {requiresAuth: true},
-        component: AdminPanelView,
+        component: ()=>import("../../views/AdminPanelView.vue")
     },
 
     {
         path: "/authentification",
         name: "authentification",
-        component: ConnexionView,
+        component: ()=>import("../../views/ConnexionView.vue"),
     },
     {
         path: "/inscription",
         name: "inscription",
-        component: RegisterView,
+        component: ()=>import("../../views/RegisterView.vue"),
     },
     {
         path: "/panier",
         name: "panier",
-        component: BasketView,
+        component: ()=>import("../../views/BasketView.vue"),
     },
     {
         path: "/compte",
         name: "compte",
-        component: UserView,
+        component: ()=>import("../../views/UserView.vue"),
     },
     {
         path: '/update/email/:id&:token',
         name: 'updateEmail',
-        component: HomeView,
+        component: () => import("../../views/HomeView.vue")
     },
     {
         path: '/confirmation/email/:id&:token',
         name: 'confirmationEmail',
-        component: HomeView,
+        component: () => import("../../views/HomeView.vue")
     },
     {
         path: '/commandes/:id',
         name: "commandesShow",
         props: true,
-        component: PaymentView,
+        component:()=>import("../../views/PaymentView.vue"),
     },
     {
         path: '/password/:token',
         name: "passwordReset",
         props: true,
-        component: ResetPasswordView,
+        component: ()=>import("../../views/RegisterView.vue"),
     }
 
 ]

@@ -5,22 +5,22 @@
     </div>
   </section>
   <section class="containerQuestion">
-    <question-component image="bobashopresize-composer.jpg"
-                        logo="back-1 4.png"
+    <question-component image="bobashopresize-composer.avif"
+                        logo="back-1 5.avif"
                         title="Bubble Tea"
                         :tableaux="question1">
 
     </question-component>
-    <question-component image="bobashopresize-3formules.jpg"
-                        logo="back-1 4.png"
+    <question-component image="bobashopresize-3formules.avif"
+                        logo="back-1 5.avif"
                         logoRight="logoRight"
                         title="Menu"
                         :tableaux="question2"
                         contentQuestionReverse="contentQuestionReverse"
                         contentImageStart="contentImageStart">
     </question-component>
-    <question-component image="dimSum.png"
-                        logo="back-1 4.png"
+    <question-component image="bobashopresize-huminatas.avif"
+                        logo="back-1 5.avif"
                         title="Plat"
                         :tableaux="question3">
     </question-component>

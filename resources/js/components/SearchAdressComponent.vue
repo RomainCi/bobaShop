@@ -66,10 +66,6 @@ export default {
                                 address.postal_code = component.long_name;
                             }
                         });
-
-                        console.log(address.country);
-                        console.log(address.street);
-                        console.log(address.postal_code);
                         emit('addressStreet', address.street);
                         emit('addressCountry', address.country);
                         emit('addressPostalCode', address.postal_code);

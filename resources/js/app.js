@@ -3,6 +3,7 @@ import {createApp} from "vue/dist/vue.esm-bundler.js";
 import router from "./router/index";
 import store from "./store";
 import app from "./App.vue";
+import VueLazyload from 'vue-lazyload';
 import navbarComponent from "@/components/NavbarComponent.vue";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,5 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     App.component('navbar-component', navbarComponent)
     App.use(store)
     App.use(router)
+    App.use(VueLazyload)
     App.mount('#app');
 });

@@ -153,7 +153,6 @@
 import {loadStripe} from "@stripe/stripe-js";
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import Paginate from "vuejs-paginate-next";
-import {saveAs} from 'file-saver';
 import {VueTelInput} from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 import SearchAdressComponent from "@/components/SearchAdressComponent.vue";
