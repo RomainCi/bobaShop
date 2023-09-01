@@ -28,9 +28,9 @@ export default {
 </script>
 
 <style scoped>
-.main-container{
-    height: 100vh;
-}
+/*.main-container{*/
+/*    height: 100vh;*/
+/*}*/
 footer {
     position: absolute;
     bottom: 0;
@@ -38,7 +38,7 @@ footer {
     right: 0;
 }
 
-main {
-    height: 73vh;
-}
+/*main {*/
+/*    height: 73vh;*/
+/*}*/
 </style>
