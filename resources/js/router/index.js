@@ -13,7 +13,7 @@ const routes = [
     {
         path: "/contact",
         name: "contact",
-        component: ()=> import("../../views/ConnexionView.vue")
+        component: ()=> import("../../views/ContactView.vue")
     },
     {
         path: "/qui-sommes-nous",

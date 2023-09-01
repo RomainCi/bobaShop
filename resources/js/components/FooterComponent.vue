@@ -11,7 +11,7 @@
                                                                                      alt="instagram"></a>
       </div>
     </div>
-    <p class="text">Intégration par RC Tech Web et design par Hbz Communication</p>
+    <p class="text">Intégration : RC Tech Web & Design : HBZ Communication</p>
   </div>
 </template>
 
