@@ -19,7 +19,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+  'allowed_origins' => [
+    'https://boba-shop.fr',
+    'https://www.boba-shop.fr',
+],
+
 
     'allowed_origins_patterns' => [],
 
