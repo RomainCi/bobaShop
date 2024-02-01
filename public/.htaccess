@@ -19,7 +19,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
- RewriteEngine on
+
     RewriteCond %{HTTP_HOST} ^www\. [NC]
     RewriteRule ^(.*)$ https://boba-shop.fr/$1 [L,R=301]
 </IfModule>
