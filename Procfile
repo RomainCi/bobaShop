@@ -1,3 +1,4 @@
+postdeploy: php artisan cache:clear
 queues: php artisan queue:work --queue=high,default
-worker: php artisan schedule:work & php artisan cache:clear
+worker: php artisan schedule:work
 
